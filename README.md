@@ -1,4 +1,13 @@
-# UnityShaderTutorial
+# Introduction
+
+unity shader 를 단계별로 학습할 수 있도록 한다.
+
+# Materials
+
+* [unity shader tutorial](https://docs.unity3d.com/Manual/Shaders.html)
+* [unity shader reference](https://docs.unity3d.com/Manual/SL-Reference.html)
+
+# Tutorials
 
 | name | subject | shader |
 |:----:|:-----------:|:----:|
