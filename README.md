@@ -6,6 +6,10 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 
 * [unity shader tutorial](https://docs.unity3d.com/Manual/Shaders.html)
 * [unity shader reference](https://docs.unity3d.com/Manual/SL-Reference.html)
+* [unity cg programming](https://en.wikibooks.org/wiki/Cg_Programming/Unity)
+* [shaders @ unitywiki](http://wiki.unity3d.com/index.php/Shaders)
+* [Resources for Writing Shaders in Unity](https://github.com/VoxelBoy/Resources-for-Writing-Shaders-in-Unity)
+* [Unity 5.x Shaders and Effects Cookbook](https://books.google.co.kr/books?id=-llLDAAAQBAJ&printsec=frontcover&dq=unity3d+5.x+shader+cook+book&hl=ko&sa=X&redir_esc=y#v=onepage&q=unity3d%205.x%20shader%20cook%20book&f=false)
 
 # Tutorials
 
