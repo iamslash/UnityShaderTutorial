@@ -16,7 +16,7 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | name | subject | shader |
 |:----:|:-----------:|:----:|
 | [basic_red](/Assets/Tutorials/basic_red/basic_red.md) | 물체를 빨간색으로 칠해보자 | [basic_red.shader](/Assets/Tutorials/basic_red/basic_red.shader) |
-| basic_light | 라이트를 켜보자 |  |
+| [basic_light](/Assets/Tutorials/basic_light/basic_light.md) | 라이트를 켜보자 | [basic_light.shader](/Assets/Tutorials/basic_light/basic_light.shader) |
 | basic_properties | 프라퍼티를 사용해보자 | |
 | basic_texture | 텍스처를 사용해보자 |  |
 | basic_blending | 텍스처, 컬러, 라이트를 섞어보자 | basic_blending  |
