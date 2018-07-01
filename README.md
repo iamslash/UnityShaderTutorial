@@ -43,9 +43,12 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 
 # ToDo
 
+* dynamic weather
+* reflection
 * water
 * toon 
 * rim light
+* fresnel
 * bloom
 * distortion
 * IBL (Image Based Lighting)
