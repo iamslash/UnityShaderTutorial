@@ -18,13 +18,13 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 |:----:|:-----------:|:----:|
 | [basic_red](/Assets/Tutorials/basic_red/basic_red.md) | 물체를 빨간색으로 칠해보자 | [basic_red.shader](/Assets/Tutorials/basic_red/basic_red.shader) |
 | [basic_light](/Assets/Tutorials/basic_light/basic_light.md) | 라이트를 켜보자 | [basic_light.shader](/Assets/Tutorials/basic_light/basic_light.shader) |
-| basic_properties | 프라퍼티를 사용해보자 | |
+| [basic_properties](/Assets/Tutorials/basic_properties/basic_properties.md) | 프라퍼티를 사용해보자 | [basic_properties.shader](/Assets/Tutorials/basic_properties/basic_properties.shader) |
 | basic_texture | 텍스처를 사용해보자 |  |
 | basic_blending | 텍스처, 컬러, 라이트를 섞어보자 | basic_blending  |
 | basic_blending_textures | 텍스처 두장을 섞어보자 | 5.basic_blending_textures |
 | basic_translucent | 반투명한 물체를 만들어보자 |
-| basic_cull | 컬링을 적용해 보자 | |
-| basic_depth_test | 깊이 테스트를 적용해 보자 | |
+| [basic_cull](/Assets/Tutorials/basic_cull/basic_cull.md) | 컬링을 적용해 보자 | [basic_cull.shader](/Assets/Tutorials/basic_cull/basic_cull.shader) |
+| [basic_depth_test](/Assets/Tutorials/basic_depth_test/basic_depth_test.md) | 깊이 테스트를 적용해 보자 | [basic_depth_test.shader](/Assets/Tutorials/basic_depth_test/basic_depth_test.shader) |
 | basic_blend | blend command 를 사용해서 블렌딩 하자 | |
 | basic_alpha_test | 알파 테스트를 해보자 | |
 | basic_vertex_fragment_shader | 버텍스, 프래그먼트 쉐이더를 이용하여 한가지 색으로 칠하자 | |
@@ -43,10 +43,14 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 
 # ToDo
 
+* anisotropic specular
 * dynamic weather
+* refraction
 * reflection
+* vertex animation
 * water
 * toon 
+* ramp
 * rim light
 * fresnel
 * bloom
@@ -54,3 +58,4 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 * IBL (Image Based Lighting)
 * BRDF
 * PBR
+* fur
