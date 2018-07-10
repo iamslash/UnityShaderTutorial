@@ -15,7 +15,7 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 # Tutorials
 
 | name | description |
-|:----:|:-----------:|
+|:-----|:------------|
 | [basic_red](/Assets/Tutorials/basic_red/basic_red.md) | 물체를 빨간색으로 칠해보자 |
 | [basic_light](/Assets/Tutorials/basic_light/basic_light.md) | 라이트를 켜보자 |
 | [basic_properties](/Assets/Tutorials/basic_properties/basic_properties.md) | 프라퍼티를 사용해보자 |
@@ -63,13 +63,12 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 * reflection
 * vertex animation
 * water
-* toon 
+* toon
 * ramp
-* rim light
 * fresnel
 * bloom
 * distortion
 * IBL (Image Based Lighting)
-* BRDF
-* PBR
+* BRDF (Bidirectional Reflectance Distribution Function)
+* PBR (Physically Based Rendering)
 * fur
