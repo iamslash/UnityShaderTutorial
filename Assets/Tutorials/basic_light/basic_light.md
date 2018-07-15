@@ -48,9 +48,13 @@ ColorMaterial : material에 설정된 색상 대신 per-vertex color를 사용�
 `Material Block` 옵션은 material이 어떻게 빛에 반응하는 것에 대한 설정을 가지고 있다. 각각의 옵션은 생략이 가능하고 그 경우 기본값은 검은색으로 들어간다.(사용하지 않음)
 
 Diffuse Color : 오브젝트의 기본 색상이다.
+
 Ambient Color : Lignting Window의 ambient light set에 맞았을 때 표현되는 색상이다.
+
 Specular Color : 오브젝트의 specular highlight 색상이다.
+
 Shininess Number : highlight의 밀집도이다. 0은 넓은 범위의 highlight를 표현하게 되고, 1은 좁은 범위를 표현하게 된다.
+
 Emission Color : 어떠한 라이트도 받지 않을 때의 오브젝트 색상이다.
 
 오브젝트에 라이트가 들어올 때 최종 색상 계산은 다음과 같다.
@@ -128,20 +132,31 @@ ambient = Ka x globalAmbient
 -> Ka는 material의 ambient 반사율, globalAmbient는 주변 라이팅의 색상이다.
 
 diffuse term(확산광)은 표면에서 모든 방향으로 똑같이 반사되는 방향성 빛을 설명한다. 일반적으로 diffuse surface 는 미세한 크기로 크고 작은 틈이 있기 때문에 들어오는 라이팅이 모든 방향으로 반사(산란)된다. 반사되는 빛의 양은 표면에 닿는 빛의 입사각에 비례한다. 
+
 [![diffuse light scattering](http://developer.download.nvidia.com/CgTutorial/elementLinks/fig5_6.jpg)](http://developer.download.nvidia.com/CgTutorial/cg_tutorial_chapter05.html)
+
 시점의 위치에 관계없이 한 표면의 특정지점에서 확산 기여도는 동일하다.
+
 [![diffuse term](http://developer.download.nvidia.com/CgTutorial/elementLinks/fig5_7.jpg)](http://developer.download.nvidia.com/CgTutorial/cg_tutorial_chapter05.html)
+
 diffuse = Kd x lightColor x max(N · L, 0)
 -> Kd는 material의 diffuse 색상, lightColor는 들어오는 diffuse light의 색상, N은 정규화된 표면 법선, L은 광원을 향한 노멀 벡터, P는 셰이딩 되는 점이다.
+
 [![calculate diffuse](http://developer.download.nvidia.com/CgTutorial/elementLinks/fig5_9.jpg)](http://developer.download.nvidia.com/CgTutorial/cg_tutorial_chapter05.html)
 
 specular term(반사광)은 주로 거울 방향을 중심으로 표면에서 산란된 빛을 나타낸다. 매끄럽고 광택이 나는 금속과 같은 표면에서 두드러지게 나타난다. 
+
 [![specular reflection](http://developer.download.nvidia.com/CgTutorial/elementLinks/fig5_10.jpg)](http://developer.download.nvidia.com/CgTutorial/cg_tutorial_chapter05.html)
+
 다른 세개의 lighting term과 달리 specular는 뷰어의 위치에 따라 달라진다. 뷰어가 반사광을 받는 위치에 있지 않으면 뷰어는 표면의 specular highlight를 볼 수 없다. specular term은 광원과 재질의 specular color 뿐만 아니라 표면의 광택도에 영향을 받는다. 광택도가 높은 소재는 밀집도가 높은 highlight를 생성하지만, 광택도가 낮은 소재는 highlight가 확산된다.
+
 [![shininess](http://developer.download.nvidia.com/CgTutorial/elementLinks/fig5_12.jpg)](http://developer.download.nvidia.com/CgTutorial/cg_tutorial_chapter05.html)
+
 specular = Ks x lightColor x facing x (max(N · H, 0)) shininess
 -> Ks는 재질의 specular 색상, lightColor는 들어오는 반사광의 색상, N은 정규화된 표면 법선, V는 viewpoint에 대한 노멀 벡터, L은 광원을 향한 노멀 벡터, H는 V와 L의 중간에 있는 노멀 벡터, P는 셰이딩 되는 점이다. N * L이 0보다 크면 facing이 1이고, 아니면 0이다. (기준각도 90도)
-[!calculate specular](http://developer.download.nvidia.com/CgTutorial/elementLinks/fig5_13.jpg)](http://developer.download.nvidia.com/CgTutorial/cg_tutorial_chapter05.html)
+
+[![calculate specular](http://developer.download.nvidia.com/CgTutorial/elementLinks/fig5_13.jpg)](http://developer.download.nvidia.com/CgTutorial/cg_tutorial_chapter05.html)
 
 ambient, diffuse, specular color를 조합하면 다음과 같은 final lighting이 나온다. emissive term은 일반적으로 특수 효과를 위해 사용되기 때문에 제외되었다.
-[!final lighting](http://developer.download.nvidia.com/CgTutorial/elementLinks/fig5_14.jpg)](http://developer.download.nvidia.com/CgTutorial/cg_tutorial_chapter05.html)
+
+[![final lighting](http://developer.download.nvidia.com/CgTutorial/elementLinks/fig5_14.jpg)](http://developer.download.nvidia.com/CgTutorial/cg_tutorial_chapter05.html)
