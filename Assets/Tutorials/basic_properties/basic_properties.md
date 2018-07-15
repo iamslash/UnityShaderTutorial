@@ -22,6 +22,7 @@ Shader "UnityShaderTutorial/basic_properties" {
 ```
 
 # Description
+외부에서 해당 값을 읽어 셰이더 내에서 사용할 수 있도록 하는 변수들 즉, 셰이더 외부로부터 개발자에 의해 설정될 수 있는 변수들을 정의하는 구문
 
 COLOR type 의 프라퍼티 _MyColor 를 하나 만들자. inspector 에서 이름은 "Main Color" 이고 기본값은 `(0,0,1,1)` 이다. COLOR value 는 순서대로 `(r, g, b, a)` 를 의미한다.
 
@@ -60,8 +61,7 @@ name ("display name", 3D) = "defaulttexture" {}
 
 ## Properties Custom Drawing
 
-Properties 의 inspect GUI 를 커스터마이징할 수 있다. 다음과 같은 쉐이더가 있다고 하자.
-
+Properties 의 특정 Attribute에 대한 inspector GUI 를 커스터마이징할 수 있다. 다음과 같은 쉐이더가 있다고 하자.
 
 ```c
 Shader "Custom/Example"
@@ -84,7 +84,7 @@ Shader "Custom/Example"
 }
 ```
 
-`_Invert` 의 경우 [Toggle] Attribute 가 선언되었다. 다음과 같이 `MyToggleDraw` 를 정의하면 `_Invert` 의 inpector GUI 를 재정의할 수 있다.
+`_Invert` 의 경우 [MyToggle] Attribute 가 선언되었다. 다음과 같이 `MyToggleDraw` 를 정의하면 `_Invert` 의 inpector GUI 를 재정의할 수 있다.
 
 ```cs
 using UnityEngine;
@@ -155,13 +155,13 @@ unity 에 `ToggleDrawer, EnumDrawer, KeywordEnumDrawer, PowerSliderDrawer, IntRa
 다음은 `PowerSliderDrawer` 의 예이다.
 
 ```c
-// A slider with 3.0 response curve
+// 비선형 슬라이더, 천천히 가다가 빨라진다.
 [PowerSlider(3.0)] _Shininess ("Shininess", Range (0.01, 1)) = 0.08
 ```
 
 다음은 `IntRangeDrawer` 의 예이다.
 
 ```c
-// An integer slider for specified range (0 to 255)
+// 정수형 슬라이더
 [IntRange] _Alpha ("Alpha", Range (0, 255)) = 100
 ```
