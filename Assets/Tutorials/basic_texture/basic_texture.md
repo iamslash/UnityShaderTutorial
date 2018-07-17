@@ -19,7 +19,7 @@ Shader "UnityShaderTutorial/basic_texture" {
 
 # Description
 
-`fixed-style function command` 중 하나인 `SetTexture`  를 이용하여 물체에 Properties 의 `_MainTex` 에 있는 텍스쳐를 입힌다.
+`SetTexture` 는 `fixed-style function command` 중 하나이다. 물체의 텍스처를 `_MainTex` 에 설정된 텍스쳐로 변경한다.
 
 # Prerequisites
 
