@@ -2,6 +2,11 @@
 
 라이트를 켜자.
 
+# References
+
+* [The cg Tutorial](http://developer.download.nvidia.com/CgTutorial/cg_tutorial_chapter05.html)
+  * 라이팅을 cg로 어떻게 구현하는지 설명한다.
+
 # Shader
 
 ```c
@@ -19,6 +24,20 @@ Shader "UnityShaderTutorial/basic_light" {
 ```
 
 # Description
+
+`Material` 은 `fixed-style function command` 중 하나이고 문법은 다음과 같다.
+
+```
+  Material {Material Block}
+```
+
+`Material Block` 은 `Diffuse, Ambient, Specular, Shiness, Emission` 과 같은 표현으로 구성될 수 있다. `Diffuse` 는 RGBA 값을 인자로 갖고 물체의 표면색을 결정한다. `Ambient` 는 RGBA 값을 인자로 갖고 환경색을 결정한다. 
+
+`Lighting` 은 라이트를 작동할지 말지 결정한다. 작동할 때는 `On` 을 작동하지 않을 때는 `Off` 를 인자로 갖는다.
+
+물체의 표면을 구성하는 각점들의 색은 빛을 고려한 수식에 의해 결정된다. 수식은 너무 복잡하기에 지금은 생략한다. 위의 Shader 는 점의 최종색을 결정할 때 언급한 수식에 `Material Block` 의 `Diffuse, Ambient` 를 사용한다.
+
+# Prerequisites
 
 `fixed-style function command` 중 하나인 `Lighting`  를 이용하여 라이트를 활성화 하자. 이때 `Diffuse, Ambient` 는 고정된 값이다.
 
@@ -110,7 +129,7 @@ v2f vert (appdata IN) {
 ```
 `vert`함수에서 전체 라이팅 색상을 계산한다. emission lighting과 ambient lighting이 가장 먼저 계산되고 for문 내부에서 specular color와 diffuse color가 계산된다. `computeOneLight` 함수에서 attenuation(감쇠)와 빛의 세기를, computeLighting에서 diffuse lighting과 specular lighting을 계산한다. 위의 식은 `Diffuse`, `Ambient` 옵션만 걸려있기 때문에, `Specular`, `Emission`은 무시된다.
 
-# Prerequisites
+
 
 ## Render-state setup commands
 
