@@ -22,7 +22,19 @@ Shader "UnityShaderTutorial/basic_properties" {
 ```
 
 # Description
-외부에서 해당 값을 읽어 셰이더 내에서 사용할 수 있도록 하는 변수들 즉, 셰이더 외부로부터 개발자에 의해 설정될 수 있는 변수들을 정의하는 구문
+
+사용자가 인스펙터에서 설정한 값이 쉐이더에서 사용되게 하려면 어떻게 해야할까? 바로 프라퍼티를 사용하면 된다.
+프라퍼티는 `Shader` 안에서 쓰여질 수 있고 문법은 다음과 같다.
+
+```
+Properties { 
+  Property 
+```
+```
+```
+```
+
+쉐이더 사용자가 인스펙터에서 해당 값을 읽어 셰이더 내에서 사용할 수 있도록 하는 변수들 즉, 셰이더 외부로부터 개발자에 의해 설정될 수 있는 변수들을 정의하는 구문
 
 COLOR type 의 프라퍼티 _MyColor 를 하나 만들자. inspector 에서 이름은 "Main Color" 이고 기본값은 `(0,0,1,1)` 이다. COLOR value 는 순서대로 `(r, g, b, a)` 를 의미한다.
 
@@ -38,7 +50,14 @@ Properties { Property [Property ...] }
 
 다음은 Property 중 숫자와 슬라이드의 예이다.
 
+
+  [Property ...] 
+}
 ```
+
+`Properties` 에 포함되는 각 `Property` 는 다음과 같이 구셩된다.
+
+``````
 name ("display name", Range (min, max)) = number
 name ("display name", Float) = number
 name ("display name", Int) = number
