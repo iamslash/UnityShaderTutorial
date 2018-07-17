@@ -39,8 +39,6 @@ Shader "UnityShaderTutorial/basic_light" {
 
 # Prerequisites
 
-`fixed-style function command` 중 하나인 `Lighting`  를 이용하여 라이트를 활성화 하자. 이때 `Diffuse, Ambient` 는 고정된 값이다.
-
 빛을 표현하기 위해 사용되는 `fixed-style function command`는 다음과 같다.
 
 Color : 오브젝트를 solid color로 설정한다.
@@ -77,59 +75,11 @@ Shininess Number : highlight의 밀집도이다. 0은 넓은 범위의 highlight
 Emission Color : 어떠한 라이트도 받지 않을 때의 오브젝트 색상이다.
 
 오브젝트에 라이트가 들어올 때 최종 색상 계산은 다음과 같다.
+
 Ambient * Lighting Window's Ambient Intensity setting + (Light Color * Diffuse + Light Color * Specular) + Emission
 
 위의 식에서 괄호 부분은 오브젝트에 받는 모든 조명에 대해 반복 계산된다.
 일반적으로 Diffuse 색상과 Ambient 색상은 동일한 값을 지정한다.
-
-이제 Shader Code를 분석해보자.
-`Material`과 `Lighting` 두 가지 command를 사용한다. 해당 오브젝트에 라이팅 효과를 적용하겠다는 명령이다. 라이팅을 적용하되, 라이팅 묘사에 사용되는 옵션은 `Diffuse`와 `Ambient` 두 가지이다. (1,1,1,1)은 각각 RGBA값을 나타낸다. 오브젝트는 빛에 의해 색상이 변하지만, highlight가 없고 밋밋한 색을 띄게 된다.
-
-컴파일된 Shader Code에는 더 자세한 계산 방법이 나온다.
-```c
-// Compute illumination from one light, given attenuation
-half3 computeLighting (int idx, half3 dirToLight, half3 eyeNormal, half3 viewDir, half4 diffuseColor, half shininess, half atten, inout half3 specColor) {
-  half NdotL = max(dot(eyeNormal, dirToLight), 0.0);
-  // diffuse color
-  half3 color = NdotL * diffuseColor.rgb * unity_LightColor[idx].rgb;
-  return color * atten;
-  // specular color
-}
-
-// Compute attenuation & illumination from one light
-half3 computeOneLight(int idx, float3 eyePosition, half3 eyeNormal, half3 viewDir, half4 diffuseColor, half shininess, inout half3 specColor) {
-  float3 dirToLight = unity_LightPosition[idx].xyz;
-  half att = 1.0;
-  #if defined(POINT) || defined(SPOT)
-    dirToLight -= eyePosition * unity_LightPosition[idx].w;
-    // distance attenuation
-    ....
-  #endif
-  att *= 0.5; // passed in light colors are 2x brighter than what used to be in FFP
-  return min (computeLighting (idx, dirToLight, eyeNormal, viewDir, diffuseColor, shininess, att, specColor), 1.0);
-}
-
-
-// vertex shader
-v2f vert (appdata IN) {
-....
-  // lighting
-  lcolor = emission color + ambient color
-  half3 lcolor = half4(0,0,0,1).rgb + half4(1,1,1,1).rgb * glstate_lightmodel_ambient.rgb;
-  half3 specColor = 0.0;
-  half shininess = 0 * 128.0;
-  for (int il = 0; il < LIGHT_LOOP_LIMIT; ++il) {
-    lcolor += computeOneLight(il, eyePos, eyeNormal, viewDir, half4(1,1,1,1), shininess, specColor);
-  }
-  color.rgb = lcolor.rgb;
-  color.a = half4(1,1,1,1).a;
-  o.color = saturate(color);
-....
-}
-```
-`vert`함수에서 전체 라이팅 색상을 계산한다. emission lighting과 ambient lighting이 가장 먼저 계산되고 for문 내부에서 specular color와 diffuse color가 계산된다. `computeOneLight` 함수에서 attenuation(감쇠)와 빛의 세기를, computeLighting에서 diffuse lighting과 specular lighting을 계산한다. 위의 식은 `Diffuse`, `Ambient` 옵션만 걸려있기 때문에, `Specular`, `Emission`은 무시된다.
-
-
 
 ## Render-state setup commands
 
