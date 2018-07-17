@@ -27,30 +27,8 @@ Shader "UnityShaderTutorial/basic_properties" {
 프라퍼티는 `Shader` 안에서 쓰여질 수 있고 문법은 다음과 같다.
 
 ```
-Properties { 
+Properties {
   Property 
-```
-```
-```
-```
-
-쉐이더 사용자가 인스펙터에서 해당 값을 읽어 셰이더 내에서 사용할 수 있도록 하는 변수들 즉, 셰이더 외부로부터 개발자에 의해 설정될 수 있는 변수들을 정의하는 구문
-
-COLOR type 의 프라퍼티 _MyColor 를 하나 만들자. inspector 에서 이름은 "Main Color" 이고 기본값은 `(0,0,1,1)` 이다. COLOR value 는 순서대로 `(r, g, b, a)` 를 의미한다.
-
-# Prerequisites
-
-## Properties
-
-Properties 는 inpsector 를 통해서 값을 변경할 수 있게 해준다. 다음과 같은 문법을 갖는다.
-
-```
-Properties { Property [Property ...] }
-```
-
-다음은 Property 중 숫자와 슬라이드의 예이다.
-
-
   [Property ...] 
 }
 ```
@@ -62,6 +40,15 @@ name ("display name", Range (min, max)) = number
 name ("display name", Float) = number
 name ("display name", Int) = number
 ```
+
+`name` 은 프라퍼티의 이름이고 shader 에서 사용할 때는 `name` 으로 사용한다. 
+위의 쉐이더의 경우 `_MyColor` 이름의 프라터피 값은 `Diffuse, Ambient` 의 인자로 사용된다.
+`number` 는 기본값을 의미하고 `Range, Float, Int` 는 프라퍼티의 타입을 의미한다.
+프라퍼티의 타입은 이밖에도 `Color, Vector, 2D, Cube, 3D` 등이 있고 각 타입은 인스펙터에서 모양이 다르다.
+
+# Prerequisites
+
+## Properties
 
 다음은 Property 중 컬러와 벡터의 예이다.
 
