@@ -21,8 +21,8 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | [basic_light](/Assets/Tutorials/basic_light/basic_light.md) | 라이트를 켜보자 |
 | [basic_properties](/Assets/Tutorials/basic_properties/basic_properties.md) | 프라퍼티를 사용해보자 |
 | [basic_texture](/Assets/Tutorials/basic_texture/basic_texture.md) | 텍스처를 사용해보자 |
-| basic_blending | 텍스처, 컬러, 라이트를 섞어보자 |
-| basic_blending_textures | 텍스처 두장을 섞어보자 |
+| [basic_blending](/Assets/Tutorials/basic_blending/basic_blending.md) | 텍스처, 컬러, 라이트를 섞어보자 |
+| [basic_blending_textures](/Assets/Tutorials/basic_blending_textures/basic_blending_textures.md) | 텍스처 두장을 섞어보자 |
 | [basic_translucent](/Assets/Tutorials/basic_translucent/basic_translucent.md) | 반투명한 물체를 만들어보자 |
 | [basic_cull](/Assets/Tutorials/basic_cull/basic_cull.md) | 컬링을 적용해 보자 |
 | [basic_depth_test](/Assets/Tutorials/basic_depth_test/basic_depth_test.md) | 깊이 테스트를 적용해 보자 |
