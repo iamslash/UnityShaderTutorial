@@ -27,7 +27,7 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | [basic_cull](/Assets/Tutorials/basic_cull/basic_cull.md) | 컬링을 적용해 보자 |
 | [basic_depth_test](/Assets/Tutorials/basic_depth_test/basic_depth_test.md) | 깊이 테스트를 적용해 보자 |
 | basic_blend | blend command 를 사용해서 블렌딩 하자 |
-| basic_alpha_test | 알파 테스트를 해보자 |
+| [basic_alpha_test](/Assets/Tutorials/basic_alpha_test/basic_alpha_test.md) | 알파 테스트를 해보자 |
 | [basic_vertex_fragment_shader](/Assets/Tutorials/basic_vertex_fragment_shader/basic_vertex_fragment_shader.md) | 버텍스, 프래그먼트 쉐이더를 이용하여 한가지 색으로 칠하고 좌표변환을 이해하자 |
 | basic_stencil_test | 스텐실 테스트를 적용해 보자 |
 | texture | 텍스처를 적용해 보자 |
