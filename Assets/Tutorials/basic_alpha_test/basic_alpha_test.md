@@ -44,12 +44,19 @@ Shader "UnityShaderTutorial/basic_alpha_test" {
 `comparison`에는 
 
 Greater	: 픽셀의 알파 값이 AlphaValue 보다 큰 경우에만 렌더링.
+
 GEqual	: 픽셀의 알파 값이 AlphaValue 보다 크거나 같은 경우에만 렌더링.
+
 Less	: 픽셀의 알파 값이 AlphaValue 보다 작은 경우에만 렌더링.
+
 LEqual	: 픽셀의 알파 값이 AlphaValue 보다 작거나 같은 경우에만 렌더링.
+
 Equal	: 픽셀의 알파 값이 AlphaValue 와 동일한 경우에만 렌더링.
+
 NotEqual: 픽셀의 알파 값이 AlphaValue 와 동일하지 않은 경우에만 렌더링.
+
 Always	: 모든 픽셀을 렌더링. AlphaTest Off 와 동일한 기능
+
 Never	: 모든 픽셀을 렌더링하지 않는다.
 
 중 1개의 키워드가 들어간다.
