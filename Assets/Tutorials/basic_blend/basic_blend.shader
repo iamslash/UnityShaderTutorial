@@ -1,20 +1,18 @@
 ﻿Shader "UnityShaderTutorial/basic_blend" {
     Properties {
-        _MainTex ("Texture to blend", 2D) = ""
+        _Color("Main Color", Color) = (1, 1, 1, 1)
+		_MainTex("Main Texture", 2D) = "white" {}
     }
+
     SubShader {
         Tags { "Queue" = "Transparent" }
         Pass {
-        	Material {
-                Diffuse (1,1,1,1)
-                Ambient (1,1,1,1)
-            }
-            Lighting On
+        	Blend srcAlpha OneMinusSrcAlpha
 
-            SetTexture [_MainTex] {
-                constantColor (1, 1, 1, 1)
-                combine constant lerp(texture) previous
-            }
+			SetTexture[_MainTex] {
+				ConstantColor[_Color]
+				Combine texture lerp(texture) previous, constant
+			}
         }
     }
 }
