@@ -31,7 +31,7 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | [basic_vertex_fragment_shader](/Assets/Tutorials/basic_vertex_fragment_shader/basic_vertex_fragment_shader.md) | 버텍스, 프래그먼트 쉐이더를 이용하여 한가지 색으로 칠하고 좌표변환을 이해하자 |
 | basic_stencil_test | 스텐실 테스트를 적용해 보자 |
 | texture | 텍스처를 적용해 보자 |
-| **normal_map** | 노멀맵을 적용해보자 |
+| [**normal_map**](/Assets/Tutorials/normal_map/normal_map.md) | 노멀맵을 적용해보자 |
 | skymap_reflect | 스카이맵을 물체의 표면에서 반사시켜보자 |
 | skymap_reflect_normal | 스카이맵을 노멀맵과 함께 물체의 표면에서 반사시켜보자 |
 | skymap_reflect_normal_occlusion | 스카이맵을 노멀맵, 오클루젼맵과 함께 물체의 표면에서 반사시켜보자 |
