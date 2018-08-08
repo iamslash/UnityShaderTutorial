@@ -45,7 +45,7 @@ Subshader {
   [Pass ...] }
 ```
 
-`SubShader` 는 한개 이상일 수 있다. 여러 개의 `SubShader` 중 target machine 이 지원하는 첫번째 `SubShader` 가 실행된다. 만약 지원가능한 `SubShader` 가 없다면 `FallBack Shader` 가 실행된다.
+`SubShader` 는 한개 이상일 수 있다. 여러 개의 `SubShader` 중 target machine 이 지원하는 첫번째 `SubShader` 가 실행된다. 만약 지원가능한 `SubShader` 가 없다면 `FallBack` 이 실행된다.
 
 `Pass` 의 문법은 다음과 같다.
 
@@ -65,7 +65,7 @@ Pass {
 Name "PassName"
 ```
 
-`tags` 는 어떻게 렌더링될지 언제 렌더링 될지를 표현하기 위해 다음과 같이 이름과 값의 형태로 사용한다. 
+`tags` 는 어떻게 렌더링될지 혹은 언제 렌더링될지를 표현하기 위해 다음과 같이 이름과 값의 형태로 사용한다. 
 
 ```c
 Tags { 
@@ -96,7 +96,7 @@ AlphaToMask On | Off
 ColorMask RGB | A | 0 | any combination of R, G, B, A
 ```
 
-`fixed-style function commands` 의 종류는 `Lighting, Material, SeparateSpecular, Color, ColorMaterial, Fog, AlphaTest, SetTexture ` 등이 있고 다음과 같이 사용한다.
+`fixed-style function commands` 의 종류는 `Lighting, Material, SeparateSpecular, Color, ColorMaterial, Fog, AlphaTest, SetTexture` 등이 있고 다음과 같이 사용한다.
 
 ```
 Lighting On | Off

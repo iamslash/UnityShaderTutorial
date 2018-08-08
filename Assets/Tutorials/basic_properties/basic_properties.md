@@ -35,7 +35,7 @@ Properties {
 
 `Properties` 에 포함되는 각 `Property` 는 다음과 같이 구셩된다.
 
-``````
+```
 name ("display name", Range (min, max)) = number
 name ("display name", Float) = number
 name ("display name", Int) = number

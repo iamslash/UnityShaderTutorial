@@ -30,7 +30,9 @@ Shader "UnityShaderTutorial/basic_texture" {
 문법은 아래와 같다
 
 ```c
-SetTexture [TextureName] {Texture Block}
+SetTexture [TextureName] {
+  Texture Block
+}
 ```
 
 `TextureName` 에는 적용 하고자 하는 텍스쳐의 `Properties`의 이름을 기입해야 한다.
@@ -47,9 +49,8 @@ combine src1 + src2 : src1에 src2를 더한다. 결과값은 더 밝아지는 �
 combine src1 - src2 : src1에서 src2를 뺀다.
 combine src1 lerp (src2) src3 : src2의 알파값을 이용해서 src1과 src3의 보간한다.
 ```
+
 `src` 에는 `previous` `constant` `texture` 중에 하나가 될 수 있다.
 `previous` : 이전 `SetTexture` 의 결과값
 `constant` : `constantColor` 로 선언한 컬러 값
-`texdture` : 현재 `SetTexture` 에 선언된 `TextureName` 에 해당
-
-
+`texture` : 현재 `SetTexture` 에 선언된 `TextureName` 에 해당
