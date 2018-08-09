@@ -29,7 +29,7 @@ Shader "name" {
   [Properties] 
   Subshaders 
   [Fallback] 
-  [CustomEditor] 
+  [CustomEditor]
 }
 ```
 
@@ -42,7 +42,8 @@ Subshader {
   [Tags] 
   [CommonState] 
   Pass 
-  [Pass ...] }
+  [Pass ...] 
+}
 ```
 
 `SubShader` 는 한개 이상일 수 있다. 여러 개의 `SubShader` 중 target machine 이 지원하는 첫번째 `SubShader` 가 실행된다. 만약 지원가능한 `SubShader` 가 없다면 `FallBack` 이 실행된다.

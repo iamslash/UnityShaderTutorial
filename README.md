@@ -18,7 +18,7 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 |:-----|:------------|
 | [unity3d_rendering_pipeline](/unity3d_rendering_pipeline.md) | Unity3d 의 Rendering Pipeline 을 이해하자 |
 | [basic_red](/Assets/Tutorials/basic_red/basic_red.md) | 물체를 빨간색으로 칠해보자 |
-| [basic_light](/Assets/Tutorials/basic_light/basic_light.md) | 라이트를 켜보자 |
+| [**basic_light**](/Assets/Tutorials/basic_light/basic_light.md) | 라이트를 켜보자 |
 | [basic_properties](/Assets/Tutorials/basic_properties/basic_properties.md) | 프라퍼티를 사용해보자 |
 | [basic_texture](/Assets/Tutorials/basic_texture/basic_texture.md) | 텍스처를 사용해보자 |
 | [basic_blending](/Assets/Tutorials/basic_blending/basic_blending.md) | 텍스처, 컬러, 라이트를 섞어보자 |
