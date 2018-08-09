@@ -114,7 +114,7 @@ surfaceColor = emissive + ambient + diffuse + specular
 
 emissive term은 표면에서 방출되거나 방출되는 빛을 나타낸다. emissive term은 방출 된 빛의 색상을 나타내는 RGB 값이다. 완전히 어두운 방에서 방사형 물질을 보는 경우, 이 색으로 보인다. 완전한 방사형 객체는 객체 전체를 하나의 색으로 렌더링한다. 방사형 객체 자체는 광원이 아니며, 다른 객체를 비추거나 투영하지 않는다. emissive term은 모든 다른 라이팅 텀을 계산한 뒤 추가되는 색이다. `K_{e}` 는 물체의 emissive color 이다.
 
-![](emssive_eq.png)
+![](emissive_eq.png)
 
 ```
 emissive = K_{e}
