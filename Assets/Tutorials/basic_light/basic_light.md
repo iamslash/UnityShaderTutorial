@@ -105,7 +105,7 @@ Ambient * Lighting Window's Ambient Intensity setting + (Light Color * Diffuse +
 
 Pass 는 `Material, Lighting` 과 같은 다양한 `Render-state setup` 을 포함할 수 있다. `Render-state setup` commands 는 DirectX 를 사용할 때 `Device->Set*` 과 같다.
 
-## Phong Lighting Model
+## The Basic Lighting Model
 
 OpenGL과 Direct3D는 거의 동일한 fixed-function lighting models을 제공한다. 이 설명은 fixed-function lighting model의 Basic model을 사용한다. Basic model은 Phong model을 수정하고 확장한다. Basic model 에서 물체의 표면색은 EMISSIVE, AMBIENT, DIFFUSE, SPECULAR 라이팅의 기여도 합계로 표현된다.
 surfaceColor = emissive + ambient + diffuse + specular
