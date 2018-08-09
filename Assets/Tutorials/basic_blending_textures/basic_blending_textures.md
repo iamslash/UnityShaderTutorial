@@ -44,7 +44,7 @@ SetTexture [TextureName] {Texture Block}
 A lerp(B) C
 ```
 A와 C를 보간하여 결과값을 만들게 되는데, 그 기준값으로 B의 알파값을 사용하겠다는 것을 의미합니다.<br>
-즉 B의 알파값은 0 ~ 1의 값을 가지며 B = 1 인 경우 결과는 A가 되며, B = 0 인 경우 결과는 C가 됩니다.
+즉 B의 알파값은 0 ~ 1의 값을 가지며 B = 1(투명하지 않음) 인 경우 결과는 A가 되며, B = 0 인 경우 결과는 C가 됩니다.
 
 # Prerequisites
 
@@ -83,12 +83,13 @@ src1에 src2의 알파 성분을 곱한 다음 src3을 더합니다.
 src 프로퍼티는 아래의 키워드로 변경이 가능합니다.
 
 + texture : SetTexture 에서 TextureName으로 지정된 텍스처
-+ previous : 이전 SetTexture의 결과
-+ primary : 정적 색상을 사용한 라이팅 계산 결과, Material에 지정한 조명 모델에 대한 계산 결과
++ previous : 이전에 계산한 텍스쳐 연산 결과
 + constant : ConstantColor의 지정된 색상
 
 보정용 키워드
 
 + 위에 지정된 수식에 선택적으로 키워드 `Double` 또는 `Quad` 를 붙여 결과 색상을 2x 또는 4x 밝게 만들 수 있습니다.
-+ src 프로퍼티에는 `one -` 옵션을 붙여서 반대값을 사용하게 할 수 있습니다.
-+ alpha 키워드를 붙여서 알파만 사용하게 할 수 있습니다.
+
+```
+Combine texture * previous DOUBLE
+```
