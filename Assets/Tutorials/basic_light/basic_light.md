@@ -105,20 +105,63 @@ Ambient * Lighting Window's Ambient Intensity setting + (Light Color * Diffuse +
 
 Pass 는 `Material, Lighting` 과 같은 다양한 `Render-state setup` 을 포함할 수 있다. `Render-state setup` commands 는 DirectX 를 사용할 때 `Device->Set*` 과 같다.
 
+## Dot Product
+
+...
+
 ## The Basic Lighting Model
 
-OpenGL과 Direct3D는 거의 동일한 fixed-function lighting models을 제공한다. 이 설명은 fixed-function lighting model의 Basic model을 사용한다. Basic model은 Phong model을 수정하고 확장한다. Basic model 에서 물체의 표면색은 EMISSIVE, AMBIENT, DIFFUSE, SPECULAR 라이팅의 기여도 합계로 표현된다.
+Basic Lighting Model 은 Phong 모델을 확장한 것이며 수식은 다음과 같다.
+
+```
 surfaceColor = emissive + ambient + diffuse + specular
+```
 
-(해당 모델에서는 per-light ambient color를 사용하지 않고, attenuation(감쇠)과 spotlight effect는 고려하지 않는다.)
-
-emissive term은 표면에서 방출되거나 방출되는 빛을 나타낸다. emissive term은 방출 된 빛의 색상을 나타내는 RGB 값이다. 완전히 어두운 방에서 방사형 물질을 보는 경우, 이 색으로 보인다. 완전한 방사형 객체는 객체 전체를 하나의 색으로 렌더링한다. 방사형 객체 자체는 광원이 아니며, 다른 객체를 비추거나 투영하지 않는다. emissive term은 모든 다른 라이팅 텀을 계산한 뒤 추가되는 색이다. `K_{e}` 는 물체의 emissive color 이다.
+emissive(방출광) 는 표면에서 방출되는 빛을 나타내고 emissive 항을 구하는 방법은 다음과 같다. `K_{e}` 는 물체의 emissive color 이다.
 
 ![](emissive_eq.png)
 
 ```
 emissive = K_{e}
 ```
+
+ambient(주변광) 는 ??? 이다. ambient 항을 구하는 방법은 다음과 같다.
+
+![]()
+
+```
+```
+
+diffuse(확산광)은 표면의 색을 표현한다. diffuse 항을 구하는 방법은 다음과 같다.
+
+![]()
+
+```
+diffuse = Kd x lightColor x max(N · L, 0)
+```
+
+specular(반사광)는 표면에서 빛이 산란된 것을 표현한다. specular 항을 구하는 방법은 다음과 같다.
+
+
+![]()
+
+```
+specular = Ks x lightColor x facing x (max(N · H, 0))
+```
+
+-------
+
+
+
+
+OpenGL과 Direct3D는 거의 동일한 fixed-function lighting models을 제공한다. 이 설명은 fixed-function lighting model의 Basic model을 사용한다. Basic model은 Phong model을 수정하고 확장한다. Basic model 에서 물체의 표면색은 EMISSIVE, AMBIENT, DIFFUSE, SPECULAR 라이팅의 기여도 합계로 표현된다.
+
+
+(해당 모델에서는 per-light ambient color를 사용하지 않고, attenuation(감쇠)과 spotlight effect는 고려하지 않는다.)
+
+ emissive term은 방출 된 빛의 색상을 나타내는 RGB 값이다. 완전히 어두운 방에서 방사형 물질을 보는 경우, 이 색으로 보인다. 완전한 방사형 객체는 객체 전체를 하나의 색으로 렌더링한다. 방사형 객체 자체는 광원이 아니며, 다른 객체를 비추거나 투영하지 않는다. emissive term은 모든 다른 라이팅 텀을 계산한 뒤 추가되는 색이다. 
+
+
 
 ambient term은 주변에서 나온 빛이 반사되어 보이는 빛이다. 모든 방향에서 오는 것처럼 보이기 때문에 광원 위치에 의존하지 않는다. ambient term은 물체의 ambient 반사율, material에 들어오는 ambient light의 색상에 따라 달라진다. emissive term과 마찬가지로 일정한 색을 가지지만 global ambient 라이팅의 영향을 받는다.
 ambient = Ka x globalAmbient 
