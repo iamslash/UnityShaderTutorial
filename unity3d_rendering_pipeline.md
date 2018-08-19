@@ -16,7 +16,7 @@ Unity3d 의 rendering pipeline 을 정리한다.
 
 # Command Buffer
 
-CPU 는 GPU 에게 여러 command 들을 하나의 batch 로 묶어서 command buffer 를 통해 전송한다. batch 의 종류는 SetPass call 과 Draw call 로 나눌 수 있다. 
+CPU 는 GPU 에게 여러 command 들을 하나의 batch 로 묶어서 command buffer 를 통해 전송한다. command 의 종류는 SetPass call 과 Draw call 등으로 나눌 수 있다. 
 
 SetPass call 은 render-state 을 설정한다. Draw call 은 설정된 render-state 으로 오브젝트를 렌더링 한다. CPU 입장에서 SetPass call 은 Draw call 에 비해 비용이 크다. 예를 들어 RAM 에 저장된 Vertex Buffer 는 VRAM 에 그대로 복사되야 하는데 이와 같이 비용이 큰 작업은 SetPass call 에서 실행된다.
 

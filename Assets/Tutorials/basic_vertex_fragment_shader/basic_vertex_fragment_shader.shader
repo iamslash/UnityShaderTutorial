@@ -9,23 +9,25 @@
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
+            #pragma vertex vertexShader
+            #pragma fragment fragmentShader
 
             // vertex shader
             // this time instead of using "appdata" struct, just spell inputs manually,
             // and instead of returning v2f struct, also just return a single output
             // float4 clip position
-            float4 vert (float4 vertex : POSITION) : SV_POSITION
+            float4 vertexShader(float4 vertex : POSITION) : SV_POSITION
             {
-                return UnityObjectToClipPos(vertex);
+				//Transforms a point from object space to the camera’s clip space in homogeneous coordinates.
+				//This is the equivalent of mul(UNITY_MATRIX_MVP, float4(pos, 1.0)), and should be used in its place.
+		        return UnityObjectToClipPos(vertex);
             }
             
             // color from the material
             fixed4 _Color;
 
             // pixel shader, no inputs needed
-            fixed4 frag () : SV_Target
+            fixed4 fragmentShader() : SV_Target
             {
                 return _Color; // just return it
             }
