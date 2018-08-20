@@ -23,25 +23,32 @@ Shader "UnityShaderTutorial/basic_properties" {
 
 # Description
 
-COLOR type 의 프라퍼티 _MyColor 를 하나 만들자. inspector 에서 이름은 "Main Color" 이고 기본값은 `(0,0,1,1)` 이다. COLOR value 는 순서대로 `(r, g, b, a)` 를 의미한다.
-
-# Prerequisites
-
-## Properties
-
-Properties 는 inpsector 를 통해서 값을 변경할 수 있게 해준다. 다음과 같은 문법을 갖는다.
+사용자가 인스펙터에서 설정한 값이 쉐이더에서 사용되게 하려면 어떻게 해야할까? 바로 프라퍼티를 사용하면 된다.
+프라퍼티는 `Shader` 안에서 쓰여질 수 있고 문법은 다음과 같다.
 
 ```
-Properties { Property [Property ...] }
+Properties {
+  Property 
+  [Property ...] 
+}
 ```
 
-다음은 Property 중 숫자와 슬라이드의 예이다.
+`Properties` 에 포함되는 각 `Property` 는 다음과 같이 구셩된다.
 
 ```
 name ("display name", Range (min, max)) = number
 name ("display name", Float) = number
 name ("display name", Int) = number
 ```
+
+`name` 은 프라퍼티의 이름이고 shader 에서 사용할 때는 `name` 으로 사용한다. 
+위의 쉐이더의 경우 `_MyColor` 이름의 프라터피 값은 `Diffuse, Ambient` 의 인자로 사용된다.
+`number` 는 기본값을 의미하고 `Range, Float, Int` 는 프라퍼티의 타입을 의미한다.
+프라퍼티의 타입은 이밖에도 `Color, Vector, 2D, Cube, 3D` 등이 있고 각 타입은 인스펙터에서 모양이 다르다.
+
+# Prerequisites
+
+## Properties
 
 다음은 Property 중 컬러와 벡터의 예이다.
 
@@ -60,8 +67,7 @@ name ("display name", 3D) = "defaulttexture" {}
 
 ## Properties Custom Drawing
 
-Properties 의 inspect GUI 를 커스터마이징할 수 있다. 다음과 같은 쉐이더가 있다고 하자.
-
+Properties 의 특정 Attribute에 대한 inspector GUI 를 커스터마이징할 수 있다. 다음과 같은 쉐이더가 있다고 하자.
 
 ```c
 Shader "Custom/Example"
@@ -84,7 +90,7 @@ Shader "Custom/Example"
 }
 ```
 
-`_Invert` 의 경우 [Toggle] Attribute 가 선언되었다. 다음과 같이 `MyToggleDraw` 를 정의하면 `_Invert` 의 inpector GUI 를 재정의할 수 있다.
+`_Invert` 의 경우 [MyToggle] Attribute 가 선언되었다. 다음과 같이 `MyToggleDraw` 를 정의하면 `_Invert` 의 inpector GUI 를 재정의할 수 있다.
 
 ```cs
 using UnityEngine;
@@ -155,13 +161,13 @@ unity 에 `ToggleDrawer, EnumDrawer, KeywordEnumDrawer, PowerSliderDrawer, IntRa
 다음은 `PowerSliderDrawer` 의 예이다.
 
 ```c
-// A slider with 3.0 response curve
+// 비선형 슬라이더, 천천히 가다가 빨라진다.
 [PowerSlider(3.0)] _Shininess ("Shininess", Range (0.01, 1)) = 0.08
 ```
 
 다음은 `IntRangeDrawer` 의 예이다.
 
 ```c
-// An integer slider for specified range (0 to 255)
+// 정수형 슬라이더
 [IntRange] _Alpha ("Alpha", Range (0, 255)) = 100
 ```

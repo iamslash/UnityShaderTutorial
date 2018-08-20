@@ -10,8 +10,8 @@
             #include "UnityCG.cginc"
 
             struct v2f {
-                half3 worldNormal : TEXCOORD0;
-                float4 pos : SV_POSITION;
+				half3 worldNormal : TEXCOORD0;
+				float4 pos : SV_POSITION;
             };
 
             v2f vert (float4 vertex : POSITION, float3 normal : NORMAL)
