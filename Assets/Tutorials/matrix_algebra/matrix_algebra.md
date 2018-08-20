@@ -12,7 +12,9 @@ ex)
 ![](./Images/1.png)
 
 ![](./Images/1-1.png)
+
 ![](./Images/1-2.png)
+
 ![](./Images/1-3.png)
 
 ```
@@ -31,6 +33,7 @@ ex) (-1, 5, -4) x (2, 0, -1)
 ex)
 
 ![](./Images/2.png)
+
 ![](./Images/2-1.png)
 
 # 단위행렬
@@ -42,7 +45,9 @@ ex)
 + 단위행렬과 곱셈을 하는 경우 그대로 자신의 행렬로 돌아오는 것을 확인 할 수 있다.
 
 ![](./Images/3-1.png)
+
 ![](./Images/3-2.png)
+
 ![](./Images/3-3.png)
 
 # 소행렬식
@@ -75,6 +80,7 @@ ex)
 공식
 
 ![](./Images/6.png)
+
 ![](./Images/6-1.png)
 
 ex)
@@ -82,7 +88,9 @@ ex)
 ![](./Images/6-2.png)
 
 ![](./Images/6-3.png)
+
 ![](./Images/6-4.png)
+
 ![](./Images/6-5.png)
 
 ```
@@ -111,7 +119,9 @@ ex)
 ex)
 
 ![](./Images/8-1.png)
+
 ![](./Images/8-2.png)
+
 ![](./Images/8-3.png)
 
 ![](./Images/8-4.png)
