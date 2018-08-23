@@ -52,6 +52,12 @@ u=(x,y,z)=xi+yj+zk=x(1,0,0)+y(0,1,0)+z(0,0,1)
 ![](scaling.png)
 
 ```
+\\S(x,y,z)=(s_{x}x,s_{y}y,s_{z}z)
+\\\\S=\begin{bmatrix}
+s_{x} & 0 & 0\\ 
+ 0& s_{y} & 0\\ 
+ 0&  0& s_{z}
+\end{bmatrix}
 ```
 
 비례변환의 행렬 S는 비례행렬(scaling matrix)이라고 부른다. 
