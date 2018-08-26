@@ -1,4 +1,4 @@
-# Abstract 
+﻿# Abstract 
 
 변환에 대해 정리한다.
 
@@ -68,7 +68,91 @@ s_{x} & 0 & 0\\
 
 벡터 v를 축 n에 대해 회전하는 변환을 표현하기 위해서는 복잡한 식의 계산이 필요하다.
 
-![](rotation.bmp)
+![](rotation.png)
+
+```
+\begin{tikzpicture}
+    \def\picrot{15}
+	\def\a{3.5} \def\b{1.5}
+	\def\xp{0} \def\yp{-6}
+	\def\angvalue{50}
+	\def\ptsize{1.0pt}
+	\tikzset{p_style/.style={draw=black}}
+	\tikzset{arrow_style/.style={>=latex,ultra thick}}
+	
+	\matrix[column sep=1cm] {
+    	
+        \begin{turn}{\picrot}
+        	\draw[name path=ellipse,black,thick]
+        		(0,0) circle[x radius = \a cm, y radius = \b cm];
+            %\draw (0,0) ellipse (\a cm and \b cm);
+        	\coordinate (P) at (\xp,\yp);
+        	
+        	\path[name path=lineOV] (0,0)--(\a,0);
+        	\path [name intersections={of = ellipse and lineOV}];
+        	\coordinate (V) at (intersection-1);
+        	\path[name path=lineOA] (0,0)--(240:\a cm);
+        	\path [name intersections={of = ellipse and lineOA}];
+        	\coordinate (A) at (intersection-1);
+        	\path[name path=lineOB] (0,0)--(360-\angvalue:\a cm);
+        	\path [name intersections={of = ellipse and lineOB}];
+        	\coordinate (B) at (intersection-1);
+        	
+        	\draw[black,thick] (0,0) -- (0,3);
+        	{[arrow_style,->]
+        	    \draw[black!50](P) -- (V) node[black,very near end,right,rotate=360-\picrot] {\large$\textbf{v}$};
+        	    \draw[blue!50](0,0) -- (V) node[black,midway,sloped,above] {\large $v_{\perp}=v-proj_{n}(v)$};
+        	    \draw[blue](0,0) -- (B) node[black,very near end,sloped,above] {\large $R_{n}(v_{\perp})$};
+        	    \draw[green](0,0) -- (A) node[black,midway,sloped,above] {\large $n\times v$};
+        	    \draw[red](P) -- (0,0) node[black,midway,sloped,above] { $proj_{n}(v)$};
+        	    \draw[black](P) -- (B) node[black,very near end,right,rotate=360-\picrot] {\large $R_{n}(v)$};
+        	    \draw[black](P) -- (0,\yp+1) node[black,near end,left,rotate=360-\picrot] {\large $\textbf{n}$};
+        	}
+        	\coordinate (O) at (0,0);
+        	\draw pic[draw=black,angle eccentricity=1.2,angle radius=1.7cm] {angle=V--P--O};
+        	\draw pic["\Large $\alpha$",angle eccentricity=1.2,angle radius=1.7cm] {angle=V--P--B};
+        	\draw pic["\Large $\theta$",draw=black,angle eccentricity=1.5,angle radius=0.5cm] {angle=B--O--V};
+        	
+        	\foreach \p in {A,B,V}
+        		\fill[p_style] (\p) circle (\ptsize);
+        \end{turn}
+            
+        &
+            
+        \def\angvalue{50}
+        \def\rad{3}
+        
+        \begin{turn}{340}
+        	\draw[name path=proj,black,thick]
+        		(0,0) circle(\rad);
+        	\coordinate (O) at (0,0);
+        	\coordinate (A) at (\rad,0);
+        	\coordinate (B) at (0,-\rad);
+        	\path [name path=lineOV] (0,0)--(360-\angvalue:\rad cm);
+        	\path [name intersections={of = proj and lineOV}];
+        	\coordinate (V) at (intersection-1);
+        	
+        	\coordinate (CA) at ({\rad*cos(\angvalue)},0);
+        	\coordinate (SB) at (0,{-\rad*sin(\angvalue)});
+        	
+        	{[arrow_style,->]
+        	    \draw[black!50](O) -- (A);
+        	    \draw[black!50](O) -- (B);
+        	    \draw[blue](O) -- (V) node[black,midway,sloped,above] {\large$R_{n}(v_{\perp})$};
+        	    \draw[blue!50](O) -- (CA) node[black,midway,sloped,above] {\large$cos(\theta)v_{\perp}$};
+        	    \draw[green!50](O) -- (SB) node[black,midway,sloped,above,rotate=180] {\large$sin(\theta)n\times v$};
+        	}
+        	\draw pic["\Large $\theta$",draw=black,angle eccentricity=1.5,angle radius=0.5cm] {angle=V--O--A};
+            \draw[densely dashed](CA)--(V);
+            \draw[densely dashed](SB)--(V);
+        	
+        	\foreach \p in {O,A,B,V}
+        		\fill[draw=black] (\p) circle (1.0pt);
+        \end{turn}
+    \\   
+	};
+\end{tikzpicture}
+```
 
 (위의 그림에서 회전각은 n의 진행방향을 기준으로 반시계방향으로 측정하며, n의 크기는 1이라고 가정한다.)
 
@@ -222,7 +306,60 @@ S가 비례행렬이고 R이 회전행렬, T가 이동행렬이라고 할 때, �
 
 물체의 기하구조가 실제로 움직였거나 변형된 것으로 간주하는 회전, 이동, 비례변환과는 대조적으로 좌표계가 변경되어 기하구조의 좌표'표현'이 변하게 된다.
 
-![](coor_vector.bmp)
+![](coor_vector.png)
+
+```
+\begin{tikzpicture}
+    \def\rotangle{30}
+    \def\angvalue{30}
+    %\def\rad{3}
+    %\def\x{2} \def\y{1.5}
+	\tikzset{arrow_style/.style={>=latex,very thick}}
+	
+	\matrix[column sep=1cm] {
+        \begin{turn}{\rotangle}
+            \coordinate(PA) at (\angvalue:2.5 cm);
+            \draw[densely dashed,blue!40]let \p{PA}=(PA) in (PA) -- (\x{PA},0) node [black,below,rotate=360-\rotangle] {\large$x$};
+            \draw[densely dashed,blue!40]let \p{PA}=(PA) in (PA) -- (0,\y{PA})node [black,left,rotate=360-\rotangle] {\large$y$};
+            \draw [arrow_style,black!50,<->] (0,-3)--(0,3) node [black,above] {$+Y$};
+            \draw [arrow_style,black!50,<->] (-3,0)--(3,0) node [black,right] {$+X$};
+            \draw [arrow_style,blue,->] (0,0)--(PA) node [black,above,rotate=360-\rotangle] {\Large$p_{A}=(x,y)$};
+        \end{turn}
+        \coordinate [label=left:\large$FrameA$] (t) at (1,-3);
+        
+        &
+            
+        \coordinate(PB) at (\angvalue+\rotangle:2.5 cm);
+        \path[name path=lineYV,shift={(PB)}] (0,0)--(\angvalue+180:2.5 cm);
+        \path[name path=lineXU,shift={(PB)}] (0,0)--(\angvalue+270:2.5 cm);
+        \path[name path=lineOV] (0,0)--(\angvalue+90:2.5 cm);
+        \path[name path=lineOU] (0,0)--(\angvalue:2.5 cm);
+	    \path [name intersections={of = lineYV and lineOV}];
+        \coordinate(yv) at (intersection-1);
+	    \path [name intersections={of = lineXU and lineOU}];
+        \coordinate(xu) at (intersection-1);
+        
+        \draw[densely dashed,black]let \p{PB}=(PB) in (PB) -- (\x{PB},0) node [black,below] {\large$x'$};
+        \draw[densely dashed,black]let \p{PB}=(PB) in (PB) -- (0,\y{PB})node [black,left] {\large$y'$};
+        {[arrow_style]
+            \draw [black!50,<->] (0,-1.5)--(0,3) node [black,above] {$+Y$};
+            \draw [black!50,<->] (-3,0)--(3,0) node [black,right] {$+X$};
+            \draw [blue,->] (0,0)--(PB) node [black,right] {\Large$p_{B}=(x',y')$};
+          
+            \draw[densely dashed,blue!40] (PB)--(yv);
+            \draw[densely dashed,blue!40] (PB)--(xu);
+            \draw[densely dashed,blue!40,->] (0,0)--(yv) node [black,left] {\large $yv$};
+            \draw[densely dashed,blue!40,->] (0,0)--(xu) node [black,right] {\large $xu$};
+            \draw[black,->] (0,0)--(\angvalue+90:1 cm) node [black,midway,left] {\large $v$};
+            \draw[black,->] (0,0)--(\angvalue:1 cm) node [black,near end,below] {\large $u$};
+        }
+            
+        \coordinate [label=left:\large$FrameB$] (t) at (1,-3);
+    \\   
+	};
+    
+\end{tikzpicture}
+```
 
 위의 그림은 두 좌표계 A와 B, 그리고 벡터 p가 있을 때 좌표계 B에 상대적인 p의 좌표를 도식으로 보여주고 있다. 위의 그림에서 u와 v를 좌표계 A의 x축과 y축 방향의 단위벡터라고 한다면, 다음과 같이 표현할 수 있다.
 
@@ -250,7 +387,48 @@ p_{B}=xu_{B}+yv_{B}+zw_{B}
 
 점에 대한 좌표 변경 변환은 벡터에 대한 것과 약간 다르지만, 계산 방법은 비슷하다. 좌표계 B에 상대적인좌표계 A의 원점을 알면 나머지는 벡터 계산과 동일하다.
 
-![](coor_dot.bmp)
+![](coor_dot.png)
+
+```
+\begin{tikzpicture}
+    \def\rotangle{30}
+    \def\angvalue{30}
+    \def\rad{3}
+    \def\x{2} \def\y{1.5}
+	\tikzset{arrow_style/.style={>=latex,very thick}}
+	
+        \coordinate (PA) at (\angvalue:2.5 cm);
+        \begin{turn}{\rotangle}
+    		\fill[draw=black] (PA) circle (1.5pt);
+    		\fill[draw=black] (0,0) circle (1.5pt);
+            
+        {[arrow_style]
+            \draw[->]let \p{PA}=(PA) in (\x{PA},0) node [black,below,rotate=360-\rotangle] {\large$x$}--(PA) node [black,right,midway,rotate=360-\rotangle] {\large$yv$};
+            \draw[->]let \p{PA}=(PA) in (0,\y{PA}) node [black,left,rotate=360-\rotangle] {\large$y$}--(PA) node [black,above,midway,rotate=360-\rotangle] {\large$xu$};
+            \draw [black!50,<->] (0,-1.5)--(0,3) node [black,above] {$+Y$};
+            \draw [black!50,<->] (-3,0)--(3,0) node [black,right] {$+X$};
+            \draw[->] (0,0)--(0,1) node [black,midway,left,rotate=360-\rotangle] {\large $v$};
+            \draw[->] (0,0)--(1,0) node [black,midway,below,rotate=360-\rotangle] {\large $u$};
+            
+        }
+        
+        \end{turn}
+        \coordinate [label=left:\large$FrameA$] (t) at (-1,0);
+        
+        % frame B center : 5,-2
+        {[arrow_style]
+            \draw [->] (5,-2)--(0,0) node [black,above,midway] {$\mathbf{Q}$};
+            \draw [black!50,<->] (5,-3)--(5,3) node [black,above] {$+Y$};
+            \draw [black!50,<->] (-0.5,-2)--(7,-2) node [black,right] {$+X$};
+        }
+        \coordinate[label=above:\large${p_{A}=(x,y)}$] (PA) at (\rotangle+\angvalue:2.5 cm);
+        \draw[densely dashed]let \p{PA}=(PA) in (PA) -- (\x{PA},-2) node [black,below] {\large$x'$};
+        \draw[densely dashed]let \p{PA}=(PA) in (PA) -- (5,\y{PA})node [black,right] {\large$y'$};
+	
+        \coordinate [label=right:\large$FrameB$] (t) at (5.5,-2.5);
+    
+\end{tikzpicture}
+```
 
 위의 그림에서, 좌표계 B의 점 `p_{B}`는 다음과 같이 표현할 수 있다.
 
