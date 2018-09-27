@@ -1,8 +1,10 @@
-﻿# Abstract 
+# Abstract 
 
 변환에 대해 정리한다.
 
 # 선형변환
+
+변환을 의미하는 함수를 `\tau` 라고 했을 때 그 함수가 다음과 같은 두가지 성질을 만족하면 선형변환이라고 한다.
 
 ![](definition.png)
 
@@ -12,6 +14,81 @@
 \\(u=(u_{x},u_{y},u_{z}),v=(v_{x},v_{y},v_{z}),k=arbitrary\ scalar\ value)
 ```
 
+컴퓨터로 선형변환을 구현하기 위해서는 행렬의 곱연산이 필요하다. 그리고 그 행렬은 다음과 같이 제작한다.
+
+`u = (x, y, z)` 라 할 때 좌표축을 나타내는 벡터 `i, j, k` 를 이용하여 
+다음과 같이 표현해보자. 벡터 `i, j, k` 는 삼차원 공간에서 `x, y, z` 축과 같은 방향의 단위벡터로 표준기저벡터(standard basis vector)라고 부른다.
+
+![](standard_vector.png)
+
+```
+\begin{aligned}
+u &= (x, y, z) \\
+  &= xi + yj + zk \\
+  &= x(1,0,0) + y(0,1,0) + z(0,0,1)
+\end{aligned}
+```
+
+선형변환 `\tau` 에 벡터 `u` 를 입력으로 하면 다음과 같이 식을 전개할 수 있다. 결국 선형변환은 행렬 `A` 의 곱셈연산으로 표현 가능하다.
+
+![](matrix_representation.png)
+
+```latex
+\begin{aligned}
+\tau(u) &= \tau(xi + yj + zk) \\
+       &= x\tau(i) + y\tau(j) + z\tau(k) \\
+       &= uA \\
+       &= [x,y,z]\begin{bmatrix} \leftarrow \tau(i) \rightarrow 
+                 \\ \leftarrow \tau(j) \rightarrow 
+                 \\ \leftarrow \tau(k) \rightarrow 
+                 \end{bmatrix} \\
+       &= [x,y,z]\begin{bmatrix} A_{11} & A_{12} & A_{13}
+                 \\  A_{21} & A_{22} & A_{23} 
+                 \\  A_{31} & A_{32} & A_{33}
+                 \end{bmatrix} \\
+\end{aligned} \\
+```
+
+예를 들어 벡터 `u` 에 행렬 `S` 를 곱셈하면 비례를 표현할 수 있다.
+
+![](scaling.png)
+
+```
+\begin{aligned} 
+\tau (u) &= uS \\
+         &= [x, y, z] \begin{bmatrix}
+            s_{x} & 0 & 0\\ 
+            0& s_{y} & 0\\ 
+            0&  0& s_{z}
+            \end{bmatrix} \\
+         &= (s_{x}x,s_{y}y,s_{z}z) \\
+\end{aligned}
+```
+
+예를 들어 벡터 `u` 에 행렬 `R_{x}` 을 곱셈하면 `x` 축을 기준으로 한 회전을 표현할 수 있고
+`R_{y}` 을 곱셈하면 `y` 축을 기준으로 한 회전을 표현할 수 있고
+`R_{z}` 을 곱셈하면 `z` 축을 기준으로 한 회전을 표현할 수 있고
+
+```
+\begin{aligned}
+R_{x} &= \begin{bmatrix}
+         1 & 0 & 0\\ 
+         0 & cos\theta & sin\theta\\ 
+         0 & -sin\theta & cos\theta
+         \end{bmatrix} \\
+R_{y}    &= \begin{bmatrix}
+            cos\theta & 0 & -sin\theta\\ 
+            0 & 1 & 0\\ 
+            sin\theta & 0 & cos\theta
+            \end{bmatrix} \\
+R_{z}    &= \begin{bmatrix}
+            cos\theta & sin\theta & 0\\ 
+            -sin\theta & cos\theta & 0\\ 
+            0 & 0 & 1
+            \end{bmatrix}
+\end{aligned}
+```
+
 # 아핀변환
 
 # 변환의 합성
@@ -19,6 +96,13 @@
 # 좌표계의 변환
 
 # 좌표변환과 좌표계의 변환
+
+# 비례 선형변환 증명
+
+# 회전 선형변환 증명
+
+
+----------
 
 
  선형변환은 
@@ -30,29 +114,7 @@
 
 ## 행렬 표현
 
-`u = (x, y, z)` 라 할 때, 다음의 식으로 표현할 수 있다.
 
-![](standard_vector.png)
-
-```
-u=(x,y,z)=xi+yj+zk=x(1,0,0)+y(0,1,0)+z(0,0,1)
-```
-
-벡터 i, j, k 는 삼차원 좌표계의 축과 같은 방향의 단위벡터로, 표준기저벡터(standard basis vector)라고 부른다. `\tau`를 선형변환이라 할 때, 다음의 식이 성립하며, 벡터와 행렬의 곱으로 표현할 수 있다.
-
-![](matrix_representation.png)
-
-```
-\\\tau(u)=\tau(xi+yj+zk)=x\tau(i)+y\tau(j)+z\tau(k)
-\\=uA=[x,y,z]\begin{bmatrix} \leftarrow \tau(i) \rightarrow 
-\\ \leftarrow \tau(j) \rightarrow 
-\\ \leftarrow \tau(k) \rightarrow 
-\end{bmatrix}=[x,y,z]\begin{bmatrix} A_{11} & A_{12} & A_{13}
-\\  A_{21} & A_{22} & A_{23} 
-\\  A_{31} & A_{32} & A_{33}
-\end{bmatrix}\\
-\\\tau(i)=(A_{11}, A_{12}, A_{13}),\tau(j)=(A_{21}, A_{22}, A_{23}),\tau(k)=(A_{31}, A_{32}, A_{33})
-```
 
 위의 식에서 표현되는 행렬 A를 선형변환 `\tau`의 행렬 표현(matrix representation)이라고 부른다.
 
