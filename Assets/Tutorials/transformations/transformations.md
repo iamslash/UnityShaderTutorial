@@ -4,14 +4,15 @@
 
 # 선형변환
 
-변환을 의미하는 함수를 `\tau` 라고 했을 때 그 함수가 다음과 같은 두가지 성질을 만족하면 선형변환이라고 한다.
+변환을 의미하는 함수를 `\tau` 라고 했을 때 그 함수가 다음과 같은 두가지 성질을 만족하면 선형변환이라고 한다. `u`, `v` 는 벡터이고 `k` 는 스칼라이다.
 
 ![](definition.png)
 
-```
-\\\tau(u+v)=\tau(u)+\tau(t)
-\\\tau(ku)=k\tau(u)
-\\(u=(u_{x},u_{y},u_{z}),v=(v_{x},v_{y},v_{z}),k=arbitrary\ scalar\ value)
+```latex
+\begin{aligned} 
+\tau(u+v) &= \tau(u)+\tau(t) \\
+\tau(ku)  &= k\tau(u) \\
+\end{aligned}
 ```
 
 컴퓨터로 선형변환을 구현하기 위해서는 행렬의 곱연산이 필요하다. 그리고 그 행렬은 다음과 같이 제작한다.
@@ -128,18 +129,99 @@ R_{z}    &= \begin{bmatrix}
                       \end{bmatrix} = [x',y',z',1]
 ```
 
-아핀변환의 기하학적 해석 업데이트...
+아핀변환 `\alpha` 는 선형변환 `\tau` 와 벡터 `b` 를 이용하여 다음과 같이 표현할 수 있다.
+
+```latex
+\begin{aligned}
+\alpha(x, y, z) &= \tau(x, y, z) + \bold b \\
+                &= x \tau(\bold i) + y \tau(\bold j) + z \tau(\bold k) + \bold b \\
+                &= \begin{bmatrix}
+                     x & y & z & w
+                   \end{bmatrix} 
+                   \begin{bmatrix}
+                     \leftarrow \tau(\bold i) \rightarrow \\
+                     \leftarrow \tau(\bold i) \rightarrow \\
+                     \leftarrow \tau(\bold i) \rightarrow \\
+                     \leftarrow \bold b \rightarrow \\
+                   \end{bmatrix} \\
+                &= \begin{bmatrix}
+                     {x}' & {y}' & {z}' & {w}'
+                   \end{bmatrix} 
+\end{aligned}
+```
+
+위의 식을 잘 살펴 보면 아핀변환 `\alpha` 는 기저벡터 `i, j, k` 를 선형변환하고 벡터 `b` 를 덧셈연산한 것과 같음을 알 수 있다.
 
 # 변환의 합성
 
+행렬 `S` 는 스케일링변환, 행렬 `R` 는 회전변환, 행렬 `T` 는 이동변환을 의미한다고 하자. 8개의 버텍스로 구성된 큐브를 앞서 언급한 세가지 행렬을 곱셈연산하여 변환을 다음과 같이 구현할 수 있다. `(for i = 0, 1,..., 7)`
+
+```latex
+\begin{aligned}
+((v_{i}S)R)T &= ({v_{i}}'R)T \\
+             &= {v_{i}}''T \\
+             &= {v_{i}}'''
+\end{aligned}
+```
+
+위의 식을 잘 살펴보면 `SRT` 를 미리 구해놓고 이것을 행렬 `C` 라고 하면 행렬의 곱셈연산이 줄어들기 때문에 성능을 향상시킬 수 있다.
+
+```latex
+\begin{aligned}
+v_{i}(SRT) &= v_{i}C \\
+           &= {v_{i}}'''
+\end{aligned}
+```
+
 # 좌표계의 변환
+
+우리는 주로 섭씨 온도를 사용한다. 예를 들어 섭씨 온도 `100` 을 화씨 온도로 변환 하려면 어떻게 해야할까? 바로 다음과 같은 식을 이용하면 된다.
+
+```latex
+\begin {aligned} 
+T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
+      &= \frac{9}{5} (100^{\circ}) + 32^{\circ}
+      &= 212^{\circ}F
+\end{aligned}
+```
+
+이와 유사하게 3D 공간의 벡터 혹은 점은 서로 다른 좌표계에서 좌표 표현 방식이 다르다. 예를 들어 2D 공간에서 특정 좌표계를 기준으로 한 좌표 `P(x, y)` 를 다른 좌표계를 기준으로 한 좌표 `P({x}',{y}')` 으로 표현해보자. 기저벡터 `u, v` 를 이용하여 다음과 같이 표현하고 이것을 `P_{A}` 라고 하자.
+
+```latex
+\begin {aligned} 
+\bold P_{A} = x \bold u + y \bold v
+\end{aligned}
+```
+
+이번에는 `P_{A}` 를 다른 좌표계의 기저벡터 `{u}', {v}'` 를 이용하여 다음과 같이 표현할 수 있다.
+
+```latex
+\begin {aligned} 
+\bold P_{B} = x \bold {u}' + y \bold {v}'
+\end{aligned}
+```
+
+`P_{A}` 와 다른 좌표계의 기저벡터 `{u}', {v}'` 를 알면 `P_{B}` 를 알아낼 수 있다. 지금까지 2D 를 기준으로 설명한 것을 3D 를 기준으로 다음과 같이 확장할 수 있다.
+
+```latex
+\begin {aligned} 
+\bold P_{B} = x \bold u_{B} + y \bold v_{B} + z \bold w_{B}
+\end{aligned}
+```
+
+앞서 언급한 것은 벡터에 해당되고 점의 경우는 다음과 같이 이동변환이 추가된다.
+
+```latex
+\begin {aligned} 
+\bold P_{B} = x \bold u_{B} + y \bold v_{B} + z \bold w_{B} + \bold Q_{B}
+\end{aligned}
+```
 
 # 좌표변환과 좌표계의 변환
 
 # 비례 선형변환 증명
 
 # 회전 선형변환 증명
-
 
 ----------
 
