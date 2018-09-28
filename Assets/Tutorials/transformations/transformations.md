@@ -91,6 +91,45 @@ R_{z}    &= \begin{bmatrix}
 
 # 아핀변환
 
+아핀변환(Affine Transformation)은 선형변환(Linear Transformation)에 위치변환(Translation)을 추가한 변환이다.
+
+그러나 벡터는 위치변환의 영향을 받지 않는다. 벡터는 크기와 방향만으로 표현되기 때문이다. 따라서 위치변환은 점만 해당된다.
+한편 구현을 위해서는 벡터와 점을 동일하게 취급해야 할 필요가 있다.
+그래서 동차좌표(homogeneous coordinates)가 고안되었다.
+
+3D 공간에서 동차좌표는 하나의 원소를 추가하여 표현한다. 마지막 원소가 0 이면 벡터를 의미하고 1이면 점을 의미한다. 예를 들어 `(x, y, z, 0)` 은 벡터를 의미하고 `(x, y, z, 1)` 은 점을 의미한다.
+
+아핀변환을 `\alpha` 와 선형변환행렬 `A`, 이동변환벡터 `b` 를 이용하여 다음과 같이 표현해 보자.
+
+![](affine_matrix.png)
+
+```latex
+\begin{aligned} 
+\\\alpha(u) &= uA+b \\
+            &= [x,y,z]\begin{bmatrix} A_{11} & A_{12} & A_{13}
+                      \\ A_{21} & A_{22} & A_{23} 
+                      \\ A_{31} & A_{32} & A_{33}
+                      \end{bmatrix}+[b_{x},b_{y},b_{z}] \\
+            &=[x',y',z'] \\
+            
+\end{aligned} 
+```
+
+앞서 언급한 수식에 동차좌표가 도입되면 `u` 는 벡터 혹은 점이 가능하다.
+
+![](affine_matrix.png)
+
+```latex
+\left[ x,y,z,1 \right]\begin{bmatrix}
+                      A_{11} & A_{12} & A_{13} & 0\\ 
+                      A_{21} & A_{22} & A_{23} & 0\\ 
+                      A_{31} & A_{32} & A_{33} & 0\\ 
+                      b_{x} & b_{y} & b_{z} & 1
+                      \end{bmatrix} = [x',y',z',1]
+```
+
+아핀변환의 기하학적 해석 업데이트...
+
 # 변환의 합성
 
 # 좌표계의 변환
