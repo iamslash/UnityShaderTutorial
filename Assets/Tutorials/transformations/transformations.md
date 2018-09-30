@@ -1,4 +1,4 @@
-# Abstract 
+﻿# Abstract 
 
 변환에 대해 정리한다.
 
@@ -10,7 +10,7 @@
 
 ```latex
 \begin{aligned} 
-\tau(u+v) &= \tau(u)+\tau(t) \\
+\tau(u + v) &= \tau(u) + \tau(t) \\
 \tau(ku)  &= k\tau(u) \\
 \end{aligned}
 ```
@@ -22,7 +22,7 @@
 
 ![](standard_vector.png)
 
-```
+```latex
 \begin{aligned}
 u &= (x, y, z) \\
   &= xi + yj + zk \\
@@ -52,9 +52,9 @@ u &= (x, y, z) \\
 
 예를 들어 벡터 `u` 에 행렬 `S` 를 곱셈하면 비례를 표현할 수 있다.
 
-![](scaling.png)
+![](scaling_ex.png)
 
-```
+```latex
 \begin{aligned} 
 \tau (u) &= uS \\
          &= [x, y, z] \begin{bmatrix}
@@ -68,9 +68,11 @@ u &= (x, y, z) \\
 
 예를 들어 벡터 `u` 에 행렬 `R_{x}` 을 곱셈하면 `x` 축을 기준으로 한 회전을 표현할 수 있고
 `R_{y}` 을 곱셈하면 `y` 축을 기준으로 한 회전을 표현할 수 있고
-`R_{z}` 을 곱셈하면 `z` 축을 기준으로 한 회전을 표현할 수 있고
+`R_{z}` 을 곱셈하면 `z` 축을 기준으로 한 회전을 표현할 수 있다.
 
-```
+![](rotation_ex.png)
+
+```latex
 \begin{aligned}
 R_{x} &= \begin{bmatrix}
          1 & 0 & 0\\ 
@@ -102,7 +104,7 @@ R_{z}    &= \begin{bmatrix}
 
 아핀변환을 `\alpha` 와 선형변환행렬 `A`, 이동변환벡터 `b` 를 이용하여 다음과 같이 표현해 보자.
 
-![](affine_matrix.png)
+![](affine_definition.png)
 
 ```latex
 \begin{aligned} 
@@ -131,6 +133,8 @@ R_{z}    &= \begin{bmatrix}
 
 아핀변환 `\alpha` 는 선형변환 `\tau` 와 벡터 `b` 를 이용하여 다음과 같이 표현할 수 있다.
 
+![](affine_definition2.png)
+
 ```latex
 \begin{aligned}
 \alpha(x, y, z) &= \tau(x, y, z) + \bold b \\
@@ -156,6 +160,8 @@ R_{z}    &= \begin{bmatrix}
 
 행렬 `S` 는 스케일링변환, 행렬 `R` 는 회전변환, 행렬 `T` 는 이동변환을 의미한다고 하자. 8개의 버텍스로 구성된 큐브를 앞서 언급한 세가지 행렬을 곱셈연산하여 변환을 다음과 같이 구현할 수 있다. `(for i = 0, 1,..., 7)`
 
+![](matrix_mul.png)
+
 ```latex
 \begin{aligned}
 ((v_{i}S)R)T &= ({v_{i}}'R)T \\
@@ -165,6 +171,8 @@ R_{z}    &= \begin{bmatrix}
 ```
 
 위의 식을 잘 살펴보면 `SRT` 를 미리 구해놓고 이것을 행렬 `C` 라고 하면 행렬의 곱셈연산이 줄어들기 때문에 성능을 향상시킬 수 있다.
+
+![](matrix_mul2.png)
 
 ```latex
 \begin{aligned}
@@ -177,6 +185,8 @@ v_{i}(SRT) &= v_{i}C \\
 
 우리는 주로 섭씨 온도를 사용한다. 예를 들어 섭씨 온도 `100` 을 화씨 온도로 변환 하려면 어떻게 해야할까? 바로 다음과 같은 식을 이용하면 된다.
 
+![](coordi_system_ex.png)
+
 ```latex
 \begin {aligned} 
 T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
@@ -187,6 +197,8 @@ T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
 
 이와 유사하게 3D 공간의 벡터 혹은 점은 서로 다른 좌표계에서 좌표 표현 방식이 다르다. 예를 들어 2D 공간에서 특정 좌표계를 기준으로 한 좌표 `P(x, y)` 를 다른 좌표계를 기준으로 한 좌표 `P({x}',{y}')` 으로 표현해보자. 기저벡터 `u, v` 를 이용하여 다음과 같이 표현하고 이것을 `P_{A}` 라고 하자.
 
+![](coordi_system_ex_a.png)
+
 ```latex
 \begin {aligned} 
 \bold P_{A} = x \bold u + y \bold v
@@ -194,6 +206,8 @@ T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
 ```
 
 이번에는 `P_{A}` 를 다른 좌표계의 기저벡터 `{u}', {v}'` 를 이용하여 다음과 같이 표현할 수 있다.
+
+![](coordi_system_ex_b.png)
 
 ```latex
 \begin {aligned} 
@@ -203,6 +217,8 @@ T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
 
 `P_{A}` 와 다른 좌표계의 기저벡터 `{u}', {v}'` 를 알면 `P_{B}` 를 알아낼 수 있다. 지금까지 2D 를 기준으로 설명한 것을 3D 를 기준으로 다음과 같이 확장할 수 있다.
 
+![](coordi_system_ex_3d.png)
+
 ```latex
 \begin {aligned} 
 \bold P_{B} = x \bold u_{B} + y \bold v_{B} + z \bold w_{B}
@@ -210,6 +226,8 @@ T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
 ```
 
 앞서 언급한 것은 벡터에 해당되고 점의 경우는 다음과 같이 이동변환이 추가된다.
+
+![](coordi_system_ex_dot.png)
 
 ```latex
 \begin {aligned} 
@@ -221,56 +239,52 @@ T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
 
 # 비례 선형변환 증명
 
-# 회전 선형변환 증명
+비례변환은 다음 그림의 식을 통해 선형변환의 성질을 만족한다는 것을 확인할 수 있다.
 
-----------
+![](scaling_definition.png)
 
-
- 선형변환은 
-## 정의
-
-어떠한 함수 `\tau(v) = \tau(x, y, z) = (x', y', z')`가 존재할 때,
-다음과 같은 성질을 성립하는 함수 `\tau`를 선형변환이라고 한다.
-
-
-## 행렬 표현
-
-
-
-위의 식에서 표현되는 행렬 A를 선형변환 `\tau`의 행렬 표현(matrix representation)이라고 부른다.
-
-
-왜 선형변환을 행렬식으로 표현하는 것일까?
-
-각 선형변환들을 합쳐 하나의 변환으로 표현하여 연산횟수를 줄일 수 있기 때문이다. 선형변환 함수로 하나의 변환을 표현할 수 있지만, 벡터의 각 원소에 대해 다른 식이 나오기 때문에 컴퓨터가 연산하기에 편리한 행렬을 사용한다. 
-
-
-## 비례
-
-물체의 크기를 특정 좌표축에 대하여 특정 비율만큼 조절하고 싶을 때 비례변환(scaling)을 사용하며, 다음과 같이 정의된다. 행렬 표현으로도 표현할 수 있다.
-
-![](scaling.png)
-
+```latex
+\begin {aligned} 
+S(u + v) &= (s_{x}(u_{x} + v_{x}), s_{y}(u_{y} + v_{y}), s_{z}(u_{z} + v_{z})) \\
+         &= (s_{x}u_{x} + s_{x}v_{x}, s_{y}u_{y} + s_{y}v_{y}, s_{z}u_{z} + s_{z}v_{z}) \\
+         &= (s_{x}u_{x}, s_{y}u_{y}, s_{z}u_{z}) + (s_{x}v_{x}, s_{y}v_{y}, s_{z}v_{z}) \\
+         &= S(u) + S(v) \\
+\\
+S(ku) &= (s_{x}ku_{x}, s_{y}ku_{y}, s_{z}ku_{z}) \\
+      &= k(s_{x}u_{x}, s_{y}u_{y}, s_{z}u_{z}) \\
+      &= kS(u) \\
+\end{aligned}
 ```
-\\S(x,y,z)=(s_{x}x,s_{y}y,s_{z}z)
-\\\\S=\begin{bmatrix}
-s_{x} & 0 & 0\\ 
- 0& s_{y} & 0\\ 
- 0&  0& s_{z}
-\end{bmatrix}
+
+비례변환에 표준기저벡터를 곱하면 각 축에 해당하는 원소의 크기를 변경하는 비례행렬을 얻을 수 있다.
+
+![](scaling_definition2.png)
+
+```latex
+\begin{aligned}
+S(i) &= (s_{x}\cdot 1, s_{y}\cdot 0, s_{z}\cdot 0) = (s_{x}, 0, 0) \\
+S(j) &= (s_{x}\cdot 0, s_{y}\cdot 1, s_{z}\cdot 0) = (0, s_{y}, 0) \\
+S(k) &= (s_{x}\cdot 0, s_{y}\cdot 0, s_{z}\cdot 1) = (0, 0, s_{z}) \\
+S    &=  \begin{bmatrix}
+         s_{x} & 0 & 0\\ 
+         0& s_{y} & 0\\ 
+         0&  0& s_{z}
+         \end{bmatrix}
+\end{aligned}
 ```
 
 비례변환의 행렬 S는 비례행렬(scaling matrix)이라고 부른다. 
 
 `s_{x}`는 x축의 비율을, `s_{y}`는 y축의 비율을, `s_{z}`는 z축의 비율을 조절한다.
 
-## 회전
+
+# 회전 선형변환 증명
 
 벡터 v를 축 n에 대해 회전하는 변환을 표현하기 위해서는 복잡한 식의 계산이 필요하다.
 
 ![](rotation.png)
 
-```
+```latex
 \documentclass[tikz,border=10pt]{standalone}
 
 \usepackage{tikz}
@@ -375,56 +389,69 @@ s_{x} & 0 & 0\\
 
 ![](ntimesv.png)
 
-```
-\left\| n \times v \right\|=\left\| n \right\|\left\| v \right\|sin\alpha=\left\| v \right\|sin\alpha=\left\| v_{\perp} \right\|
+```latex
+\begin {aligned} 
+\left\| n \times v \right\| &= \left\| n \right\| \left\| v \right\| sin\alpha \\
+                            &= \left\| v \right\| sin\alpha \\
+                            &= \left\| v_{\perp} \right\|
+\end{aligned}
 ```
 
 `v_{\perp}`와 `n \times v` 두 개의 벡터를 통해 `R_{n}(v_{\perp})`를 구할 수 있다.
 
 ![](rotequ_mid.png)
 
-```
-R_{n}(v_{\perp})=cos\theta v_{\perp}+sin\theta(n \times v)
+```latex
+R_{n}(v_{\perp}) = cos\theta v_{\perp} + sin\theta(n \times v)
 ```
 
 이를 통해 다음과 같은 공식을 이끌어낼 수 있다.
 
 ![](rotequ_result.png)
 
-```
-\\R_{n}(v)=proj_{n}(v)+R_{n}(v_{\perp})
-\\=(n\cdot v)n+cos\theta v_{\perp}+sin\theta(n\times v)
-\\=(n\cdot v)n+cos\theta(v-(n\cdot v)n)+sin\theta(n\times v)
-\\=cos\theta v+(1-cos\theta)(n\cdot v)n+sin\theta(n\times v)
+```latex
+\begin {aligned} 
+R_{n}(v) &= proj_{n}(v) + R_{n}(v_{\perp}) \\
+         &= (n\cdot v)n + cos\theta v_{\perp} + sin\theta(n\times v) \\
+         &= (n\cdot v)n + cos\theta(v-(n\cdot v)n) + sin\theta(n\times v) \\
+         &= cos\theta v +(1-cos\theta)(n\cdot v)n + sin\theta(n\times v)
+\end{aligned}
 ```
 
 해당 공식 내부의 벡터를 (x,y,z) 형태로 변환하면 다음과 같이 표현할 수 있다.
 
 ![](rotequ_other_result.png)
 
-```
-\\R_{n}(v_{x},v_{y},v_{z})=c(v_{x},v_{y},v_{z})+(1-c)(n_{x}v_{x}+n_{y}v_{y}+n_{z}v_{z})(n_{x},n_{y},n_{z})+s(n_{y}v_{z}-n_{z}v_{y},n_{z}v_{x}-n_{x}v_{z},n_{x}v_{y}-n_{y}v_{z})
-\\(c=cos\theta,s=sin\theta)
+```latex
+\begin {aligned} 
+R_{n}(v_{x},v_{y},v_{z}) &= c(v_{x},v_{y},v_{z}) \\
+                         &\ + (1-c)(n_{x}v_{x}+n_{y}v_{y}+n_{z}v_{z})(n_{x},n_{y},n_{z}) \\
+                         &\ + s(n_{y}v_{z}-n_{z}v_{y},n_{z}v_{x}-n_{x}v_{z},n_{x}v_{y}-n_{y}v_{z})
+\\ &
+\\ & (c = cos\theta,s = sin\theta)
+\end{aligned}
 ```
 
 위의 식에 표준기저벡터를 적용하여 나온 벡터들을 행으로 삼아서 하나의 행렬을 만들면 벡터 v를 축 n에 대해 회전시키는 회전행렬이 나온다.
 
 ![](rot_matrix.png)
 
-```
-\\R_{n}=\begin{bmatrix}
-c+(1-c)(n_{x})^2 & (1-c)n_{x}n_{y}+sn_{z} & (1-c)n_{x}n_{z}-sn_{y}\\ 
-(1-c)n_{x}n_{y}-sn_{z} & c+(1-c)(n_{y})^2 & (1-c)n_{y}n_{z}+sn_{x}\\ 
-(1-c)n_{x}n_{z}+sn_{y} & (1-c)n_{y}n_{z}-sn_{x} & c+(1-c)(n_{z})^2
-\end{bmatrix}
-\\(c=cos\theta,s=sin\theta)
+```latex
+\begin{aligned} 
+\\R_{n} &= \begin{bmatrix}
+          c+(1-c)(n_{x})^2 & (1-c)n_{x}n_{y}+sn_{z} & (1-c)n_{x}n_{z}-sn_{y}\\ 
+          (1-c)n_{x}n_{y}-sn_{z} & c+(1-c)(n_{y})^2 & (1-c)n_{y}n_{z}+sn_{x}\\ 
+          (1-c)n_{x}n_{z}+sn_{y} & (1-c)n_{y}n_{z}-sn_{x} & c+(1-c)(n_{z})^2
+          \end{bmatrix}
+\\ & (c = cos\theta,s = sin\theta)
+\end{aligned}
 ```
 
 회전행렬의 각 행벡터는 단위길이이고, 서로 직교이기 때문에 정규직교이다. 직교행렬은 역행렬이 자신의 전치행렬과 같다는 속성이 있다.
 
 ![](rot_reverse_matrix.png)
 
-```
+```latex
 \\R_{n}^{-1}=R_{n}^{T}=\begin{bmatrix}
 c+(1-c)(n_{x})^2 & (1-c)n_{x}n_{y}-sn_{z} & (1-c)n_{x}n_{z}+sn_{y}\\ 
 (1-c)n_{x}n_{y}+sn_{z} & c+(1-c)(n_{y})^2 & (1-c)n_{y}n_{z}-sn_{x}\\ 
@@ -435,70 +462,28 @@ c+(1-c)(n_{x})^2 & (1-c)n_{x}n_{y}-sn_{z} & (1-c)n_{x}n_{z}+sn_{y}\\
 
 회전축이 x축, y축, z축인 경우(n = (1,0,0), (0,1,0), (0,0,1))는 회전행렬이 매우 간단해진다.
 
-![](stand_rot_matrix.png)
+![](rotation_ex.png)
 
-```
-\\R_{x}=\begin{bmatrix}
-1 & 0 & 0\\ 
-0 & cos\theta & sin\theta\\ 
-0 & -sin\theta & cos\theta
-\end{bmatrix} 
-R_{y}=\begin{bmatrix}
-cos\theta & 0 & -sin\theta\\ 
-0 & 1 & 0\\ 
-sin\theta & 0 & cos\theta
-\end{bmatrix}
-R_{z}=\begin{bmatrix}
-cos\theta & sin\theta & 0\\ 
--sin\theta & cos\theta & 0\\ 
-0 & 0 & 1
-\end{bmatrix}
-```
-
-# 아핀변환
-
-* 아핀 공간 (affine space)
-
-아핀 공간은 원점을 알 수 없는 일종의 벡터 공간이다. 벡터 공간에서는 위치가 다르더라도 크기와 방향만 같으면 모두 같은 벡터로 취급하기 때문에 위치 중심의 기하학을 표현할 수가 없다. 이 점을 극복하기 위하여 고안된 구조가 아핀 공간이다. 아핀 공간은 벡터에 점을 추가하여 벡터의 위치를 표현할 수 있다.
-
-아핀변환(affine transformation; 어파인 변환, 상관변환)은 선형변환에 점의 변환인 이동변환(translation transformation)을 결합한 것이다. 그러나 벡터는 위치정보, 점에 대한 정보를 가지지 않기 때문에 이동을 표현할 수 없다. 그래서 점과 벡터를 동일한 계산식으로 다루기 위해 동차좌표(homogeneous coordinate)라는 것을 사용한다.
-
-동차좌표는 3차원 벡터에 w성분을 추가한 네쌍값(4-tuple)의 형태를 가지며 벡터인지 점인지는 w의 값으로 결정한다. 0이면 벡터, 1이면 점으로 표기한다. 벡터+벡터=벡터, 벡터+점=점, 점-점=벡터 의 계산을 만족한다.
-
-다음은 아핀변환을 행렬로 표기한 식과, 동차좌표를 도입하여 행렬로 표기한 식이다.
-
-![](affine_matrix.png)
-
-```
-\\\alpha(u)=uA+b=[x,y,z]\begin{bmatrix} A_{11} & A_{12} & A_{13}
-\\ A_{21} & A_{22} & A_{23} 
-\\ A_{31} & A_{32} & A_{33}
-\end{bmatrix}+[b_{x},b_{y},b_{z}]=[x',y',z']
-\\(A=linear\ transformation\ matrix)\\
-\\\left[ x,y,z,1 \right]\begin{bmatrix}
-A_{11} & A_{12} & A_{13} & 0\\ 
-A_{21} & A_{22} & A_{23} & 0\\ 
-A_{31} & A_{32} & A_{33} & 0\\ 
-b_{x} & b_{y} & b_{z} & 1
-\end{bmatrix}=[x',y',z',1]
+```latex
+\begin{aligned}
+R_{x} &= \begin{bmatrix}
+         1 & 0 & 0\\ 
+         0 & cos\theta & sin\theta\\ 
+         0 & -sin\theta & cos\theta
+         \end{bmatrix} \\
+R_{y}    &= \begin{bmatrix}
+            cos\theta & 0 & -sin\theta\\ 
+            0 & 1 & 0\\ 
+            sin\theta & 0 & cos\theta
+            \end{bmatrix} \\
+R_{z}    &= \begin{bmatrix}
+            cos\theta & sin\theta & 0\\ 
+            -sin\theta & cos\theta & 0\\ 
+            0 & 0 & 1
+            \end{bmatrix}
+\end{aligned}
 ```
 
-이동변환은 b의 값만이 계산되는 형태이기 때문에, 선형변환 부분이 하나의 단위행렬인 아핀변환이라고 할 수 있다. 행렬로 표현할 수 있으며 이동행렬(translation matrix)이라고 부른다.
-
-![](affine_translate.png)
-
-```
-\\\tau(u)=uI+b=u+b
-\\(I(u)=u:identity\ transformation)
-\\\\\tau \rightarrow T=\begin{bmatrix}
-1 & 0 & 0 & 0\\ 
-0 & 1 & 0 & 0\\ 
-0 & 0 & 1 & 0\\ 
-b_{x} & b_{y} & b_{z} & 1
-\end{bmatrix}
-```
-
-b가 0이면 아핀변환은 보통의 선형변환과 동일한 계산을 수행한다. 따라서 모든 선형변환은 4x4의 아핀변환으로 표기할 수 있다.
 
 # 변환들의 합성
 
