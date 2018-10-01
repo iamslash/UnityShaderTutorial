@@ -195,7 +195,11 @@ T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
 \end{aligned}
 ```
 
-이와 유사하게 3D 공간의 벡터 혹은 점은 서로 다른 좌표계에서 좌표 표현 방식이 다르다. 예를 들어 2D 공간에서 특정 좌표계를 기준으로 한 좌표 `P(x, y)` 를 다른 좌표계를 기준으로 한 좌표 `P({x}',{y}')` 으로 표현해보자. 기저벡터 `u, v` 를 이용하여 다음과 같이 표현하고 이것을 `P_{A}` 라고 하자.
+이와 유사하게 3D 공간의 벡터 혹은 점은 서로 다른 좌표계에서 좌표 표현 방식이 다르다. 
+
+먼저 벡터의 경우를 살펴보자. 예를 들어 2D 공간에서 A 좌표계를 기준으로 한 좌표 `P_A(x, y)` 를 B 좌표계를 기준으로 한 좌표 `P_B({x}',{y}')` 으로 표현해보자.
+
+`P_{A}` 를 A 좌표계의 기저벡터 `u, v` 를 이용하여 다음과 같이 표현할 수 있다.
 
 ![](coordi_system_ex_a.png)
 
@@ -205,7 +209,7 @@ T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
 \end{aligned}
 ```
 
-이번에는 `P_{A}` 를 다른 좌표계의 기저벡터 `{u}', {v}'` 를 이용하여 다음과 같이 표현할 수 있다.
+이번에는 `P_{B}` 를 B 좌표계의 기저벡터 `{u}', {v}'` 를 이용하여 다음과 같이 표현할 수 있다.
 
 ![](coordi_system_ex_b.png)
 
@@ -215,7 +219,18 @@ T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
 \end{aligned}
 ```
 
-`P_{A}` 와 다른 좌표계의 기저벡터 `{u}', {v}'` 를 알면 `P_{B}` 를 알아낼 수 있다. 지금까지 2D 를 기준으로 설명한 것을 3D 를 기준으로 다음과 같이 확장할 수 있다.
+`{u}', {v}'` 는 각각 `u, v` 를 선형변환하여 얻어 낸 것이다. 따라서 선형변환에 해당하는 행렬 A 를 `u, v` 에 곰셉연산하여 `{u}', {v}'` 를 구할 수 있다.
+
+```latex
+\begin {aligned} 
+\bold u A   &= \bold {u}'
+\bold u B   &= \bold {v}'
+\bold P_{B} &= x \bold {u}' + y \bold {v}'
+            &= x u A + y u B
+\end{aligned}
+```
+
+지금까지 2D 를 기준으로 설명한 것을 3D 를 기준으로 다음과 같이 확장할 수 있다.
 
 ![](coordi_system_ex_3d.png)
 
@@ -225,7 +240,7 @@ T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
 \end{aligned}
 ```
 
-앞서 언급한 것은 벡터에 해당되고 점의 경우는 다음과 같이 이동변환이 추가된다.
+점의 경우는 다음과 같이 이동변환을 추가하여 이해할 수 있다.
 
 ![](coordi_system_ex_dot.png)
 
@@ -236,6 +251,62 @@ T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
 ```
 
 # 좌표변환과 좌표계의 변환
+
+특정좌표 `x, y, z` 를 아핀변환한 것은 다음과 같다.
+
+![](affine_definition2.png)
+
+```latex
+\begin{aligned}
+\alpha(x, y, z) &= \tau(x, y, z) + \bold b \\
+                &= x \tau(\bold i) + y \tau(\bold j) + z \tau(\bold k) + \bold b \\
+                &= \begin{bmatrix}
+                     x & y & z & w
+                   \end{bmatrix} 
+                   \begin{bmatrix}
+                     \leftarrow \tau(\bold i) \rightarrow \\
+                     \leftarrow \tau(\bold i) \rightarrow \\
+                     \leftarrow \tau(\bold i) \rightarrow \\
+                     \leftarrow \bold b \rightarrow \\
+                   \end{bmatrix} \\
+                &= \begin{bmatrix}
+                     {x}' & {y}' & {z}' & {w}'
+                   \end{bmatrix} 
+\end{aligned}
+```
+
+특정좌표 `x, y, z` 의 좌표계를 변환한 것은 다음과 같다.
+
+![](change_of_coord_transform_eq.png)
+
+```latex
+\begin{aligned}
+\begin{bmatrix}
+  {x}' & {y}' & {z}' & {w}'
+\end{bmatrix} 
+                &= \begin{bmatrix}
+                     x & y & z & w
+                   \end{bmatrix} 
+                   \begin{bmatrix}
+                     \leftarrow \bold u_{B} \rightarrow \\
+                     \leftarrow \bold v_{B} \rightarrow \\
+                     \leftarrow \bold w_{B} \rightarrow \\
+                     \leftarrow \bold Q_{B} \rightarrow \\
+                   \end{bmatrix} \\
+                &= \begin{bmatrix}
+                     x & y & z & w
+                   \end{bmatrix} 
+                   \begin{bmatrix}
+                     u_{x} & u_{y} & u_{z} & 0 \\
+                     v_{x} & v_{y} & v_{z} & 0 \\
+                     w_{x} & w_{y} & w_{z} & 0 \\
+                     Q_{x} & Q_{y} & Q_{z} & 1 \\
+                   \end{bmatrix} \\
+                &= x \bold u_{B} + y \bold v_{B} + z \bold w_{B} + w \bold Q_{B}
+\end{aligned}
+```
+
+아핀변환을 한 것은 좌표계를 변환한 것과 같다.
 
 # 비례 선형변환 증명
 
@@ -484,6 +555,7 @@ R_{z}    &= \begin{bmatrix}
 \end{aligned}
 ```
 
+-----
 
 # 변환들의 합성
 
