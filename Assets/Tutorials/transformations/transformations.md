@@ -195,7 +195,7 @@ T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
 \end{aligned}
 ```
 
-이와 유사하게 3D 공간의 벡터 혹은 점은 서로 다른 좌표계에서 좌표 표현 방식이 다르다. 
+유사한 방법으로 3D 공간의 벡터 혹은 점을 다른 좌표계에서 표현하는 방법을 알아보자.
 
 먼저 벡터의 경우를 살펴보자. 예를 들어 2D 공간에서 A 좌표계를 기준으로 한 좌표 `P_A(x, y)` 를 B 좌표계를 기준으로 한 좌표 `P_B({x}',{y}')` 으로 표현해보자.
 
@@ -224,11 +224,25 @@ T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
 ```latex
 \begin {aligned} 
 \bold u A   &= \bold {u}'
-\bold u B   &= \bold {v}'
+\bold v A   &= \bold {v}'
 \bold P_{B} &= x \bold {u}' + y \bold {v}'
-            &= x u A + y u B
+            &= x u A + y v A
 \end{aligned}
 ```
+
+예를 들어서 A 좌표계의 좌표 `1, 2` 를 B 좌표계의 좌표로 변환해 보자. A 좌표계를 시계방향으로 90 도 회전하여 B 좌표계를 얻어냈다고 하자.
+
+```latex
+\begin {aligned} 
+\bold u A   &= \bold {u}'
+\bold v A   &= \bold {v}'
+\bold P_{B} &= x \bold {u}' + y \bold {v}'
+            &= 1 \cdot (1,0) A + 2 \cdot (0, 1) A
+            &= (-2, 1)
+\end{aligned}
+```
+
+정리하면 A 좌표계의 `x, y` 와 기저벡터 `u, v` 그리고 A 좌표계를 B 좌표계로 변환하기 위한 행렬 `A` 를 알면 `{x}',{y}'` 를 구할 수 있다.
 
 지금까지 2D 를 기준으로 설명한 것을 3D 를 기준으로 다음과 같이 확장할 수 있다.
 
