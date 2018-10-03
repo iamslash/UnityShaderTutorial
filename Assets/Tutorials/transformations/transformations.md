@@ -199,6 +199,76 @@ T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
 
 먼저 벡터의 경우를 살펴보자. 예를 들어 2D 공간에서 A 좌표계를 기준으로 한 좌표 `P_A(x, y)` 를 B 좌표계를 기준으로 한 좌표 `P_B({x}',{y}')` 으로 표현해보자.
 
+![](coor_vector.png)
+
+```latex
+\documentclass[tikz,border=10pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{rotating}
+
+\usetikzlibrary{scopes}
+\usetikzlibrary{intersections}
+\usetikzlibrary{calc}
+
+\begin{document}
+
+\begin{tikzpicture}
+    \def\rotangle{30}
+    \def\angvalue{30}
+    %\def\rad{3}
+    %\def\x{2} \def\y{1.5}
+	\tikzset{arrow_style/.style={>=latex,very thick}}
+	
+	\matrix[column sep=1cm] {
+        \begin{turn}{\rotangle}
+            \coordinate(PA) at (\angvalue:2.5 cm);
+            \draw[densely dashed,blue!40]let \p{PA}=(PA) in (PA) -- (\x{PA},0) node [black,below,rotate=360-\rotangle] {\large$x$};
+            \draw[densely dashed,blue!40]let \p{PA}=(PA) in (PA) -- (0,\y{PA})node [black,left,rotate=360-\rotangle] {\large$y$};
+            \draw [arrow_style,black!50,<->] (0,-3)--(0,3) node [black,above] {$+Y$};
+            \draw [arrow_style,black!50,<->] (-3,0)--(3,0) node [black,right] {$+X$};
+            \draw [arrow_style,blue,->] (0,0)--(PA) node [black,above,rotate=360-\rotangle] {\Large$p_{A}=(x,y)$};
+        \end{turn}
+        \coordinate [label=left:\large$FrameA$] (t) at (1,-3);
+        
+        &
+            
+        \coordinate(PB) at (\angvalue+\rotangle:2.5 cm);
+        \path[name path=lineYV,shift={(PB)}] (0,0)--(\angvalue+180:2.5 cm);
+        \path[name path=lineXU,shift={(PB)}] (0,0)--(\angvalue+270:2.5 cm);
+        \path[name path=lineOV] (0,0)--(\angvalue+90:2.5 cm);
+        \path[name path=lineOU] (0,0)--(\angvalue:2.5 cm);
+	    \path [name intersections={of = lineYV and lineOV}];
+        \coordinate(yv) at (intersection-1);
+	    \path [name intersections={of = lineXU and lineOU}];
+        \coordinate(xu) at (intersection-1);
+        
+        \draw[densely dashed,black]let \p{PB}=(PB) in (PB) -- (\x{PB},0) node [black,below] {\large$x'$};
+        \draw[densely dashed,black]let \p{PB}=(PB) in (PB) -- (0,\y{PB})node [black,left] {\large$y'$};
+        {[arrow_style]
+            \draw [black!50,<->] (0,-1.5)--(0,3) node [black,above] {$+Y$};
+            \draw [black!50,<->] (-3,0)--(3,0) node [black,right] {$+X$};
+            \draw [blue,->] (0,0)--(PB) node [black,right] {\Large$p_{B}=(x',y')$};
+          
+            \draw[densely dashed,blue!40] (PB)--(yv);
+            \draw[densely dashed,blue!40] (PB)--(xu);
+            \draw[densely dashed,blue!40,->] (0,0)--(yv) node [black,left] {\large $yv$};
+            \draw[densely dashed,blue!40,->] (0,0)--(xu) node [black,right] {\large $xu$};
+            \draw[black,->] (0,0)--(\angvalue+90:1 cm) node [black,midway,left] {\large $v$};
+            \draw[black,->] (0,0)--(\angvalue:1 cm) node [black,near end,below] {\large $u$};
+        }
+            
+        \coordinate [label=left:\large$FrameB$] (t) at (1,-3);
+    \\   
+	};
+    
+\end{tikzpicture}
+
+\end{document}
+```
+
+위의 그림은 두 좌표계 A와 B, 그리고 벡터 p가 있을 때 좌표계 B에 상대적인 p의 좌표를 도식으로 보여주고 있다. 
+
 `P_{A}` 를 A 좌표계의 기저벡터 `u, v` 를 이용하여 다음과 같이 표현할 수 있다.
 
 ![](coordi_system_ex_a.png)
@@ -221,23 +291,27 @@ T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
 
 `{u}', {v}'` 는 각각 `u, v` 를 선형변환하여 얻어 낸 것이다. 따라서 선형변환에 해당하는 행렬 A 를 `u, v` 에 곰셉연산하여 `{u}', {v}'` 를 구할 수 있다.
 
+![](coordi_system_equ.png)
+
 ```latex
 \begin {aligned} 
-\bold u A   &= \bold {u}'
-\bold v A   &= \bold {v}'
-\bold P_{B} &= x \bold {u}' + y \bold {v}'
+\bold u A   &= \bold {u}' \\
+\bold v A   &= \bold {v}' \\
+\bold P_{B} &= x \bold {u}' + y \bold {v}' \\
             &= x u A + y v A
 \end{aligned}
 ```
 
 예를 들어서 A 좌표계의 좌표 `1, 2` 를 B 좌표계의 좌표로 변환해 보자. A 좌표계를 시계방향으로 90 도 회전하여 B 좌표계를 얻어냈다고 하자.
 
+![](coordi_system_equ_ex.png)
+
 ```latex
 \begin {aligned} 
-\bold u A   &= \bold {u}'
-\bold v A   &= \bold {v}'
-\bold P_{B} &= x \bold {u}' + y \bold {v}'
-            &= 1 \cdot (1,0) A + 2 \cdot (0, 1) A
+\bold u A   &= \bold {u}' \\
+\bold v A   &= \bold {v}' \\
+\bold P_{B} &= x \bold {u}' + y \bold {v}' \\
+            &= 1 \cdot (1,0) A + 2 \cdot (0, 1) A \\
             &= (-2, 1)
 \end{aligned}
 ```
@@ -263,6 +337,81 @@ T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
 \bold P_{B} = x \bold u_{B} + y \bold v_{B} + z \bold w_{B} + \bold Q_{B}
 \end{aligned}
 ```
+
+![](coor_dot.png)
+
+```latex
+\documentclass[tikz,border=10pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{rotating}
+
+\usetikzlibrary{scopes}
+\usetikzlibrary{calc}
+
+\begin{document}
+
+\begin{tikzpicture}
+    \def\rotangle{30}
+    \def\angvalue{30}
+    \def\rad{3}
+    \def\x{2} \def\y{1.5}
+	\tikzset{arrow_style/.style={>=latex,very thick}}
+	
+        \coordinate (PA) at (\angvalue:2.5 cm);
+        \begin{turn}{\rotangle}
+    		\fill[draw=black] (PA) circle (1.5pt);
+    		\fill[draw=black] (0,0) circle (1.5pt);
+            
+        {[arrow_style]
+            \draw[->]let \p{PA}=(PA) in (\x{PA},0) node [black,below,rotate=360-\rotangle] {\large$x$}--(PA) node [black,right,midway,rotate=360-\rotangle] {\large$yv$};
+            \draw[->]let \p{PA}=(PA) in (0,\y{PA}) node [black,left,rotate=360-\rotangle] {\large$y$}--(PA) node [black,above,midway,rotate=360-\rotangle] {\large$xu$};
+            \draw [black!50,<->] (0,-1.5)--(0,3) node [black,above] {$+Y$};
+            \draw [black!50,<->] (-3,0)--(3,0) node [black,right] {$+X$};
+            \draw[->] (0,0)--(0,1) node [black,midway,left,rotate=360-\rotangle] {\large $v$};
+            \draw[->] (0,0)--(1,0) node [black,midway,below,rotate=360-\rotangle] {\large $u$};
+            
+        }
+        
+        \end{turn}
+        \coordinate [label=left:\large$FrameA$] (t) at (-1,0);
+        
+        % frame B center : 5,-2
+        {[arrow_style]
+            \draw [->] (5,-2)--(0,0) node [black,above,midway] {$\mathbf{Q}$};
+            \draw [black!50,<->] (5,-3)--(5,3) node [black,above] {$+Y$};
+            \draw [black!50,<->] (-0.5,-2)--(7,-2) node [black,right] {$+X$};
+        }
+        \coordinate[label=above:\large${p_{A}=(x,y)}$] (PA) at (\rotangle+\angvalue:2.5 cm);
+        \draw[densely dashed]let \p{PA}=(PA) in (PA) -- (\x{PA},-2) node [black,below] {\large$x'$};
+        \draw[densely dashed]let \p{PA}=(PA) in (PA) -- (5,\y{PA})node [black,right] {\large$y'$};
+	
+        \coordinate [label=right:\large$FrameB$] (t) at (5.5,-2.5);
+    
+\end{tikzpicture}
+
+\end{document}
+```
+
+좌표계의 변환도 동차좌표를 사용하여 벡터와 점을 처리하는 하나의 공식으로 만들 수 있으며, 행렬로 표현할 수 있다.
+
+![](coor_matrix.png)
+
+```latex
+\begin {aligned} 
+\\(x',y',z',w) &= xu_{B} + yv_{B} + zw_{B} + wQ_{B} \\
+\left[x',y',z',w\right] &= [x,y,z,w]\begin{bmatrix}
+                           u_{x} & u_{y} & u_{z} & 0\\ 
+                           v_{x} & v_{y} & v_{z} & 0\\ 
+                           w_{x} & w_{y} & w_{z} & 0\\ 
+                           Q_{x} & Q_{y} & Q_{z} & 1
+                           \end{bmatrix} \\
+                        &= xu_{B} + yv_{B} + zw_{B} + wQ_{B}
+\end{aligned}
+```
+
+위의 식에서 표현된 4x4 행렬을 좌표 변경 행렬(change of coordinate matrix) 또는 좌표계 변경 행렬(change of frame matrix)라고 부르고, 행렬이 수행하는 변환을 지칭할 때 "변환한다(convert)" 또는 "사상한다(map)"라고 말한다.
+
 
 # 좌표변환과 좌표계의 변환
 
@@ -320,7 +469,146 @@ T_{F} &= \frac{9}{5} T_{c} + 32^{\circ} \\
 \end{aligned}
 ```
 
-아핀변환을 한 것은 좌표계를 변환한 것과 같다.
+아핀변환을 한 것은 좌표계를 변환한 것과 같다.(equivalence)
+
+![](equivalence.png)
+
+```latex
+\documentclass[tikz,border=10pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+
+\usetikzlibrary{scopes}
+
+\begin{document}
+
+\begin{tikzpicture}
+	\tikzset{arrow_style/.style={>=latex,very thick}}
+    \def\AxisSize{4}
+    \def\CubeSize{2}
+        
+	\matrix[row sep=1cm] {
+        \tdplotsetmaincoords{70}{30}
+        \begin{scope}[tdplot_main_coords]
+            % The vertex at V
+            \coordinate (P) at (\CubeSize,\CubeSize,\CubeSize);
+            
+            % axis draw
+            {[arrow_style]
+                \draw [red,->] (0,0,0)--(\AxisSize,0,0) node [black,above,right] {\large $\mathbf{i}$};
+                \draw [green,->] (0,0,0)--(0,\AxisSize,0) node [black,above] {\large $\mathbf{j}$};
+                \draw [blue,->] (0,0,0)--(0,0,\AxisSize) node [black,right] {\large $\mathbf{k}$};
+            }
+            
+            % cube draw
+            \fill[black!50, opacity=0.3]
+              (0,\CubeSize,\CubeSize) -- (\CubeSize,\CubeSize,\CubeSize) -- (\CubeSize,0,\CubeSize) -- (0,0,\CubeSize) -- cycle; 
+            \fill[black!50, opacity=0.3]
+              (0,0,\CubeSize) -- (\CubeSize,0,\CubeSize) -- (\CubeSize,0,0) -- (0,0,0) -- cycle;
+            \fill[black!50, opacity=0.3]
+              (\CubeSize,0,0) -- (\CubeSize,\CubeSize,0) -- (\CubeSize,\CubeSize,\CubeSize) -- (\CubeSize,0,\CubeSize) -- cycle;
+            \draw (P) -- (\CubeSize,0,\CubeSize) --(0,0,\CubeSize) --(0,\CubeSize,\CubeSize) --(P) --(\CubeSize,\CubeSize,0) --(\CubeSize,0,0) --(\CubeSize,0,\CubeSize);
+            \draw (\CubeSize,\CubeSize,0) -- (0,\CubeSize,0) --(0,\CubeSize,\CubeSize);
+            
+            % dot label draw
+    		\fill[draw=black] (P) circle (1.5pt) node [above,right]{$\mathbf{p}$};
+    		\node[label=below:$x$] at (\CubeSize,0,0);
+    		\node[label=left:$y$] at (0,\CubeSize,0);
+    		\node[label=left:$z$] at (0,0,\CubeSize);
+        \end{scope}
+        
+        \tdplotsetmaincoords{60}{-65}
+        \begin{scope}[tdplot_main_coords,xshift=8cm,yshift=3cm]
+            % The vertex at V
+            \coordinate (P) at (\CubeSize,\CubeSize,\CubeSize);
+            
+            % axis draw
+            {[arrow_style]
+                \draw [red,->] (0,0,0)--(\AxisSize,0,0) node [black,above,right] {\large $\tau(\mathbf{i})$};
+                \draw [green,->] (0,0,0)--(0,\AxisSize,0) node [black,above] {\large $\tau(\mathbf{j})$};
+                \draw [blue,->] (0,0,0)--(0,0,\AxisSize) node [black,right] {\large $\tau(\mathbf{k})$};
+            }
+            
+            % cube draw
+            \fill[black!50, opacity=0.3]
+              (0,\CubeSize,\CubeSize) -- (\CubeSize,\CubeSize,\CubeSize) -- (\CubeSize,0,\CubeSize) -- (0,0,\CubeSize) -- cycle; 
+            \fill[black!50, opacity=0.3]
+              (0,0,\CubeSize) -- (\CubeSize,0,\CubeSize) -- (\CubeSize,0,0) -- (0,0,0) -- cycle;
+            \fill[black!50, opacity=0.3]
+              (0,\CubeSize,0) -- (0,\CubeSize,\CubeSize) -- (0,0,\CubeSize) -- (0,0,0) -- cycle;
+            \draw (P) -- (\CubeSize,0,\CubeSize) --(0,0,\CubeSize) --(0,\CubeSize,\CubeSize) --(P) --(\CubeSize,\CubeSize,0) --(\CubeSize,0,0) --(\CubeSize,0,\CubeSize);
+            \draw (\CubeSize,\CubeSize,0) -- (0,\CubeSize,0) --(0,\CubeSize,\CubeSize);
+            
+            % dot label draw
+    		\fill[draw=black] (P) circle (1.5pt) node [above]{$\alpha(\mathbf{p})$};
+    		\node[label=below:$x$] at (\CubeSize,0,0);
+    		\node[label=below:$y$] at (0,\CubeSize,0);
+    		\node[label=right:$z$] at (0,0,\CubeSize);
+        \end{scope}
+        
+        \draw[->,>=latex,very thick] (0,0) -- (8cm,3cm) node [black,below,very near end] {$\mathbf{b}$};
+        \draw[->,>=latex,very thick,densely dashed] (2.75,2.15) to[out=80,in=180] (7,6.05);
+        \coordinate [label=left:\large$FrameB$] (t) at (-0.2,0.5);
+        \coordinate [label=\large$(a)$] (t) at (5,-1.7);
+    
+	\\
+        \tdplotsetmaincoords{70}{30}
+        \begin{scope}[tdplot_main_coords]
+            % The vertex at V
+            \coordinate (P) at (\CubeSize,\CubeSize,\CubeSize);
+            
+            % axis draw
+            {[arrow_style]
+                \draw [red,->] (0,0,0)--(\AxisSize,0,0) node [black,above,right] {\large $\mathbf{i}$};
+                \draw [green,->] (0,0,0)--(0,\AxisSize,0) node [black,above] {\large $\mathbf{j}$};
+                \draw [blue,->] (0,0,0)--(0,0,\AxisSize) node [black,right] {\large $\mathbf{k}$};
+            }
+        \end{scope}
+        
+        \tdplotsetmaincoords{60}{-65}
+        \begin{scope}[tdplot_main_coords,xshift=8cm,yshift=3cm]
+            % The vertex at V
+            \coordinate (P) at (\CubeSize,\CubeSize,\CubeSize);
+            
+            % axis draw
+            {[arrow_style]
+                \draw [red,->] (0,0,0)--(\AxisSize,0,0) node [black,above,right] {\large $\mathbf{u}$};
+                \draw [green,->] (0,0,0)--(0,\AxisSize,0) node [black,above] {\large $\mathbf{v}$};
+                \draw [blue,->] (0,0,0)--(0,0,\AxisSize) node [black,right] {\large $\mathbf{w}$};
+            }
+            
+            % cube draw
+            \fill[black!50, opacity=0.3]
+              (0,\CubeSize,\CubeSize) -- (\CubeSize,\CubeSize,\CubeSize) -- (\CubeSize,0,\CubeSize) -- (0,0,\CubeSize) -- cycle; 
+            \fill[black!50, opacity=0.3]
+              (0,0,\CubeSize) -- (\CubeSize,0,\CubeSize) -- (\CubeSize,0,0) -- (0,0,0) -- cycle;
+            \fill[black!50, opacity=0.3]
+              (0,\CubeSize,0) -- (0,\CubeSize,\CubeSize) -- (0,0,\CubeSize) -- (0,0,0) -- cycle;
+            \draw (P) -- (\CubeSize,0,\CubeSize) --(0,0,\CubeSize) --(0,\CubeSize,\CubeSize) --(P) --(\CubeSize,\CubeSize,0) --(\CubeSize,0,0) --(\CubeSize,0,\CubeSize);
+            \draw (\CubeSize,\CubeSize,0) -- (0,\CubeSize,0) --(0,\CubeSize,\CubeSize);
+            
+            % dot label draw
+    		\fill[draw=black] (P) circle (1.5pt) node [above]{$\mathbf{p}$};
+    		\node[label=below:$x$] at (\CubeSize,0,0);
+    		\node[label=below:$y$] at (0,\CubeSize,0);
+    		\node[label=right:$z$] at (0,0,\CubeSize);
+        \end{scope}
+        
+        \draw[->,>=latex,very thick] (0,0) -- (8cm,3cm);
+    	\node[label=below:\large$\mathbf{Q}$] at (8cm,3cm);
+        \coordinate [label=right:\large$FrameA$] (t) at (8,2);
+        \coordinate [label=left:\large$FrameB$] (t) at (-0.2,0.5);
+        \coordinate [label=\large$(b)$] (t) at (5,-1.7);
+    \\
+	};
+\end{tikzpicture}
+
+\end{document}
+```
+
+(a)에서는 하나의 좌표계 B를 기준으로 아핀변환을 적용해서 입방체의 위치와 방향을 변경한다. (b)에서는 A와 B라는 두 개의 좌표계를 사용하여 A에 상대적인 입방체 점들의 좌표를 B에 상대적인 좌표들로 변환한다. 두 경우 모두 좌표계 B를 기준으로 `\alpha(p) = (x',y',z',w) = p_{B}`가 성립한다. b = Q이고 `\tau(i) = u, \tau(j) = v, \tau(k) = w`이다.
+
 
 # 비례 선형변환 증명
 
@@ -568,348 +856,3 @@ R_{z}    &= \begin{bmatrix}
             \end{bmatrix}
 \end{aligned}
 ```
-
------
-
-# 변환들의 합성
-
-S가 비례행렬이고 R이 회전행렬, T가 이동행렬이라고 할 때, 임의의 정점 v에 세 변환을 연달아 적용하는 방법은 두 가지가 있다. 행렬을 차례대로 적용하는 방법과 행렬의 곱을 적용하는 방법이다.
-
-![](matrix_mul.png)
-
-```
-\\((vS)R)T=(v'R)T=v''T=v'''
-\\\\v(SRT)=v'''
-```
-
-행렬을 차례대로 적용하는 방법은 정점의 수가 많아질 때 계산에 많은 자원이 소모된다. 예를 들어 정점이 2만개가 된다면 차례대로 적용할 경우 계산 횟수는 20000 x 3 = 60000이 된다. 하지만 행렬의 곱을 적용하면 계산 횟수는 20000 + 2 = 20002가 된다.
-
-# 좌표 변경 변환
-
-한 좌표계의 좌표를 다른 좌표계의 좌표로 변환하는 것을 좌표 변경 변환(change of coordinate transformation)이라고 한다.
-
-물체의 기하구조가 실제로 움직였거나 변형된 것으로 간주하는 회전, 이동, 비례변환과는 대조적으로 좌표계가 변경되어 기하구조의 좌표'표현'이 변하게 된다.
-
-![](coor_vector.png)
-
-```
-\documentclass[tikz,border=10pt]{standalone}
-
-\usepackage{tikz}
-\usepackage{rotating}
-
-\usetikzlibrary{scopes}
-\usetikzlibrary{intersections}
-\usetikzlibrary{calc}
-
-\begin{document}
-
-\begin{tikzpicture}
-    \def\rotangle{30}
-    \def\angvalue{30}
-    %\def\rad{3}
-    %\def\x{2} \def\y{1.5}
-	\tikzset{arrow_style/.style={>=latex,very thick}}
-	
-	\matrix[column sep=1cm] {
-        \begin{turn}{\rotangle}
-            \coordinate(PA) at (\angvalue:2.5 cm);
-            \draw[densely dashed,blue!40]let \p{PA}=(PA) in (PA) -- (\x{PA},0) node [black,below,rotate=360-\rotangle] {\large$x$};
-            \draw[densely dashed,blue!40]let \p{PA}=(PA) in (PA) -- (0,\y{PA})node [black,left,rotate=360-\rotangle] {\large$y$};
-            \draw [arrow_style,black!50,<->] (0,-3)--(0,3) node [black,above] {$+Y$};
-            \draw [arrow_style,black!50,<->] (-3,0)--(3,0) node [black,right] {$+X$};
-            \draw [arrow_style,blue,->] (0,0)--(PA) node [black,above,rotate=360-\rotangle] {\Large$p_{A}=(x,y)$};
-        \end{turn}
-        \coordinate [label=left:\large$FrameA$] (t) at (1,-3);
-        
-        &
-            
-        \coordinate(PB) at (\angvalue+\rotangle:2.5 cm);
-        \path[name path=lineYV,shift={(PB)}] (0,0)--(\angvalue+180:2.5 cm);
-        \path[name path=lineXU,shift={(PB)}] (0,0)--(\angvalue+270:2.5 cm);
-        \path[name path=lineOV] (0,0)--(\angvalue+90:2.5 cm);
-        \path[name path=lineOU] (0,0)--(\angvalue:2.5 cm);
-	    \path [name intersections={of = lineYV and lineOV}];
-        \coordinate(yv) at (intersection-1);
-	    \path [name intersections={of = lineXU and lineOU}];
-        \coordinate(xu) at (intersection-1);
-        
-        \draw[densely dashed,black]let \p{PB}=(PB) in (PB) -- (\x{PB},0) node [black,below] {\large$x'$};
-        \draw[densely dashed,black]let \p{PB}=(PB) in (PB) -- (0,\y{PB})node [black,left] {\large$y'$};
-        {[arrow_style]
-            \draw [black!50,<->] (0,-1.5)--(0,3) node [black,above] {$+Y$};
-            \draw [black!50,<->] (-3,0)--(3,0) node [black,right] {$+X$};
-            \draw [blue,->] (0,0)--(PB) node [black,right] {\Large$p_{B}=(x',y')$};
-          
-            \draw[densely dashed,blue!40] (PB)--(yv);
-            \draw[densely dashed,blue!40] (PB)--(xu);
-            \draw[densely dashed,blue!40,->] (0,0)--(yv) node [black,left] {\large $yv$};
-            \draw[densely dashed,blue!40,->] (0,0)--(xu) node [black,right] {\large $xu$};
-            \draw[black,->] (0,0)--(\angvalue+90:1 cm) node [black,midway,left] {\large $v$};
-            \draw[black,->] (0,0)--(\angvalue:1 cm) node [black,near end,below] {\large $u$};
-        }
-            
-        \coordinate [label=left:\large$FrameB$] (t) at (1,-3);
-    \\   
-	};
-    
-\end{tikzpicture}
-
-\end{document}
-```
-
-위의 그림은 두 좌표계 A와 B, 그리고 벡터 p가 있을 때 좌표계 B에 상대적인 p의 좌표를 도식으로 보여주고 있다. 위의 그림에서 u와 v를 좌표계 A의 x축과 y축 방향의 단위벡터라고 한다면, 다음과 같이 표현할 수 있다.
-
-![](vector_coor1.png)
-
-```
-p=xu+yv
-```
-
-이 식의 벡터들을 좌표계 B에서 동일한 방식으로 표현할 수 있다.
-
-![](vector_coor2.png)
-
-```
-p_{B}=xu_{B}+yv_{B}
-```
-
-따라서, 좌표계 B에 상대적인 벡터 `u_{B}`와 `v_{B}`를 알면 항상 `p_{B} = (x',y')`를 구할 수 있다. 이를 3차원으로 일반화하면, 다음과 같이 표현할 수 있다. `u_{B}, v_{B}, w_{B}`는 각각 x,y,z축 방향 단위벡터들을 좌표계 B에 상대적으로 표현한 벡터들이다.
-
-![](vector_coor3.png)
-
-```
-p_{B}=xu_{B}+yv_{B}+zw_{B}
-```
-
-점에 대한 좌표 변경 변환은 벡터에 대한 것과 약간 다르지만, 계산 방법은 비슷하다. 좌표계 B에 상대적인좌표계 A의 원점을 알면 나머지는 벡터 계산과 동일하다.
-
-![](coor_dot.png)
-
-```
-\documentclass[tikz,border=10pt]{standalone}
-
-\usepackage{tikz}
-\usepackage{rotating}
-
-\usetikzlibrary{scopes}
-\usetikzlibrary{calc}
-
-\begin{document}
-
-\begin{tikzpicture}
-    \def\rotangle{30}
-    \def\angvalue{30}
-    \def\rad{3}
-    \def\x{2} \def\y{1.5}
-	\tikzset{arrow_style/.style={>=latex,very thick}}
-	
-        \coordinate (PA) at (\angvalue:2.5 cm);
-        \begin{turn}{\rotangle}
-    		\fill[draw=black] (PA) circle (1.5pt);
-    		\fill[draw=black] (0,0) circle (1.5pt);
-            
-        {[arrow_style]
-            \draw[->]let \p{PA}=(PA) in (\x{PA},0) node [black,below,rotate=360-\rotangle] {\large$x$}--(PA) node [black,right,midway,rotate=360-\rotangle] {\large$yv$};
-            \draw[->]let \p{PA}=(PA) in (0,\y{PA}) node [black,left,rotate=360-\rotangle] {\large$y$}--(PA) node [black,above,midway,rotate=360-\rotangle] {\large$xu$};
-            \draw [black!50,<->] (0,-1.5)--(0,3) node [black,above] {$+Y$};
-            \draw [black!50,<->] (-3,0)--(3,0) node [black,right] {$+X$};
-            \draw[->] (0,0)--(0,1) node [black,midway,left,rotate=360-\rotangle] {\large $v$};
-            \draw[->] (0,0)--(1,0) node [black,midway,below,rotate=360-\rotangle] {\large $u$};
-            
-        }
-        
-        \end{turn}
-        \coordinate [label=left:\large$FrameA$] (t) at (-1,0);
-        
-        % frame B center : 5,-2
-        {[arrow_style]
-            \draw [->] (5,-2)--(0,0) node [black,above,midway] {$\mathbf{Q}$};
-            \draw [black!50,<->] (5,-3)--(5,3) node [black,above] {$+Y$};
-            \draw [black!50,<->] (-0.5,-2)--(7,-2) node [black,right] {$+X$};
-        }
-        \coordinate[label=above:\large${p_{A}=(x,y)}$] (PA) at (\rotangle+\angvalue:2.5 cm);
-        \draw[densely dashed]let \p{PA}=(PA) in (PA) -- (\x{PA},-2) node [black,below] {\large$x'$};
-        \draw[densely dashed]let \p{PA}=(PA) in (PA) -- (5,\y{PA})node [black,right] {\large$y'$};
-	
-        \coordinate [label=right:\large$FrameB$] (t) at (5.5,-2.5);
-    
-\end{tikzpicture}
-
-\end{document}
-```
-
-위의 그림에서, 좌표계 B의 점 `p_{B}`는 다음과 같이 표현할 수 있다.
-
-![](vector_coor4.png)
-
-```
-p_{B}=xu_{B}+yv_{B}+Q_{B}
-```
-
-3차원으로 일반화하면, 다음과 같이 표현할 수 있다. `u_{B}, v_{B}, w_{B}`는 각각 x,y,z축 방향 단위벡터들을 좌표계 B에 상대적으로 표현한 벡터들이고, `Q_{B}`는 좌표계 A의 원점을 좌표계 B에 상대적으로 표현한 점이다.
-
-![](vector_coor5.png)
-
-```
-p_{B}=xu_{B}+yv_{B}+zw_{B}+Q_{B}
-```
-
-좌표 변경 변환도 동차좌표를 사용하여 벡터와 점을 처리하는 하나의 공식으로 만들 수 있으며, 행렬로 표현할 수 있다.
-
-![](coor_matrix.png)
-
-```
-\\(x',y',z',w)=xu_{B}+yv_{B}+zw_{B}+wQ_{B}
-\\\\\left[x',y',z',w\right]=[x,y,z,w]\begin{bmatrix}
-u_{x} & u_{y} & u_{z} & 0\\ 
-v_{x} & v_{y} & v_{z} & 0\\ 
-w_{x} & w_{y} & w_{z} & 0\\ 
-Q_{x} & Q_{y} & Q_{z} & 1
-\end{bmatrix}
-\\\\=xu_{B}+yv_{B}+zw_{B}+wQ_{B}
-```
-
-위의 식에서 표현된 4x4 행렬을 좌표 변경 행렬(change of coordinate matrix) 또는 좌표계 변경 행렬(change of frame matrix)라고 부르고, 행렬이 수행하는 변환을 지칭할 때 "변환한다(convert)" 또는 "사상한다(map)"라고 말한다.
-
-# 변환 행렬 대 좌표 변경 행렬
-
-'능동적'변환(비례, 회전, 이동)과 좌표 변경 변환은 수학적으로 동치(equivalence) 관계이다. 능동 변환을 좌표 변경 변환으로 해석하는 것이 가능하며, 그 역도 마찬가지이다.
-
-![](equivalence.png)
-
-```
-\documentclass[tikz,border=10pt]{standalone}
-
-\usepackage{tikz}
-\usepackage{tikz-3dplot}
-
-\usetikzlibrary{scopes}
-
-\begin{document}
-
-\begin{tikzpicture}
-	\tikzset{arrow_style/.style={>=latex,very thick}}
-    \def\AxisSize{4}
-    \def\CubeSize{2}
-        
-	\matrix[row sep=1cm] {
-        \tdplotsetmaincoords{70}{30}
-        \begin{scope}[tdplot_main_coords]
-            % The vertex at V
-            \coordinate (P) at (\CubeSize,\CubeSize,\CubeSize);
-            
-            % axis draw
-            {[arrow_style]
-                \draw [red,->] (0,0,0)--(\AxisSize,0,0) node [black,above,right] {\large $\mathbf{i}$};
-                \draw [green,->] (0,0,0)--(0,\AxisSize,0) node [black,above] {\large $\mathbf{j}$};
-                \draw [blue,->] (0,0,0)--(0,0,\AxisSize) node [black,right] {\large $\mathbf{k}$};
-            }
-            
-            % cube draw
-            \fill[black!50, opacity=0.3]
-              (0,\CubeSize,\CubeSize) -- (\CubeSize,\CubeSize,\CubeSize) -- (\CubeSize,0,\CubeSize) -- (0,0,\CubeSize) -- cycle; 
-            \fill[black!50, opacity=0.3]
-              (0,0,\CubeSize) -- (\CubeSize,0,\CubeSize) -- (\CubeSize,0,0) -- (0,0,0) -- cycle;
-            \fill[black!50, opacity=0.3]
-              (\CubeSize,0,0) -- (\CubeSize,\CubeSize,0) -- (\CubeSize,\CubeSize,\CubeSize) -- (\CubeSize,0,\CubeSize) -- cycle;
-            \draw (P) -- (\CubeSize,0,\CubeSize) --(0,0,\CubeSize) --(0,\CubeSize,\CubeSize) --(P) --(\CubeSize,\CubeSize,0) --(\CubeSize,0,0) --(\CubeSize,0,\CubeSize);
-            \draw (\CubeSize,\CubeSize,0) -- (0,\CubeSize,0) --(0,\CubeSize,\CubeSize);
-            
-            % dot label draw
-    		\fill[draw=black] (P) circle (1.5pt) node [above,right]{$\mathbf{p}$};
-    		\node[label=below:$x$] at (\CubeSize,0,0);
-    		\node[label=left:$y$] at (0,\CubeSize,0);
-    		\node[label=left:$z$] at (0,0,\CubeSize);
-        \end{scope}
-        
-        \tdplotsetmaincoords{60}{-65}
-        \begin{scope}[tdplot_main_coords,xshift=8cm,yshift=3cm]
-            % The vertex at V
-            \coordinate (P) at (\CubeSize,\CubeSize,\CubeSize);
-            
-            % axis draw
-            {[arrow_style]
-                \draw [red,->] (0,0,0)--(\AxisSize,0,0) node [black,above,right] {\large $\tau(\mathbf{i})$};
-                \draw [green,->] (0,0,0)--(0,\AxisSize,0) node [black,above] {\large $\tau(\mathbf{j})$};
-                \draw [blue,->] (0,0,0)--(0,0,\AxisSize) node [black,right] {\large $\tau(\mathbf{k})$};
-            }
-            
-            % cube draw
-            \fill[black!50, opacity=0.3]
-              (0,\CubeSize,\CubeSize) -- (\CubeSize,\CubeSize,\CubeSize) -- (\CubeSize,0,\CubeSize) -- (0,0,\CubeSize) -- cycle; 
-            \fill[black!50, opacity=0.3]
-              (0,0,\CubeSize) -- (\CubeSize,0,\CubeSize) -- (\CubeSize,0,0) -- (0,0,0) -- cycle;
-            \fill[black!50, opacity=0.3]
-              (0,\CubeSize,0) -- (0,\CubeSize,\CubeSize) -- (0,0,\CubeSize) -- (0,0,0) -- cycle;
-            \draw (P) -- (\CubeSize,0,\CubeSize) --(0,0,\CubeSize) --(0,\CubeSize,\CubeSize) --(P) --(\CubeSize,\CubeSize,0) --(\CubeSize,0,0) --(\CubeSize,0,\CubeSize);
-            \draw (\CubeSize,\CubeSize,0) -- (0,\CubeSize,0) --(0,\CubeSize,\CubeSize);
-            
-            % dot label draw
-    		\fill[draw=black] (P) circle (1.5pt) node [above]{$\alpha(\mathbf{p})$};
-    		\node[label=below:$x$] at (\CubeSize,0,0);
-    		\node[label=below:$y$] at (0,\CubeSize,0);
-    		\node[label=right:$z$] at (0,0,\CubeSize);
-        \end{scope}
-        
-        \draw[->,>=latex,very thick] (0,0) -- (8cm,3cm) node [black,below,very near end] {$\mathbf{b}$};
-        \draw[->,>=latex,very thick,densely dashed] (2.75,2.15) to[out=80,in=180] (7,6.05);
-        \coordinate [label=left:\large$FrameB$] (t) at (-0.2,0.5);
-        \coordinate [label=\large$(a)$] (t) at (5,-1.7);
-    
-	\\
-        \tdplotsetmaincoords{70}{30}
-        \begin{scope}[tdplot_main_coords]
-            % The vertex at V
-            \coordinate (P) at (\CubeSize,\CubeSize,\CubeSize);
-            
-            % axis draw
-            {[arrow_style]
-                \draw [red,->] (0,0,0)--(\AxisSize,0,0) node [black,above,right] {\large $\mathbf{i}$};
-                \draw [green,->] (0,0,0)--(0,\AxisSize,0) node [black,above] {\large $\mathbf{j}$};
-                \draw [blue,->] (0,0,0)--(0,0,\AxisSize) node [black,right] {\large $\mathbf{k}$};
-            }
-        \end{scope}
-        
-        \tdplotsetmaincoords{60}{-65}
-        \begin{scope}[tdplot_main_coords,xshift=8cm,yshift=3cm]
-            % The vertex at V
-            \coordinate (P) at (\CubeSize,\CubeSize,\CubeSize);
-            
-            % axis draw
-            {[arrow_style]
-                \draw [red,->] (0,0,0)--(\AxisSize,0,0) node [black,above,right] {\large $\mathbf{u}$};
-                \draw [green,->] (0,0,0)--(0,\AxisSize,0) node [black,above] {\large $\mathbf{v}$};
-                \draw [blue,->] (0,0,0)--(0,0,\AxisSize) node [black,right] {\large $\mathbf{w}$};
-            }
-            
-            % cube draw
-            \fill[black!50, opacity=0.3]
-              (0,\CubeSize,\CubeSize) -- (\CubeSize,\CubeSize,\CubeSize) -- (\CubeSize,0,\CubeSize) -- (0,0,\CubeSize) -- cycle; 
-            \fill[black!50, opacity=0.3]
-              (0,0,\CubeSize) -- (\CubeSize,0,\CubeSize) -- (\CubeSize,0,0) -- (0,0,0) -- cycle;
-            \fill[black!50, opacity=0.3]
-              (0,\CubeSize,0) -- (0,\CubeSize,\CubeSize) -- (0,0,\CubeSize) -- (0,0,0) -- cycle;
-            \draw (P) -- (\CubeSize,0,\CubeSize) --(0,0,\CubeSize) --(0,\CubeSize,\CubeSize) --(P) --(\CubeSize,\CubeSize,0) --(\CubeSize,0,0) --(\CubeSize,0,\CubeSize);
-            \draw (\CubeSize,\CubeSize,0) -- (0,\CubeSize,0) --(0,\CubeSize,\CubeSize);
-            
-            % dot label draw
-    		\fill[draw=black] (P) circle (1.5pt) node [above]{$\mathbf{p}$};
-    		\node[label=below:$x$] at (\CubeSize,0,0);
-    		\node[label=below:$y$] at (0,\CubeSize,0);
-    		\node[label=right:$z$] at (0,0,\CubeSize);
-        \end{scope}
-        
-        \draw[->,>=latex,very thick] (0,0) -- (8cm,3cm);
-    	\node[label=below:\large$\mathbf{Q}$] at (8cm,3cm);
-        \coordinate [label=right:\large$FrameA$] (t) at (8,2);
-        \coordinate [label=left:\large$FrameB$] (t) at (-0.2,0.5);
-        \coordinate [label=\large$(b)$] (t) at (5,-1.7);
-    \\
-	};
-\end{tikzpicture}
-
-\end{document}
-```
-
-(a)에서는 하나의 좌표계 B를 기준으로 아핀변환을 적용해서 입방체의 위치와 방향을 변경한다. (b)에서는 A와 B라는 두 개의 좌표계를 사용하여 A에 상대적인 입방체 점들의 좌표를 B에 상대적인 좌표들로 변환한다. 두 경우 모두 좌표계 B를 기준으로 `\alpha(p) = (x',y',z',w) = p_{B}`가 성립한다. b = Q이고 `\tau(i) = u, \tau(j) = v, \tau(k) = w`이다.
