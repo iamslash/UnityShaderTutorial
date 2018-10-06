@@ -137,5 +137,13 @@ V &= W^{-1}\\
 \end{aligned}
 ```
 
+유니티의 쉐이더에서는 버텍스의 뷰 좌표를 구하려고 할때 `UNITY_MATRIX_V` 또는 `UNITY_MATRIX_MV` 를 이용해서 구할 수 있다.
+
+```c
+output.position_in_world_space = mul(unity_ObjectToWorld, input.vertex);
+output.position_in_view_space = mul(UNITY_MATRIX_V, output.position_in_world_space);
+
+output.position_in_view_space = mul(UNITY_MATRIX_V, input.vertex);
+```
 
 ### 프로젝션 좌표 변환
