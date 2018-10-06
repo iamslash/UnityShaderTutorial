@@ -91,6 +91,7 @@ W =
 
 ![](world_matrix_2.png)
 
+
 유니티의 쉐이더에서는 버텍스의 월드 좌표를 구하려고 할때 `unity_ObjectToWorld` 를 이용해서 구할 수 있다.
 
 ```c
