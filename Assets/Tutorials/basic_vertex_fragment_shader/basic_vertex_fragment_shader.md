@@ -143,7 +143,7 @@ V &= W^{-1}\\
 output.position_in_world_space = mul(unity_ObjectToWorld, input.vertex);
 output.position_in_view_space = mul(UNITY_MATRIX_V, output.position_in_world_space);
 
-output.position_in_view_space = mul(UNITY_MATRIX_V, input.vertex);
+output.position_in_view_space = mul(UNITY_MATRIX_MV, input.vertex);
 ```
 
 ### 프로젝션 좌표 변환
