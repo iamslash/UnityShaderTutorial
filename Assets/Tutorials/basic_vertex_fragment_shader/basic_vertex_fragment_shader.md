@@ -155,6 +155,75 @@ output.position_in_view_space = mul(UNITY_MATRIX_MV, input.vertex);
 ![](frustum_2.png)
 그림 1-2
 
+위 그림들 처럼 `절두체`는 여러가지 성분으로 구성된다.
+
+* f = 먼 평면
+* n = 가까운 평면
+* d = 원점에서 투영 창 까지의 거리
+* α = 수직 시야각
+* β = 수평 시야각
+* r = 종횡비 ( 투영창의 너비(w) / 투영창의 높이(h) ) 
+> 여기서 종횡비는 너비와 높이 값의 비율에 의해서 정해지는데, 실제 너비와 높이의 수치보다는 비율이 중요하기 때문에, 아래 식에서는 높이를 2로 간주 해서 서술 한다
+
+원점에서 투영창 까지의 거리 `d` 는 다음과 같이 구할 수 있다.
+
+![](equation_d.png)
+
+```latex
+d =  cot(\frac{\alpha}{2})
+```
+
+이제 점 (x,y,z) 를 투영 창에 투영한 점 (x\`, y\`, z\`) 을 구해보자, 여기서 z\` 은 `d`와 같다.
+
+![](equation_x_prime.png)
+
+```latex
+\begin{aligned} 
+
+\frac{{x}'}{d} &= \frac{x}{z} \Rightarrow \\\\
+
+{x}' &= \frac{xd}{z} \\
+     &= \frac{x\, cot(\frac{\alpha}{2})}{z} \\
+     &= \frac{x}{z\, tan(\frac{\alpha}{2})} \\
+
+\end{aligned}
+```
+
+![](equation_y_prime.png)
+
+```latex
+\begin{aligned} 
+
+\frac{{y}'}{d} &= \frac{y}{z} \Rightarrow \\\\
+
+{y}' &= \frac{yd}{z} \\
+     &= \frac{y\, cot(\frac{\alpha}{2})}{z} \\
+     &= \frac{y}{z\, tan(\frac{\alpha}{2})} \\
+
+\end{aligned}
+```
+
+이때 각 축의 좌표가 `절두체` 안에 있을 필요 충분 조건은 아래와 같다.
+
+![](frustum_xyz.png)
+
+```latex
+\begin{aligned} 
+
+-r \leq {x}' \leq r\\
+-1 \leq {y}' \leq 1\\
+n \leq {z} \leq f\\
+
+\end{aligned}
+```
+
+
+
+
+
+
+
+
 
 
 
