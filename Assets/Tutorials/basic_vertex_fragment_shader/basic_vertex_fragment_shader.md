@@ -281,6 +281,47 @@ P &=
 \end{aligned} 
 ```
 
+이제 `z` 성분을 정규화해서 상수 `A`와 `B`만 구하면 행렬이 완성된다. `x` 와 `y`는 \[-1, 1] 로 정규화 됬지만, `z` 는 기존 범위 \[n, f] 가 \[0, 1] 로 정규화 되야 한다. 따라서 위에서 구한 z\` = A + B/z를 이용해서 서술 하면 아래와 같다.
+
+![](equation_AB.png)
+
+```latex
+\begin{aligned}
+
+A+\frac{B}{n} &= 0\\
+A+\frac{B}{f} &= 1\\
+\end{aligned}\\\\\\
+
+\rightarrow 
+
+\begin{aligned}
+
+B &= -An \\
+A &= \frac{f}{f-n}\\
+B &= \frac{-nf}{f-n}
+
+\end{aligned}
+```
+
+이제 투영행렬을 완성시키면 아래와 같다.
+
+![](projection_matrix_2.png)
+
+```latex
+\begin{aligned}
+P &= 
+     \begin{bmatrix}
+          \frac{1}{r\, tan(\frac{\alpha}{2})} & 0 & 0 & 0 \\
+          0 & \frac{1}{tan(\frac{\alpha}{2})} & 0 & 0 \\
+          0 & 0 & \frac{f}{f-n} & 1 \\
+          0 & 0 & \frac{-nf}{f-n} & 0 \\
+     \end{bmatrix} 
+\end{aligned}
+```
+
+
+
+
 
 
 
