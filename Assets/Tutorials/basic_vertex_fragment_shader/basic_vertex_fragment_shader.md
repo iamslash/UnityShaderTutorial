@@ -245,6 +245,44 @@ n \leq {z} \leq f\\
 {x}' = \frac{x}{r\, z\, tan(\frac{\alpha}{2})}
 ```
 
+이제 투영행렬을 구해보자, 하지만 위의 x\` 식과 y\` 식은 선형 부분과 비선형 부분이 섞여 있다. 여기서 비선형 부분은 `z` 값으로 나누는 부분이다.
+그래서 `z` 에 대한 수식은 임의의 `A`, `B` 상수로 표현하고, 아직까지는 `z` 성분은 정규화 되지 않았지만 차후에 정규화 될경우 투영변환에서 나누기로 사용될 본래의 `z` 성분이 없어지는것이니, `동차좌표`의 `w` 성분에 할당을 하자. 그럼 아래와 같은 행렬 `P`를 구할 수 있다.
+
+![](projection_matrix_1.png)
+
+```latex
+\begin{aligned}
+P &= 
+     \begin{bmatrix}
+          \frac{1}{r\, tan(\frac{\alpha}{2})} & 0 & 0 & 0 \\
+          0 & \frac{1}{tan(\frac{\alpha}{2})} & 0 & 0 \\
+          0 & 0 & A & 1 \\
+          0 & 0 & B & 0 \\
+     \end{bmatrix} 
+\end{aligned}
+```
+
+이제 이 `P` 행렬을 이용해서 임의의 점 (x,y,z,1) 을 변환 시켜보자.
+
+![](divede_with_z.png)
+
+```latex
+\begin{aligned}
+     & [x,y,z,1] \begin{bmatrix}
+          \frac{1}{r\, tan(\frac{\alpha}{2})} & 0 & 0 & 0 \\
+          0 & \frac{1}{tan(\frac{\alpha}{2})} & 0 & 0 \\
+          0 & 0 & A & 1 \\
+          0 & 0 & B & 0 \\
+     \end{bmatrix} \\
+     &= [\frac{x}{r\, tan(\frac{\alpha}{2})},\frac{y}{tan(\frac{\alpha}{2})},Az+B,z]\\\\
+     divide \,with \,z &\to 
+        [\frac{x}{zr\, tan(\frac{\alpha}{2})},\frac{y}{ztan(\frac{\alpha}{2})},A+\frac{B}{z},1] \\
+     &= [{x}', {y}', {z}', 1]
+\end{aligned} 
+```
+
+
+
 
 
 
