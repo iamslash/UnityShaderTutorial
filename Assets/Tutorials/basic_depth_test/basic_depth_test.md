@@ -1,6 +1,6 @@
 # Abstract
 
-깊이 테스트를 해보자.
+깊이 테스트를 정리 해보자.
 
 # Shader
 
@@ -23,50 +23,41 @@ Shader "UnityShaderTutorial/basic_depth_test" {
 
 # Description
 
-깊이 테스트란 3차원 화면에 그려진 물체를 2차원 좌표계로 옮긴 뒤 같은 서로 다른 물체가 같은 픽셀에 그려져야 할때(== 겹칠때)를 비교하여 관찰자에게 가까운 깊이 값을 깊이 버퍼에 저장하는 활동이다.
+깊이 버퍼 (Depth Buffer) 란 프레임퍼버 (Frame Buffer) 과 가로, 세로의 길이가 같고 각 프래그먼트의 깊이 (z) 값을 저장한다. 즉 같은 개수의 픽셀 을 처리한다. 깊이 테스트란 프래그먼트 쉐이딩 (Fragment Shading) 을 수행한 후에 특정 프래그먼트에 대해서 현재의 깊이버퍼 값을 덮어쓸지 말지 검증하는 절차이다. `UnityShaderLab` 에서는 깊이 버퍼 값이 작을 수록 카메라와 가깝다.
 
-`ZTest` : 기본적으로 LEqual이 활성화. 물체의 깊이에 따라 그려줄지 판단한다.
+`ZTest` Render Set-up Command 는 다음과 같이 사용한다.
 
 ```
-ex) ZTest (Less | Greater | LEqual | GEqual | Equal | NotEqual | Always)
+ZTest (Less | Greater | LEqual | GEqual | Equal | NotEqual | Always)
+* LEqual 이 기본 값이다.
 ```
 
-# Prerequisites
+각 옵션이 사용된 결과는 다음과 같다.
 
-## Unity ShaderLab Overview
-
-`Z-TEST`
-
-+ `Less`, `LEqual`
-```
-관찰자와 오브젝트 사이의 거리가 작거나 같은 것들만 그린다.
-```
+* `Less`
 
 ![](./Image/Less.png)
+
+* `LEqual`
+
 ![](./Image/LEqual.png)
 
-+ `Greater`, `GEqual`
-
-```
-관찰자와 오브젝트 사이의 거리보다 크거나 같은 것들만 그린다.
-```
+* `Greater`
 
 ![](./Image/Greater.png)
+
+* `GEqual`
+
 ![](./Image/GEqual.png)
 
 + `Equal`
 
-```
-관찰자와 오브젝트 사이의 거리가 같은 것들만 그린다.
-```
-
 ![](./Image/Equal.png)
 
-+ `Not Equal`, `Always`
-
-```
-관찰자와 오브젝트 사이의 거리가 같지 않은 것, 깊이에 상관없이 항상 그린다.
-```
+* `Not Equal`
 
 ![](./Image/NotEqual.png)
+
+* `Always`
+
 ![](./Image/Always.png)
