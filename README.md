@@ -32,7 +32,7 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | [basic_blend](/Assets/Tutorials/basic_blend/basic_blend.md) | blend command 를 사용해서 블렌딩 하자 |
 | [basic_alpha_test](/Assets/Tutorials/basic_alpha_test/basic_alpha_test.md) | 알파 테스트를 해보자 |
 | [**basic_vertex_fragment_shader**](/Assets/Tutorials/basic_vertex_fragment_shader/basic_vertex_fragment_shader.md) | 버텍스, 프래그먼트 쉐이더를 이용하여 한가지 색으로 칠하고 좌표변환을 이해하자 |
-| multiple shader program variants | `#pragma multi_compile` 와 `#pragma shader_feature` 의 사용법을 이해하자 |
+| multiple_shader_program_variants | `#pragma multi_compile` 와 `#pragma shader_feature` 의 사용법을 이해하자 |
 | [basic_stencil_test](/Assets/Tutorials/basic_stencil_test/basic_stencil_test.md) | 스텐실 테스트를 적용해 보자 |
 | [texture](/Assets/Tutorials/texture/texture.md) | 텍스처를 적용해 보자 |
 | [**normal_map**](/Assets/Tutorials/normal_map/normal_map.md) | 노멀맵을 적용해보자 |
