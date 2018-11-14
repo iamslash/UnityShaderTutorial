@@ -62,8 +62,6 @@ Shader "Unlit/test_outline"
 
 # Description
 
-첫번째 pass에서 아웃라인을 그리고 두번째 pass에서 Texture가 매핑된 Object를 그린다.
-
 `ZWrite`를 이용하여 첫번째 pass에서 깊이 버퍼를 사용하지 않도록 아웃라인을 그리고 두번째 pass에서는 깊이 버퍼를 이용하여 Texture가 매핑된 Object를 그려준다. 그러면 깊이 테스트(`ZTest`)를 통해 깊이가 있는 두번째 pass가 첫번째 pass보다 앞에 있는 것처럼 그려지도록 된다.
 
 `cull`을 이용하여 앞과 뒷면을 모두 그려주도록 한다
