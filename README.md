@@ -60,7 +60,7 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | surface_shader_custom_fog | |
 | surface_shader_linear_fog | |
 | surface_shader_decals | |
-| outline | 외곽선을 적용해보자 |
+| [outline](/Assets/Tutorials/outline/outline.md) | 외곽선을 적용해보자 |
 | rimlight | rim light 을 적용해보자 |
 | ramp | ramp 을 적용해보자 |
 
