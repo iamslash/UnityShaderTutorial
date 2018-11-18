@@ -5,7 +5,7 @@
 # Shader
 
 ```c
-Shader "UnityShaderTutorial/basic_stencil_test" {
+Shader "UnityShaderTutorial/basic_stencil_test1" {
     SubShader {
         Tags { "RenderType"="Opaque" "Queue"="Geometry"}
         Pass {
@@ -30,47 +30,87 @@ Shader "UnityShaderTutorial/basic_stencil_test" {
                 return o;
             }
             half4 frag(v2f i) : SV_Target {
-                return half4(1,0,0,1);
+                return half4(1, 0, 0, 1); // red
             }
             ENDCG
         }
     } 
 }
+
+Shader "UnityShaderTutorial/basic_stencil_test2" {
+    Stencil {
+        Ref 2
+	    Comp equal
+	    Pass keep
+	    ZFail decrWrap
+    }
+
+    ...
+
+    half4 frag(v2f i) : SV_Target {
+        return half4(0, 1, 0, 1); // green
+    }
+}
+
+Shader "UnityShaderTutorial/basic_stencil_test3" {
+    Stencil {
+        Ref 1
+	    Comp equal
+    }
+
+    ...
+
+    half4 frag(v2f i) : SV_Target {
+        return half4(0, 0, 1, 1); // blue
+    }
+}
 ```
 
-# Description
+## Description
 
-`Stencil`을 이용하여 버퍼에 있는 픽셀값을 버리거나 변경처리를 한다.
-`Stencil` 의 [문법]은 아래와 같다.
+스텐실 버퍼는 한 프래그먼트당 1Byte 씩 화면의 가로길이 * 세로길이 의 개수만큼의 크기를 갖는다.
+스텐실 버퍼는 프래그먼트를 프레임버퍼에 저장 또는 폐기하기 위한 용도로 사용한다.
+스텐실 테스트는 한 프래그먼트 마다 특정한 연산을 수행하여 결과에 따라 저장할지 폐기할지
+결정한다.
+
+`Stencil` Render-setup command 의 사용법은 다음과 같다.
+
 ```
 Stencil {
-	Ref (0~255)
+	[Ref 0 ~ 255]
 	[Comp always]
+        [ReadMask 0 ~ 255]
+        [WriteMask 0 ~ 255]
 	[Pass keep]
 	[Fail keep]
 	[ZFail keep]
 }
 ```
 
-# Prerequisites
-
-## Unity ShaderLab Overview
-`Ref`
+* `Ref`
 
 ```
-Ref (참조할 값)
+Ref (0 ~ 255)
 - Comp가 always가 아니고 다른 것일 때 비교하는 값이며, 
   Pass, Fail이나 ZFail이 replace로 설정된 경우 버퍼에 써넣을 값. 0-255 정수
 ```
 
-`Comp`
+* `ReadMask`
+
+```
+ReadMask (0 ~ 255)
+- Ref 값을 버퍼의 내용과 비교할 때 사용
+  (referenceValue & readMask) 비교 함수 (stencilBufferValue & readMask)
+```
+
+* `Comp`
 
 ```
 Comp (비교 함수)
 - 버퍼 안의 현재 값과 참조 값을 비교할 때 사용할 함수. 기본 always.
 ```
 
-`비교 함수`
+* `Comp` Values
 
 |||
 |:-:|:-:|
@@ -83,28 +123,28 @@ Comp (비교 함수)
 |Always	 	|스텐실 검사가 무조건 통과됩니다.|
 |Never	 	|스텐실 검사가 무조건 실패합니다.|
 
-`Pass`
+* `Pass`
 
 ```
 Pass (스텐실 작업)
 - 스텐실 검사(와 깊이 검사)가 통과한 경우 버퍼 안의 값을 어떻게 할지 정합니다. 기본 keep.
 ```
 
-`Fail`
+* `Fail`
 
 ```
 Fail (스텐실 작업)
 - 스텐실 검사가 실패한 경우 버퍼 안의 값을 어떻게 할지 정합니다. 기본 keep.
 ```
 
-`ZFail`
+* `ZFail`
 
 ```
 ZFail (스텐실 작업)
 - 스텐실 검사는 통과했지만 깊이 검사가 실패한 경우 버퍼 안의 값을 어떻게 할지 정합니다. 기본 keep.
 ```
 
-`스텐실 작업`
+* `Pass, Fail, Zfail` Values
 
 |||
 |:-:|:-:|

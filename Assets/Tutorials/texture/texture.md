@@ -53,8 +53,12 @@ Shader "Unlit/texture"
 
 # Description
 
-`_MainTex` 프로퍼티를 이용하여 텍스처를 설정 할 수 있다. 텍스처를 설정하지 않을 경우 흰색으로 처리한다.
+* `_MainTex` 프로퍼티를 이용하여 텍스처를 설정 할 수 있다. 텍스처를 설정하지 않을 경우 흰색으로 처리한다.
 
-텍스처의 Tilling과 Offset을 사용하기 위해서는 UnityCG.cginc에서 제공하는 `TRANSFORM_TEX` 메크로를 이용하여 텍스처 스케일 및 오프셋이 올바로 적용되고 있는지 확인 처리를 해야 한다.
+* 텍스처의 Tilling과 Offset을 사용하기 위해서는 UnityCG.cginc에서 제공하는 `TRANSFORM_TEX` 메크로를 이용해야 한다. 또한 `TRANSFORM_TEX`를 사용하기 위해서는 float4 타입이면서, "_Texutre 이름 + _ST"의 이름을 갖는 변수를 선언해줘야 한다. 그렇지 않으면 컴파일 에러가 발생한다.
 
-`TRANSFORM_TEX`를 사용하기 위해서는 float4 타입이면서, "_Texutre 이름 + _ST"의 이름을 갖는 변수를 선언해줘야 한다.
+* `TRANSFORM_TEX` 는 `` 에 다음과 같이 정의되어 있다.
+
+```c
+```
+
