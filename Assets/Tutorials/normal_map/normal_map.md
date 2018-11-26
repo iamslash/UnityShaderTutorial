@@ -6,7 +6,12 @@
 
 ```c
 Shader "UnityShaderTutorial/normal_map" {
-    // no Properties block this time!
+    Properties {
+        // normal map texture on the material,
+        // default to dummy "flat surface" normalmap
+        _MainTex ("Texture", 2D) = "white" {}
+        _BumpMap("Normal Map", 2D) = "bump" {}
+    }
     SubShader
     {
         Pass
@@ -17,22 +22,57 @@ Shader "UnityShaderTutorial/normal_map" {
             #include "UnityCG.cginc"
 
             struct v2f {
-                half3 worldNormal : TEXCOORD0;
+                // these three vectors will hold a 3x3 rotation matrix
+                // that transforms from tangent to world space
+                half3 tspace0 : TEXCOORD1; // tangent.x, bitangent.x, normal.x
+                half3 tspace1 : TEXCOORD2; // tangent.y, bitangent.y, normal.y
+                half3 tspace2 : TEXCOORD3; // tangent.z, bitangent.z, normal.z
+                // texture coordinate for the normal map
+                float2 uv : TEXCOORD4;
                 float4 pos : SV_POSITION;
-            };
 
-            v2f vert (float4 vertex : POSITION, float3 normal : NORMAL)
+            };
+			
+            // vertex shader now also needs a per-vertex tangent vector.
+            // in Unity tangents are 4D vectors, with the .w component used to
+            // indicate direction of the bitangent vector.
+            // we also need the texture coordinate.
+            v2f vert (float4 vertex : POSITION, float3 normal : NORMAL, float4 tangent : TANGENT, float2 uv : TEXCOORD0)
             {
                 v2f o;
                 o.pos = UnityObjectToClipPos(vertex);
-                o.worldNormal = UnityObjectToWorldNormal(normal);
+                half3 wNormal = UnityObjectToWorldNormal(normal);
+                half3 wTangent = UnityObjectToWorldDir(tangent.xyz);
+                // compute bitangent from cross product of normal and tangent
+                half tangentSign = tangent.w * unity_WorldTransformParams.w;
+                half3 wBitangent = cross(wNormal, wTangent) * tangentSign;
+                // output the tangent space matrix
+                o.tspace0 = half3(wTangent.x, wBitangent.x, wNormal.x);
+                o.tspace1 = half3(wTangent.y, wBitangent.y, wNormal.y);
+                o.tspace2 = half3(wTangent.z, wBitangent.z, wNormal.z);
+                o.uv = uv;
                 return o;
             }
+			
+            sampler2D _MainTex;
+            sampler2D _BumpMap;
             
-            fixed4 frag (v2f i) : SV_Target
-            {
-                fixed4 c = 0;
-                c.rgb = i.worldNormal*0.5+0.5;
+            fixed4 frag (v2f i) : SV_Target {
+                // sample the normal map, and decode from the Unity encoding
+                half3 tnormal = UnpackNormal(tex2D(_BumpMap, i.uv));
+				float3 viewDirection = normalize(UnityWorldSpaceViewDir(i.pos.xyz));
+				//float3 viewDirection = normalize(_WorldSpaceCameraPos.xyz - i.pos.xyz);
+                // transform normal from tangent to world space
+                half3 worldNormal;
+                worldNormal.x = dot(i.tspace0, tnormal);
+                worldNormal.y = dot(i.tspace1, tnormal);
+                worldNormal.z = dot(i.tspace2, tnormal);
+				
+                half diffuse = saturate(dot(-worldNormal, _WorldSpaceLightPos0.xyz));
+				//half diffuse = saturate(dot(-worldNormal, viewDirection.xyz));
+
+				fixed4 c = tex2D(_MainTex, i.uv);
+				c.rgb *= diffuse;
                 return c;
             }
             ENDCG
@@ -51,13 +91,55 @@ Shader "UnityShaderTutorial/normal_map" {
 #include "UnityCG.cginc"
 ```
 
-여기서 제공하는 함수들 중 UnityObjectToClipPos와 UnityObjectToWorldNormal을 사용하였다. UnityObjectToClipPos는 오브젝트 공간의 한 점을 동일 좌표에 있는 카메라의 클립 공간으로 변환하는 함수이며, UnityObjectToWorldNormal은 오브젝트의 노멀 벡터를 월드 좌표의 벡터로 변환하는 함수이다.
+여기서 제공하는 함수들 중 `UnityObjectToClipPos`와 `UnityObjectToWorldNormal`, `UnityObjectToWorldDir`을 사용하였다. `UnityObjectToClipPos`는 오브젝트 공간의 한 점을 동일 좌표에 있는 카메라의 클립 공간으로 변환하는 함수이며, `UnityObjectToWorldNormal`은 오브젝트의 노멀 벡터를 월드 좌표의 벡터로 변환하는 함수이다. `UnityObjectToWorldDir`은 `UnityObjectToWorldNormal`와 비슷하게 오브젝트의 로컬 좌표를 월드좌표로 변환하는 함수이다.
 
-프래그먼트 셰이더에서는 버텍스 셰이더에서 계산된 월드 좌표의 노멀 벡터를 사용하여 해당 픽셀의 컬러값을 정한다.(노멀 벡터의 시각화)
+vertex shader에서 `tangent, bitangent, normal`값을 구해서 fragment shader로 넘겨주는데, 이는 `Tangent Space Normal Map`에 저장된 노멀 벡터를 월드 좌표의 벡터로 변환하는 데 사용된다.
 
-노멀 벡터는 각각의 x,y,z값이 -1 ~ 1의 값을 가지기 때문에 0 ~ 1의 값을 가지는 컬러값으로 변환하는 작업을 한다.
+`uv` 값은 노멀 맵에서 현재 픽셀의 좌표를 찾는 데에 사용된다.
+
+
+fragment shader에서는 vertex shader에서 계산한 tangent 값으로 노멀 맵의 벡터를 구하여 `_MainTex`의 값과 연산하여 최종 컬러 값을 결정하는 작업을 한다.
+
+`UnpackNormal` 함수는 `_BumpMap`에 들어있는 컬러값을 변환하여 노멀 벡터 값으로 만드는 역할을 한다. `UnpackNormal` 함수 내부는 다음과 같다.
+
+```
+inline fixed3 UnpackNormal(fixed4 packednormal) {
+#if defined(UNITY_NO_DXT5nm)
+    return packednormal.xyz * 2 - 1;
+#else
+    return UnpackNormalmapRGorAG(packednormal);
+#endif
+}
+// Unpack normal as DXT5nm (1, y, 1, x) or BC5 (x, y, 0, 1)
+// Note neutral texture like "bump" is (0, 0, 1, 1) to work with both plain RGB normal and DXT5nm/BC5
+fixed3 UnpackNormalmapRGorAG(fixed4 packednormal) {
+    // This do the trick
+   packednormal.x *= packednormal.w;
+
+    fixed3 normal;
+    normal.xy = packednormal.xy * 2 - 1;
+    normal.z = sqrt(1 - saturate(dot(normal.xy, normal.xy)));
+    return normal;
+}
+```
+위의 함수에서 컬러값(0 ~ 1)을 노멀 벡터 값(-1 ~ 1)로 변경하는 작업을 하는 것을 알 수 있다.
+
+`UnityWorldSpaceViewDir` 함수는 메인 카메라가 주어진 좌표를 바라보는 방향 벡터를 반환하는 작업을 한다.
+
+`diffuse` 값은 노멀 맵에 저장되어 있던 벡터와 `UnityWorldSpaceViewDir`함수로 구한 방향 벡터를 내적하여 해당 픽셀을 어둡게 표현할 것인지 판단하는 기준값이다. 0 ~ 1의 값을 가지며, 방향벡터와 수직에 가까울 수록 0에 수렴하는 값을 갖게 되어 검게 표현된다.
+
+최종적으로 화면에 표시되는 컬러값은 `_MainTex`의 컬러값 * diffuse 값이 된다.
 
 # Prerequisites
+
+## Tangent, BiTangent Vector
+
+
+## Model Space(Object Space) Normal Map, Tangent Space Normal Map
+
+
+## DXT5, DXT5nm
+
 
 ## Why Use Normap?
 
