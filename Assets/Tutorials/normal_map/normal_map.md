@@ -124,6 +124,8 @@ fixed3 UnpackNormalmapRGorAG(fixed4 packednormal) {
 ```
 위의 함수에서 컬러값(0 ~ 1)을 노멀 벡터 값(-1 ~ 1)로 변경하는 작업을 하는 것을 알 수 있다.
 
+DXT5nm와 BC5는 텍스쳐 손실 압축방법(Lossy Texture Compression Algorithms) 중 하나이며, 해당 텍스쳐를 decompress하기 위해 위의 함수에서는 특별한 공정과정을 거친다. 자세한 정보는 [여기](https://www.nvidia.com/object/real-time-normal-map-dxt-compression.html)에서 확인할 수 있다.
+
 `UnityWorldSpaceViewDir` 함수는 메인 카메라가 주어진 좌표를 바라보는 방향 벡터를 반환하는 작업을 한다.
 
 `diffuse` 값은 노멀 맵에 저장되어 있던 벡터와 `UnityWorldSpaceViewDir`함수로 구한 방향 벡터를 내적하여 해당 픽셀을 어둡게 표현할 것인지 판단하는 기준값이다. 0 ~ 1의 값을 가지며, 방향벡터와 수직에 가까울 수록 0에 수렴하는 값을 갖게 되어 검게 표현된다.
@@ -134,11 +136,24 @@ fixed3 UnpackNormalmapRGorAG(fixed4 packednormal) {
 
 ## Tangent, BiTangent Vector
 
+3D Graphics에서 말하는 Tangent Vector는 Normal Vector에 수직인 벡터이고 BiTangent Vector는 Tangent Vector와 Normal Vector에 수직인 벡터이다.
+
+Tangent Vector는 Normal Vector에 아무 벡터나 Cross Product 연산을 하면 구할 수 있다.
+
+삼차원에서 한 Normal Vector에 수직인 벡터는 Normal Vector를 법선 벡터로 하는 평면상의 모든 벡터가 해당되기 때문에 무한히 존재하는데, 한개의 벡터를 사용하기 위해 통상적으로 텍스쳐 좌표인 UV좌표와 일치하는 벡터를 사용한다.
+
+U좌표와 일치하는 벡터를 Tangent Vector, V좌표와 일치하는 벡터를 BiTangent Vector로 부른다.
 
 ## Model Space(Object Space) Normal Map, Tangent Space Normal Map
 
+Model Space Normal Map은 오브젝트의 모든 표면 Normal Vector의 x, y, z 값을 이미지의 RGB 값에 매핑하여 저장한 것이다. 월드 좌표를 기준으로 하였기 때문에 x, y, z값이 고루 분포되어 알록달록한 그림이 저장된다.
+
+Tangent Space Normal Map은 한 픽셀의 법선들로 만들어지는 평면을 기준으로 하는 Normal Vector의 값을 RGB 값에 매핑하여 저장한 것이다. 표면을 기준으로 하기 때문에 대부분이 z 방향을 띄어 파란색으로 보이게 된다.
+
+Model Space Normal Map보다 Tangent Space Normal Map을 훨씬 많이 사용하는데, 여러 메쉬에 동일하게 사용이 가능하고, 움직이는 오브젝트의 Normal Vector를 구하기 쉽기 때문이다.
 
 ## DXT5, DXT5nm
+
 
 
 ## Why Use Normap?
