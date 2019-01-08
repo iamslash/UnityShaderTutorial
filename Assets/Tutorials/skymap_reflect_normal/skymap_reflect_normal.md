@@ -1,5 +1,10 @@
-﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+# Abstract
 
+스카이맵을 노멀맵과 함께 물체의 표면에서 반사시켜보자.
+
+# Shader
+
+```c
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 Shader "UnityShaderTutorial/skymap_reflect_normal" {
 	Properties {
@@ -36,7 +41,7 @@ Shader "UnityShaderTutorial/skymap_reflect_normal" {
             {
                 v2f o;
                 o.pos = UnityObjectToClipPos(vertex);
-                o.worldPos = mul(unity_ObjectToWorld, vertex).xyz;
+                o.worldPos = mul(_Object2World, vertex).xyz;
                 half3 wNormal = UnityObjectToWorldNormal(normal);
                 half3 wTangent = UnityObjectToWorldDir(tangent.xyz);
                 // compute bitangent from cross product of normal and tangent
@@ -76,3 +81,8 @@ Shader "UnityShaderTutorial/skymap_reflect_normal" {
         }
     }
 }
+```
+
+# Description
+
+# Prerequisites
