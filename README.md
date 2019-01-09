@@ -63,22 +63,5 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | [outline](/Assets/Tutorials/outline/outline.md) | 외곽선을 적용해보자 |
 | rimlight | rim light 을 적용해보자 |
 | ramp | ramp 을 적용해보자 |
-
-# ToDo
-
-* anisotropic specular
-* dynamic weather
-* refraction
-* reflection
-* vertex animation
-* water
-* toon
-* ramp
-* fresnel
-* bloom
-* Depth Of Field
-* distortion
-* IBL (Image Based Lighting)
-* BRDF (Bidirectional Reflectance Distribution Function)
-* PBR (Physically Based Rendering)
-* fur
+| water |  |
+| pbr |  |
