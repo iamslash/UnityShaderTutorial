@@ -88,7 +88,7 @@ Shader "UnityShaderTutorial/skymap_reflect_normal" {
 `o.pos = UnityObjectToClipPos(vertex);`
 
 ```
-Object Space에서 카메라의 Clip Space로 정점(vertex)을 변환하는 함수.
+Object Space에서 카메라의 Clip Space로 정점(vertex)을 변환한다.
 
 (== mul(UNITY_MATRIX_MVP, float4(pos, 1.0)))
 ```
@@ -96,11 +96,11 @@ Object Space에서 카메라의 Clip Space로 정점(vertex)을 변환하는 함
 `o.worldPos = mul(_Object2World, vertex).xyz;`
 
 ```
-???
+정점의 월드 좌표계상의 좌료를 계산한다.
 
 추가 설명)
 
-1. _object2world - 현재 모델의 메트릭스
+_object2world - 현재 모델의 메트릭스
 ```
 
 `half3 wNormal = UnityObjectToWorldNormal(normal);`
@@ -115,11 +115,6 @@ Object Space에서 카메라의 Clip Space로 정점(vertex)을 변환하는 함
 노멀 벡터의 접선인 tanget를 월드 좌표계상 벡터로 변환한다. 
 ```
 
-`half tangentSign = tangent.w * unity_WorldTransformParams.w;`
-
-```
-```
-
 `half3 wBitangent = cross(wNormal, wTangent) * tangentSign;`
 
 ```
@@ -127,7 +122,7 @@ Object Space에서 카메라의 Clip Space로 정점(vertex)을 변환하는 함
 
 추가 설명)
 
-1. cross(x, y) - 두 벡터(x, y)의 외적을 계산.
+cross(x, y) - 두 벡터(x, y)의 외적을 계산.
 ```
 
 `o.tspace0 = half3(wTangent.x, wBitangent.x, wNormal.x);`
@@ -173,11 +168,17 @@ TBN 행렬을 만들기 위한 값을 구성한다.
 `half4 skyData = UNITY_SAMPLE_TEXCUBE(unity_SpecCube0, worldRefl);`
 
 ```
+반사 벡터 정보를 이용하여 반사 큐브맵 정보를 구성한다.
+
+추가 설명)
+
+unity_SpecCube0 - 리플렉션 프로브로 들어오는 큐브맵.
 ```
 
 `half3 skyColor = DecodeHDR (skyData, unity_SpecCube0_HDR);`
 
 ```
+반사 큐브맵 데이터를 실제 색상으로 변환한다.
 ```
 
 # Prerequisites
