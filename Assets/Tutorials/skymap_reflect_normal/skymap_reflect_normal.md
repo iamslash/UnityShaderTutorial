@@ -96,7 +96,7 @@ Object Space에서 카메라의 Clip Space로 정점(vertex)을 변환한다.
 `o.worldPos = mul(_Object2World, vertex).xyz;`
 
 ```
-정점의 월드 좌표계상의 좌료를 계산한다.
+월드 좌표계상의 정점의 좌표를 계산한다.
 
 추가 설명)
 
@@ -138,7 +138,7 @@ TBN 행렬을 만들기 위한 값을 구성한다.
 `half3 tnormal = UnpackNormal(tex2D(_BumpMap, i.uv));`
 
 ```
-노말맵 텍스처를 오브젝트의 uv에 매핑시킨다.
+노말맵 텍스처의 컬러값을 변환하여 노멀 벡터 값을 만든다.
 ```
 
 `half3 worldNormal;`
@@ -162,13 +162,13 @@ TBN 행렬을 만들기 위한 값을 구성한다.
 `half3 worldRefl = reflect(-worldViewDir, worldNormal);`
 
 ```
-입사 광선과 표면 법선을 사용하여 반사 벡터를 반환한다.
+입사 광선과 표면 법선을 사용하여 반사 벡터를 구한다.
 ```
 
 `half4 skyData = UNITY_SAMPLE_TEXCUBE(unity_SpecCube0, worldRefl);`
 
 ```
-반사 벡터 정보를 이용하여 반사 큐브맵 정보를 구성한다.
+반사 벡터 정보와 반사 큐브맵 정보를 이용하여 텍셀의 정보를 구한다.
 
 추가 설명)
 
@@ -178,7 +178,7 @@ unity_SpecCube0 - 리플렉션 프로브로 들어오는 큐브맵.
 `half3 skyColor = DecodeHDR (skyData, unity_SpecCube0_HDR);`
 
 ```
-반사 큐브맵 데이터를 실제 색상으로 변환한다.
+텍셀의 HDR 정보를 색상의 손상없이 나타내기 위해 LDR로 변환하여 사용한다.
 ```
 
 # Prerequisites
