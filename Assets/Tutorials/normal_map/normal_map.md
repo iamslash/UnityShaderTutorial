@@ -292,4 +292,73 @@ inline float3 UnityObjectToWorldNormal( in float3 norm ) {
 
 노멀 벡터는 오브젝트의 한 vertex에 접하는 tangent plane에 수직이고 크기가 1인 벡터이다. 여기서 중요한 것은 노멀 벡터는 tangent plane에서 파생되어 나온 벡터라는 것이다. 오브젝트의 크기가 변경될 때, 변경된 수치에 맞게 변형해야 하는 대상은 노멀 벡터가 아니라 tangent plane이다. 노멀 벡터는 tangent plane에 수직이기 때문에 항상 tangent plane의 변형에 반대가 된다.
 
+![](scale_transform.png)
+
 이차원에서 한번 생각해보자. 한 vertex에 값이 `sqrt(2)/2 * (1, 1)`인 노멀 벡터 N을 가진다고 가정할 때, 해당 vertex의 tangent line의 식은 `x + y = 0` 이 된다. 해당 오브젝트의 x 값을 2배로 늘렸을 때, 해당 vertex에 접하는 tangent line의 식은 `x + 2y = 0` 이 된다. 노멀 벡터의 값은 `1/sqrt(5) * (1, 2)`가 된다. x의 값이 늘어난 것이 아니라 y의 값이 늘어났다. 실제로 해당 비율로 변형된 tangent line에 수직이기 때문이다.
+
+
+그럼 노멀 벡터를 world space로 변경시키는 행렬은 어떻게 구해야 할까. object space -> world space matrix로 구할 수 있다.
+
+object space -> world space matrix를 M이라 할때, M은 다음과 같이 회전 변환 R과 비율 변환 S로 표현할 수 있다. 벡터 변환을 하기 때문에 이동 변환은 제외하였다.
+
+![](matrix.png)
+
+```
+M = S * R 
+```
+
+우리가 원하는 행렬 `M_{normal}`은 아래와 같이 표현할 수 있다.
+
+![](matrix_normal.png)
+
+```
+M_{normal} = S^{-1} * R 
+```
+
+여기서 행렬의 성질을 사용한다. 회전 변환의 경우 inverse와 transpose의 결과가 같다. 그리고 비율 변환의 경우, 기본 행렬과 transpose의 결과가 같다. transpose는 x와 y의 값을 바꾸는 작업이다.
+
+![](matrix_algebra.png)
+
+```
+\\R = \begin{pmatrix}
+        cos\theta & -sin\theta \\ 
+        sin\theta & cos\theta
+      \end{pmatrix}
+R^{T} = \begin{pmatrix}
+           cos\theta & sin\theta \\ 
+           -sin\theta & cos\theta
+         \end{pmatrix}
+R^{-1} = \begin{pmatrix}
+           cos\theta & sin\theta \\ 
+           -sin\theta & cos\theta
+         \end{pmatrix}
+\\\\\\
+S = \begin{pmatrix}
+      a & 0 \\ 
+      0 & b
+    \end{pmatrix}
+S^{T} = \begin{pmatrix}
+           a & 0 \\ 
+           0 & b
+         \end{pmatrix}
+```
+
+그러므로, 행렬 `M_{normal}`은 아래와 같이 표현할 수 있다.
+
+![](matrix_normal2.png)
+
+```
+\\ M_{normal} = (S^{-1})^{T} * (R^{-1})^{T} 
+\\ M_{normal} = (R^{-1} * S^{-1})^{T}
+```
+
+이 식을 `M`으로 표현할 수 있다.
+
+![](matrix_equation.png)
+
+```
+\\ M_{normal} = ((S * R)^{-1})^{T} 
+\\ M_{normal} = (M^{-1})^{T} 
+```
+
+행렬 `M_{normal}`은 `M`을 inverse 와 transpose 한 행렬이 된다.
