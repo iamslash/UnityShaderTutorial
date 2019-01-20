@@ -1,4 +1,10 @@
-﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+# Abstract
+
+diffuse lighting, ambient, light probe 를 적용해보자
+
+# Shader
+
+```c
 Shader "UnityShaderTutorial/diffuse_ambient_lightprobe" {
     Properties
     {
@@ -15,49 +21,6 @@ Shader "UnityShaderTutorial/diffuse_ambient_lightprobe" {
             #pragma fragment frag
             #include "UnityCG.cginc"
             #include "UnityLightingCommon.cginc"
-
-			// normal should be normalized, w=1.0
-half3 SHEvalLinearL0L1s (half4 normal)
-{
-    half3 x;
-
-    // Linear (L1) + constant (L0) polynomial terms
-    x.r = dot(unity_SHAr,normal);
-    x.g = dot(unity_SHAg,normal);
-    x.b = dot(unity_SHAb,normal);
-
-    return x;
-}
-
-// normal should be normalized, w=1.0
-half3 SHEvalLinearL2s (half4 normal)
-{
-    half3 x1, x2;
-    // 4 of the quadratic (L2) polynomials
-    half4 vB = normal.xyzz * normal.yzzx;
-    x1.r = dot(unity_SHBr,vB);
-    x1.g = dot(unity_SHBg,vB);
-    x1.b = dot(unity_SHBb,vB);
-
-    // Final (5th) quadratic (L2) polynomial
-    half vC = normal.x*normal.x - normal.y*normal.y;
-    x2 = unity_SHC.rgb * vC;
-
-    return x1 + x2;
-}
-
-// normal should be normalized, w=1.0
-// output in active color space
-half3 ShadeSH9s (half4 normal)
-{
-    // Linear + constant polynomial terms
-    half3 res = SHEvalLinearL0L1s (normal);
-
-    // Quadratic polynomials
-    res += SHEvalLinearL2s (normal);
-
-    return res;
-}
 
             struct v2f
             {
@@ -80,7 +43,7 @@ half3 ShadeSH9s (half4 normal)
                 // add illumination from ambient or light probes
                 // ShadeSH9 function from UnityCG.cginc evaluates it,
                 // using world space normal
-                o.diff.rgb += ShadeSH9s(half4(worldNormal,1));
+                o.diff.rgb += ShadeSH9(half4(worldNormal,1));
                 return o;
             }
             
@@ -96,3 +59,12 @@ half3 ShadeSH9s (half4 normal)
         }
     }
 }
+```
+
+# Description
+
+이전챕터인 [diffuse](???) 와의 차이는 `환경광 (AmbientLight), 라이트프로브` 까지 적용된다는 점이다.
+
+```
+o.diff.rgb += ShadeSH9(half4(worldNormal,1));
+```
