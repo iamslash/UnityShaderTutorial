@@ -120,6 +120,8 @@ Shader "UnityShaderTutorial/normal_map" {
  * 노멀 벡터의 Z값이 항상 양수여서 XY값으로 Z값을 구할 수 있기 때문에 노멀맵 파일 크기를 줄일 수 있다.
 등이 있다.
 
+자세한 내용은 [여기](https://docs.cryengine.com/display/SDKDOC4/Tangent+Space+Normal+Mapping#TangentSpaceNormalMapping-DrawbacksofTangentSpaceLighting)에서 참조하자.
+
 
 `Tangent Space Normal Map`를 실제 셰이더에서 사용하려면 TBN 좌표계를 기준으로 하는 노멀 벡터를 월드 좌표계로 변경시켜야 한다.
 
