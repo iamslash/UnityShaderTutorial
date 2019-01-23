@@ -90,7 +90,7 @@ Diffuse term
 half nl = max(0, dot(worldNormal, _WorldSpaceLightPos0.xyz))
 ```
 * worldNormal : world space로 변환된 표면의 노멀벡터
-* _WorldSpaceLight0 : 라이트 정보
+* _WorldSpaceLightPos0 : 라이트 정보
     * Directional Light 이면 _WorldSpaceLightPos0.xyz 는 world space 상에서의 방향
     * 다른 종류의 빛이면 _WorldSpaceLightPos0.xyz 는 world space 상에서의 위치
 
