@@ -68,9 +68,6 @@ Diffuse Light
 
 ![](http://developer.download.nvidia.com/CgTutorial/elementLinks/fig5_7.jpg)
 
-
-[![calculate diffuse](http://developer.download.nvidia.com/CgTutorial/elementLinks/fig5_9.jpg)](http://developer.download.nvidia.com/CgTutorial/cg_tutorial_chapter05.html)
-
 Diffuse term
 
 ![](/Assets/Tutorials/basic_light/diffuse_eq.png)
@@ -79,6 +76,9 @@ Diffuse term
 * LightColor : 들어오는 diffuse light의 색상
 * N : 표면의 노멀벡터
 * L : 광원을 향한 노멀 벡터
+
+[![calculate diffuse](http://developer.download.nvidia.com/CgTutorial/elementLinks/fig5_9.jpg)](http://developer.download.nvidia.com/CgTutorial/cg_tutorial_chapter05.html)
+
 
 * LightMode 태그 : 라이팅 파이프 라인 안에서 패스의 역할을 정의
 * ForwardBase : Forward Rendering 패스를 사용
