@@ -68,6 +68,9 @@ Diffuse Light
 
 ![](http://developer.download.nvidia.com/CgTutorial/elementLinks/fig5_7.jpg)
 
+
+[![calculate diffuse](http://developer.download.nvidia.com/CgTutorial/elementLinks/fig5_9.jpg)](http://developer.download.nvidia.com/CgTutorial/cg_tutorial_chapter05.html)
+
 Diffuse term
 
 ![](/Assets/Tutorials/basic_light/diffuse_eq.png)
@@ -76,8 +79,6 @@ Diffuse term
 * LightColor : 들어오는 diffuse light의 색상
 * N : 표면의 노멀벡터
 * L : 광원을 향한 노멀 벡터
-
-[![calculate diffuse](http://developer.download.nvidia.com/CgTutorial/elementLinks/fig5_9.jpg)](http://developer.download.nvidia.com/CgTutorial/cg_tutorial_chapter05.html)
 
 * LightMode 태그 : 라이팅 파이프 라인 안에서 패스의 역할을 정의
 * ForwardBase : Forward Rendering 패스를 사용
@@ -102,4 +103,4 @@ o.diff = nl * _LightColor0
 ```
 col *= i.diff;
 ```
-tex2D함수를 사용해 얻어온 RGB값(material의 diffuse 색상)에 vertax shader에서 구한 K_{d} * max(dot(L,V),0) 값을 곱한다.
+tex2D함수를 사용해 얻어온 RGB값(material의 diffuse 색상)에 vertex shader에서 구한 K_{d} * max(dot(L,V),0) 값을 곱한다.
