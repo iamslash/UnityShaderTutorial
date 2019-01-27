@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: triplanar
-  m_Shader: {fileID: 4800000, guid: 66dc9dc1bcb967846aacdef20807bb9f, type: 3}
+  m_Shader: {fileID: 4800000, guid: fea6e82c201bdbe459e50112e6290592, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -43,9 +43,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: a5845122d91d26d419c877d012e15439, type: 3}
+        m_Texture: {fileID: 2800000, guid: e14bc2b3619ba4cd9b3f794b73de4ef2, type: 3}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Offset: {x: 1, y: 1}
     - _MainTexture:
         m_Texture: {fileID: 2800000, guid: a5845122d91d26d419c877d012e15439, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -55,7 +55,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: a5845122d91d26d419c877d012e15439, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -78,7 +78,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Scale: 500
+    - _Scale: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1

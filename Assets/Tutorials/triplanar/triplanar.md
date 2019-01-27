@@ -1,6 +1,6 @@
 # Abstract
 
-트리플라나 텍스처링에 대해서 알아봅니다.
+트리플라나 매핑에 대해서 알아봅니다.
 
 # Shader
 
@@ -47,15 +47,15 @@ Shader "UnityShaderTutorial/triplanar" {
             
             fixed4 frag (v2f i) : SV_Target
             {
-                // 텍스처 가중치로 법선의 절대값을 사용
+                // use absolute value of normal as texture weights
                 half3 blend = abs(i.objNormal);
                 // make sure the weights sum up to 1 (divide by sum of x+y+z)
-                blend /= dot(blend,1.0);
-                // x,y,z 축에 대한 세 가지 텍스처 투영을 읽음
+                blend /= dot(blend, 1.0);
+                // read the three texture projections, for x,y,z axes
                 fixed4 cx = tex2D(_MainTex, i.coords.yz);
                 fixed4 cy = tex2D(_MainTex, i.coords.xz);
                 fixed4 cz = tex2D(_MainTex, i.coords.xy);
-                // 가중치를 기준으로 텍스처를 혼합
+                // blend the textures based on weights
                 fixed4 c = cx * blend.x + cy * blend.y + cz * blend.z;
                 // modulate by regular occlusion map
                 c *= tex2D(_OcclusionMap, i.uv);
@@ -72,6 +72,34 @@ Shader "UnityShaderTutorial/triplanar" {
 
 지형이나 동굴 같은 텍스처에는 UV 좌표를 사용하기가 쉽지 않습니다.
 UV 좌표는 그리드에서 펼쳐지며 XY 평면에 고르게 배치되는데 지형의 높이차이를 고려하지 않고 늘이기를 유발하기 때문에 텍스처가 뒤틀려 있습니다.
-이 때 트리플라나 텍스처링 기술을 사용합니다.
+이 때 트리플라나 매핑 기술을 사용합니다.
 
-트리플라나 텍스처링은 텍스처를 물체에 매핑할 때 UV 좌표를 사용하지 않고, 물체의 XYZ 평면에 대해 텍스처 좌표를 다시 계산하여 법선의 방향으로 가중 시키는 기술입니다.
+트리플라나 매핑은 UV 좌표를 사용하지 않고, 정점 쉐이더에서 물체의 로컬 좌표나 월드 좌표를 반환하고 조각쉐이더에서 새로운 UV 좌표를 만들어서 물체에 투영시키는 기법입니다.
+
+## 투영 평면 계산
+
+![](Images/img1.PNG)
+
+특정 평면에 대해 새로운 UV 좌표를 얻기 위해 해당 축 이외의 성분으로 좌표를 구성합니다.
+Y축에 대한 평면을 계산한다고 하면 새로운 UV 좌표는 로컬 좌표 `(x, z)`가 해당됩니다.
+
+이 작업을 X, Y, Z에 축에 대해 세번 진행하여 각 축의 평면에 해당하는 새로운 UV 쌍을 만들어냅니다.
+
+```
+i.coords.yz; // X
+i.coords.xz; // Y
+i.coords.xy; // Z
+```
+
+## 법선
+
+위에서 계산된 좌표를 기반으로 텍셀값을 얻어오면 평면이 향한 방향에 따라 가중치를 곱하여 텍셀에 혼합을 해줘야 이상적인 결과물이 나옵니다.
+
+가중치를 구하기 위해 물체의 법선을 사용합니다.
+
+```
+half3 blend = abs(i.objNormal);
+blend /= dot(blend, 1.0) // == blend.x + blend.y + blend.z;
+```
+
+X, Y, Z 평면에 대해서만 투영을 하고 있기 때문에 절대값을 취해 음수를 없애고, 법선 벡터의 각 성분값들의 합을 `1`로 만들기 위해 1과 내적한 뒤, 자기 자신과 나눕니다.
