@@ -12,6 +12,7 @@
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+			#pragma enable_d3d11_debug_symbols
             #include "UnityCG.cginc"
 
             struct v2f
@@ -42,9 +43,9 @@
                 // use absolute value of normal as texture weights
                 half3 blend = abs(i.objNormal);
                 // make sure the weights sum up to 1 (divide by sum of x+y+z)
-                blend /= dot(blend,1.0);
+                blend /= dot(blend, 1.0);
                 // read the three texture projections, for x,y,z axes
-                fixed4 cx = tex2D(_MainTex, i.coords.yz);
+				fixed4 cx = tex2D(_MainTex, i.coords.yz);
                 fixed4 cy = tex2D(_MainTex, i.coords.xz);
                 fixed4 cz = tex2D(_MainTex, i.coords.xy);
                 // blend the textures based on weights
