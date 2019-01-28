@@ -38,7 +38,7 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | [**normal_map**](/Assets/Tutorials/normal_map/normal_map.md) | 노멀맵을 적용해보자 |
 | [skymap_reflect](/Assets/Tutorials/skymap_reflect/skymap_reflect.md) | 스카이맵을 물체의 표면에서 반사시켜보자 |
 | [skymap_reflect_normal](/Assets/Tutorials/skymap_reflect_normal/skymap_reflect_normal.md) | 스카이맵을 노멀맵과 함께 물체의 표면에서 반사시켜보자 |
-| skymap_reflect_normal_occlusion | 스카이맵을 노멀맵, 오클루젼맵과 함께 물체의 표면에서 반사시켜보자 |
+| [skymap_reflect_normal_occlusion](/Assets/Tutorials/skymap_reflect_normal_occlusion/skymap_reflect_normal_occlusion.md) | 스카이맵을 노멀맵, 오클루젼맵과 함께 물체의 표면에서 반사시켜보자 |
 | [checkerboard](/Assets/Tutorials/checkerboard/checkerboard.md) | 물체의 표면을 체커보드 패턴으로 표현해보자 |
 | [triplanar](/Assets/Tutorials/triplanar/triplanar.md) | tri-planar 텍스처 매핑을 해보자 |
 | [diffuse](/Assets/Tutorials/diffuse/diffuse.md) | diffuse lighting 을 적용해보자 |
