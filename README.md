@@ -45,7 +45,7 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | [diffuse_ambient_lightprobe](/Assets/Tutorials/diffuse_ambient_lightprobe/diffuse_ambient_lightprobe.md) | diffuse lighting, ambient, light probe 를 적용해보자 |
 | shadow_caster | 그림자를 만들어보자 |
 | shadow_receiver | 그림자를 드리워보자 |
-| fog | 안개를 그려보자 |
+| [fog](/Assets/Tutorials/fog/fog.md) | 안개를 그려보자 |
 | [surface_shader_simple](/Assets/Tutorials/surface_shader_simple/surface_shader_simple.md) | 서피스 쉐이더를 이용하여 한가지 색으로 칠하자 |
 | [surface_shader_texture](/Assets/Tutorials/surface_shader_texture/surface_shader_texture.md) | 서피스 쉐이더를 이용하여 텍스처를 적용해 보자 |
 | [surface_shader_normal_mapping](/Assets/Tutorials/surface_shader_normal_mapping/surface_shader_normal_mapping.md) | 서피스 쉐이더를 이용하여 노말맵을 적용해보자 |
