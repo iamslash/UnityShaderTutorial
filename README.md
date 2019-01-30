@@ -61,7 +61,19 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | surface_shader_linear_fog | |
 | surface_shader_decals | |
 | [outline](/Assets/Tutorials/outline/outline.md) | 외곽선을 적용해보자 |
+| ramp with slider|  ramp 을 적용해보자 |
+| ramp with texture | ramp 을 적용해보자 |
+| blinn-phong specular | |
+| anisotropic specular |  |
+| matcap | 돌, 얼음, 투명, 구리 를 구현해보자 |
+| surface scattering | |
+| sketch | |
+| non-repeating tiling | |
+| x-ray | |
+| dissolve | 물체가 점점 사라지게 해보자. | 
+| outline with normal | |
+| snow | |
 | rimlight | rim light 을 적용해보자 |
-| ramp | ramp 을 적용해보자 |
-| water |  |
 | pbr |  |
+| water |  |
+
