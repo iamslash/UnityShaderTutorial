@@ -67,8 +67,9 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | anisotropic specular |  |
 | matcap | 돌, 얼음, 투명, 구리 를 구현해보자 |
 | surface scattering | |
+| hand painted | |
 | sketch | |
-| non-repeating tiling | |
+| random tiling | |
 | x-ray | |
 | dissolve | 물체가 점점 사라지게 해보자. | 
 | outline with normal | |
@@ -76,4 +77,3 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | rimlight | rim light 을 적용해보자 |
 | pbr |  |
 | water |  |
-
