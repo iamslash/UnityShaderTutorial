@@ -51,7 +51,7 @@
                 // blend the textures based on weights
                 fixed4 c = cx * blend.x + cy * blend.y + cz * blend.z;
                 // modulate by regular occlusion map
-                c *= tex2D(_OcclusionMap, i.uv);
+                //c *= tex2D(_OcclusionMap, i.uv);
                 return c;
             }
             ENDCG
