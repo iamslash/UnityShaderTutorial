@@ -84,7 +84,7 @@ Diffuse term
 [![calculate diffuse](http://developer.download.nvidia.com/CgTutorial/elementLinks/fig5_9.jpg)](http://developer.download.nvidia.com/CgTutorial/cg_tutorial_chapter05.html)
 
 ![](/Assets/Tutorials/diffuse/no_minus.png)
-* dot(N,L) < 0 은 표면의 뒤에서 빛이 비추고 있는것이고, Diffuse term 값을 음수 값으로 만들기 때문에 max함수를 사용해 제한을 둠
+* dot(N,L) < 0 은 표면의 뒤에서 빛이 비추고 있는것이고, Diffuse term 값을 음수 값으로 만들기 때문에 max함수를 사용해 제한을 둠 
 
 * Lambertian surface : 각에 따른 반사광의 세기가 보는 각도에 관계 없이 일정한 표면
    * 물체 표면의 휘도(빛이 반사되는 반사면의 밝기)가 등방성(물체의 성질이 어느 방향에서나 같은 성질을 나타냄)을 가질때 그 표면이 Lambertian reflectance을 갖는다
