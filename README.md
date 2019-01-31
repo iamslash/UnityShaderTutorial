@@ -50,7 +50,7 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | [surface_shader_texture](/Assets/Tutorials/surface_shader_texture/surface_shader_texture.md) | 서피스 쉐이더를 이용하여 텍스처를 적용해 보자 |
 | [surface_shader_normal_mapping](/Assets/Tutorials/surface_shader_normal_mapping/surface_shader_normal_mapping.md) | 서피스 쉐이더를 이용하여 노말맵을 적용해보자 |
 | surface_shader_rim_lighting | |
-| surface_shader_detail_texture | |
+| [surface_shader_detail_texture](/Assets/Tutorials/surface_shader_detail_texture/surface_shader_detail_texture.md) | 서피스 쉐이더를 이용하여 디테일 텍스처를 적용해 보자 |
 | surface_shader_detail_texture_in_screen_space | |
 | [surface_shader_cubemap_reflection](/Assets/Tutorials/surface_shader_cubemap_reflection/surface_shader_cubemap_reflection.md) | |
 | [surface_shader_slices](/Assets/Tutorials/surface_shader_slices/surface_shader_slices.md) | 서피스 쉐이더를 이용하여 물체를 잘라보자 |
