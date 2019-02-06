@@ -68,5 +68,5 @@ Shader "UnityShaderTutorial/fog" {
 * UNITY_APPLY_FOG(fog_data, col) : 색상을 적용
     * forward_additive pass 에서는 자동으로 검은 안개 적용
 * UNITY_APPLY_FOG_COLOR : 색상을 적용
-
+![](/Assets/Tutorials/fog/fog.png)
 
