@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: triplanar
-  m_Shader: {fileID: 4800000, guid: 947ed3a0ce8922f4eb15c20fee9c5d17, type: 3}
+  m_Shader: {fileID: 4800000, guid: fea6e82c201bdbe459e50112e6290592, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -70,6 +70,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: ce1550e070bffbe40a9be4219a5023ce, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Texture:
+        m_Texture: {fileID: 2800000, guid: a5845122d91d26d419c877d012e15439, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
@@ -88,7 +92,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _TextureScale: 15
-    - _Tiling: 1
+    - _Tiling: 0.1
     - _TriplanarBlendSharpness: 1
     - _UVSec: 0
     - _ZWrite: 1
