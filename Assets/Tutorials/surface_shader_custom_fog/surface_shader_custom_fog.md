@@ -49,4 +49,4 @@ Shader "UnityShaderTutorial/surface_shader_custom_fog" {
 * 화면 중앙으로부터의 거리를 기준으로 안개의 색을 적용
 * UNITY_INITIALIZE_OUTPUT(type, name) : type 의 name 변수를 0으로 초기화
 * data.fog : 물체의 색상과 안개의 색을 보간할 정도를 저장
-![](fog.png)
+![](fog.PNG)
