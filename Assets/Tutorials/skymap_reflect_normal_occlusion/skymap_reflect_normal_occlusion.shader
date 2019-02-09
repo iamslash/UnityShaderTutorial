@@ -1,7 +1,4 @@
-﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-
-// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-Shader "UnityShaderTutorial/skymap_reflect_normal_occlusion" {
+﻿Shader "UnityShaderTutorial/skymap_reflect_normal_occlusion" {
     Properties {
         // three textures we'll use in the material
         _MainTex("Base texture", 2D) = "white" {}

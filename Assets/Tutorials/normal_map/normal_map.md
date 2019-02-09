@@ -120,6 +120,8 @@ Shader "UnityShaderTutorial/normal_map" {
  * 노멀 벡터의 Z값이 항상 양수여서 XY값으로 Z값을 구할 수 있기 때문에 노멀맵 파일 크기를 줄일 수 있다.
 등이 있다.
 
+자세한 내용은 [여기](https://docs.cryengine.com/display/SDKDOC4/Tangent+Space+Normal+Mapping#TangentSpaceNormalMapping-DrawbacksofTangentSpaceLighting)에서 참조하자.
+
 
 `Tangent Space Normal Map`를 실제 셰이더에서 사용하려면 TBN 좌표계를 기준으로 하는 노멀 벡터를 월드 좌표계로 변경시켜야 한다.
 
@@ -263,3 +265,102 @@ U좌표와 일치하는 벡터를 Tangent Vector, V좌표와 일치하는 벡터
 단점은, 고해상도의 모델에서 노말맵을 생성한 뒤 저해상도의 모델을 또 만들어야 하기 때문에 전체적으로 모델을 만드는 시간이 오래 걸린다.
 
  
+## UnityObjectToWorldNormal() vs UnityObjectToWorldDir()
+
+vertex shader 에서 그려야 할 vertex의 정보를 받아오는데 이는 object space를 좌표계로 사용한다. Unity 세계에 맞게 그려주기 위해서 좌표계를 world space로 변경해줄 필요가 있는데, 여기서 변환에 사용되는 함수가 두 가지 이다. 기본적으로 변환에 사용하는 함수는 `UnityObjectToWorldDir()`이고, 노멀 벡터를 변환할 때에는 `UnityObjectToWorldNormal()`를 사용한다. 유니티에 구현되어 있는 두 함수의 코드는 다음과 같다.
+
+```
+inline float3 UnityObjectToWorldDir( in float3 dir ) {
+    return normalize(mul((float3x3)unity_ObjectToWorld, dir));
+}
+
+// Transforms direction from world to object space
+inline float3 UnityWorldToObjectDir( in float3 dir ) {
+    return normalize(mul((float3x3)unity_WorldToObject, dir));
+}
+
+// Transforms normal from object to world space
+inline float3 UnityObjectToWorldNormal( in float3 norm ) {
+#ifdef UNITY_ASSUME_UNIFORM_SCALING
+    return UnityObjectToWorldDir(norm);
+#else
+    // mul(IT_M, norm) => mul(norm, I_M) => {dot(norm, I_M.col0), dot(norm, I_M.col1), dot(norm, I_M.col2)}
+    return normalize(mul(norm, (float3x3)unity_WorldToObject));
+#endif
+}
+```
+
+`UnityObjectToWorldDir()`는 인수로 받은 `dir`에 변환 행렬를 곱해주고 노멀라이즈 하는 작업을 진행한다. `UnityObjectToWorldNormal()`도 동일하게 진행할 것 같지만, `UNITY_ASSUME_UNIFORM_SCALING` 이 선언되어 있지 않으면, 역행렬 `unity_WorldToObject`을 곱하고 인수와 행렬 곱 위치도 바뀐다.(여기서 사용하는 행렬은 교환법칙이 성립하지 않는다.) `UNITY_ASSUME_UNIFORM_SCALING`은 해당 오브젝트의 스케일이 유니티 내부에서 변경되지 않았을 때를 의미한다. 비율의 변경이 일어나면 `UnityObjectToWorldNormal()`에서 특별 처리를 하게 된다.
+
+노멀 벡터는 오브젝트의 한 vertex에 접하는 tangent plane에 수직이고 크기가 1인 벡터이다. 여기서 중요한 것은 노멀 벡터는 tangent plane에서 파생되어 나온 벡터라는 것이다. 오브젝트의 크기가 변경될 때, 변경된 수치에 맞게 변형해야 하는 대상은 노멀 벡터가 아니라 tangent plane이다. 노멀 벡터는 tangent plane에 수직이기 때문에 항상 tangent plane의 변형에 반대가 된다.
+
+![](scale_transform.png)
+
+이차원에서 한번 생각해보자. 한 vertex에 값이 `sqrt(2)/2 * (1, 1)`인 노멀 벡터 N을 가진다고 가정할 때, 해당 vertex의 tangent line의 식은 `x + y = 0` 이 된다. 해당 오브젝트의 x 값을 2배로 늘렸을 때, 해당 vertex에 접하는 tangent line의 식은 `x + 2y = 0` 이 된다. 노멀 벡터의 값은 `1/sqrt(5) * (1, 2)`가 된다. x의 값이 늘어난 것이 아니라 y의 값이 늘어났다. 실제로 해당 비율로 변형된 tangent line에 수직이기 때문이다.
+
+
+그럼 노멀 벡터를 world space로 변경시키는 행렬은 어떻게 구해야 할까. object space -> world space matrix로 구할 수 있다.
+
+object space -> world space matrix를 M이라 할때, M은 다음과 같이 회전 변환 R과 비율 변환 S로 표현할 수 있다. 벡터 변환을 하기 때문에 이동 변환은 제외하였다.
+
+![](matrix.png)
+
+```
+M = S * R 
+```
+
+우리가 원하는 행렬 `M_{normal}`은 아래와 같이 표현할 수 있다.
+
+![](matrix_normal.png)
+
+```
+M_{normal} = S^{-1} * R 
+```
+
+여기서 행렬의 성질을 사용한다. 회전 변환의 경우 inverse와 transpose의 결과가 같다. 그리고 비율 변환의 경우, 기본 행렬과 transpose의 결과가 같다. transpose는 x와 y의 값을 바꾸는 작업이다.
+
+![](matrix_algebra.png)
+
+```
+\\R = \begin{pmatrix}
+        cos\theta & -sin\theta \\ 
+        sin\theta & cos\theta
+      \end{pmatrix}
+R^{T} = \begin{pmatrix}
+           cos\theta & sin\theta \\ 
+           -sin\theta & cos\theta
+         \end{pmatrix}
+R^{-1} = \begin{pmatrix}
+           cos\theta & sin\theta \\ 
+           -sin\theta & cos\theta
+         \end{pmatrix}
+\\\\\\
+S = \begin{pmatrix}
+      a & 0 \\ 
+      0 & b
+    \end{pmatrix}
+S^{T} = \begin{pmatrix}
+           a & 0 \\ 
+           0 & b
+         \end{pmatrix}
+```
+
+그러므로, 행렬 `M_{normal}`은 아래와 같이 표현할 수 있다.
+
+![](matrix_normal2.png)
+
+```
+\\ M_{normal} = (S^{-1})^{T} * (R^{-1})^{T} 
+\\ M_{normal} = (R^{-1} * S^{-1})^{T}
+```
+
+이 식을 `M`으로 표현할 수 있다.
+
+![](matrix_equation.png)
+
+```
+\\ M_{normal} = ((S * R)^{-1})^{T} 
+\\ M_{normal} = (M^{-1})^{T} 
+```
+
+행렬 `M_{normal}`은 `M`을 inverse 와 transpose 한 행렬이 된다.

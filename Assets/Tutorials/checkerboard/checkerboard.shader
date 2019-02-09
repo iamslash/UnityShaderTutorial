@@ -1,5 +1,5 @@
 ﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-Shader "UnityShaderTutorial/skymap_reflect_normal" {
+Shader "UnityShaderTutorial/checkerboard" {
     Properties
     {
         _Density ("Density", Range(2,50)) = 30

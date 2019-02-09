@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: shadow_caster
+  m_Name: rimlight
   m_Shader: {fileID: 4800000, guid: d283242b49c44d04d8e29833e8b1a84d, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
