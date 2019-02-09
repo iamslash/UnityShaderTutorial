@@ -58,7 +58,7 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | surface_shader_custom_data_computed_per_vertex | |
 | surface_shader_final_color_mod | |
 | surface_shader_custom_fog | |
-| surface_shader_linear_fog | |
+| [surface_shader_linear_fog](/Assets/Tutorials/surface_shader_linear_fog/surface_shader_linear_fog.md) | 서피스 쉐이더를 이용하여 선형 Fog를 적용해 보자 |
 | surface_shader_decals | |
 | [outline](/Assets/Tutorials/outline/outline.md) | 외곽선을 적용해보자 |
 | rimlight | rim light 을 적용해보자 |
