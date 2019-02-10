@@ -1,16 +1,26 @@
-﻿Shader "UnityShaderTutorial/surface_shader_simple" {
-	SubShader{
-		Tags{ "RenderType" = "Opaque" }
-		
-		CGPROGRAM
-	    #pragma surface surf Lambert
-			struct Input {
-			float4 color : COLOR;
-		};
-		void surf(Input IN, inout SurfaceOutput o) {
-			o.Albedo = 1;
-		}
-		ENDCG
+﻿Shader "UnityShaderTutorial/surface_shader_decals" {
+	Properties {
+    	_MainTex ("Base (RGB)", 2D) = "white" {}
 	}
-	Fallback "Diffuse"
+
+  	SubShader {
+    	Tags { "RenderType"="Opaque" "Queue"="Geometry+1" "ForceNoShadowCasting"="true" }
+    	Offset -1, -1
+    
+    	CGPROGRAM
+	    #pragma surface surf Lambert decal:blend
+	    
+	    sampler2D _MainTex;
+	    
+	    struct Input {
+	      float2 uv_MainTex;
+	    };
+	    
+	    void surf (Input IN, inout SurfaceOutput o) {
+	        half4 c = tex2D (_MainTex, IN.uv_MainTex);
+	        o.Albedo = c.rgb;
+	        o.Alpha = c.a;
+	      }
+	    ENDCG
+    }
 }
