@@ -56,7 +56,7 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | [surface_shader_slices](/Assets/Tutorials/surface_shader_slices/surface_shader_slices.md) | 서피스 쉐이더를 이용하여 물체를 잘라보자 |
 | surface_shader_normal_extrusion | |
 | [surface_shader_custom_data_computed_per_vertex](/Assets/Tutorials/surface_shader_custom_data_computed_per_vertex/surface_shader_custom_data_computed_per_vertex.md) | |
-| surface_shader_final_color_mod | |
+| [surface_shader_final_color_mod](/Assets/Tutorials/surface_shader_final_color_mod/surface_shader_final_color_mod.md) | 서피스 쉐이더를 이용하여 마지막으로 출력되는 컬러값을 변경해보자 |
 | [surface_shader_custom_fog](/Assets/Tutorials/surface_shader_custom_fog/surface_shader_custom_fog.md) | |
 | [surface_shader_linear_fog](/Assets/Tutorials/surface_shader_linear_fog/surface_shader_linear_fog.md) | 서피스 쉐이더를 이용하여 선형 Fog를 적용해 보자 |
 | [surface_shader_decals](/Assets/Tutorials/surface_shader_decals/surface_shader_decals.md) | |
