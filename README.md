@@ -66,7 +66,7 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | blinn-phong specular | |
 | anisotropic specular |  |
 | matcap | 돌, 얼음, 투명, 구리 를 구현해보자 |
-| surface scattering | |
+| [subsurface scattering](/Assets/Tutorials/subsurface_scattering/subsurface_scattering.md) | |
 | hand painted | |
 | sketch | |
 | random tiling | |
