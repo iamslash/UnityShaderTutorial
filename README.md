@@ -51,10 +51,10 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | [surface_shader_normal_mapping](/Assets/Tutorials/surface_shader_normal_mapping/surface_shader_normal_mapping.md) | 서피스 쉐이더를 이용하여 노말맵을 적용해보자 |
 | [surface_shader_rim_lighting](/Assets/Tutorials/surface_shader_rim_lighting/surface_shader_rim_lighting.md) | 서피스 쉐이더를 이용하여 게임 오브젝트의 가장자리를 강조해보자 |
 | [surface_shader_detail_texture](/Assets/Tutorials/surface_shader_detail_texture/surface_shader_detail_texture.md) | 서피스 쉐이더를 이용하여 디테일 텍스처를 적용해 보자 |
-| surface_shader_detail_texture_in_screen_space | |
+| [surface_shader_detail_texture_in_screen_space](/Assets/Tutorials/surface_shader_detail_texture_in_screen_space/surface_shader_detail_texture_in_screen_space.md) | 서피스 쉐이더를 이용하여 화면 좌표를 사용해보자 |
 | [surface_shader_cubemap_reflection](/Assets/Tutorials/surface_shader_cubemap_reflection/surface_shader_cubemap_reflection.md) | |
 | [surface_shader_slices](/Assets/Tutorials/surface_shader_slices/surface_shader_slices.md) | 서피스 쉐이더를 이용하여 물체를 잘라보자 |
-| surface_shader_normal_extrusion | |
+| [surface_shader_normal_extrusion](/Assets/Tutorials/surface_shader_normal_extrusion/surface_shader_normal_extrusion.md) | 서피스 쉐이더를 이용하여 법선을 기반으로 물체의 정점을 조작해보자 |
 | [surface_shader_custom_data_computed_per_vertex](/Assets/Tutorials/surface_shader_custom_data_computed_per_vertex/surface_shader_custom_data_computed_per_vertex.md) | |
 | [surface_shader_final_color_mod](/Assets/Tutorials/surface_shader_final_color_mod/surface_shader_final_color_mod.md) | 서피스 쉐이더를 이용하여 마지막으로 출력되는 컬러값을 변경해보자 |
 | [surface_shader_custom_fog](/Assets/Tutorials/surface_shader_custom_fog/surface_shader_custom_fog.md) | |
