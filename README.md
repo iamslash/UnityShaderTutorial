@@ -49,7 +49,7 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | [surface_shader_simple](/Assets/Tutorials/surface_shader_simple/surface_shader_simple.md) | 서피스 쉐이더를 이용하여 한가지 색으로 칠하자 |
 | [surface_shader_texture](/Assets/Tutorials/surface_shader_texture/surface_shader_texture.md) | 서피스 쉐이더를 이용하여 텍스처를 적용해 보자 |
 | [surface_shader_normal_mapping](/Assets/Tutorials/surface_shader_normal_mapping/surface_shader_normal_mapping.md) | 서피스 쉐이더를 이용하여 노말맵을 적용해보자 |
-| surface_shader_rim_lighting | |
+| [surface_shader_rim_lighting](/Assets/Tutorials/surface_shader_rim_lighting/surface_shader_rim_lighting.md) | 서피스 쉐이더를 이용하여 게임 오브젝트의 가장자리를 강조해보자 |
 | [surface_shader_detail_texture](/Assets/Tutorials/surface_shader_detail_texture/surface_shader_detail_texture.md) | 서피스 쉐이더를 이용하여 디테일 텍스처를 적용해 보자 |
 | surface_shader_detail_texture_in_screen_space | |
 | [surface_shader_cubemap_reflection](/Assets/Tutorials/surface_shader_cubemap_reflection/surface_shader_cubemap_reflection.md) | |
