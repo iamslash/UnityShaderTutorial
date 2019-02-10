@@ -111,6 +111,8 @@ Shader "UnityShaderTutorial/shadow_caster" {
 
 ![](shadow_acne.png)
 
+![](shadow_acne2.png)
+
 해당 현상은 `bias` 오프셋을 추가하는 것으로 해결할 수 있다. shadow map을 매핑할 때 광원과의 거리에 약간의 값을 추가하여 텍셀의 튀어나온 부분이 표면안으로 들어가도록 하는 것이다. bias 값이 너무 커지면 물체와 그림자가 떨어져 보이는 `Peter Panning` 현상이 발생하기 때문에 적절한 조절이 필요하다.
 
 
