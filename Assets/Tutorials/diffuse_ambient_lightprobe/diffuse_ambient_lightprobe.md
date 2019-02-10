@@ -68,3 +68,27 @@ Shader "UnityShaderTutorial/diffuse_ambient_lightprobe" {
 ```
 o.diff.rgb += ShadeSH9(half4(worldNormal,1));
 ```
+
+# Prerequisites
+
+## Forward Rendering Path
+
+`Forward Rendering Path` 는 특정 물체에 영향을 미치는 라이트가 많을 경우 한정된 갯수의 라이트만을 `Pixel-Light`로 계산하고, 나머지 를 `Vertex-Light`나, `구면조화`로 계산된다.
+
+`Pixel-Light`로 계산 되는 기준은 아래와 같다.
+
+* `Light` 컴포넌트의 `Render Mode`의 값이 Important로 되어 있을 경우
+* 가장 밝은 `Directional Light`
+* 위 조건에 맞는 라이트의 갯수 (c), 최대 허용된 갯수 (m) = `QualitySettings의 Pixel Light Count` 일때, m - c 갯수 만큼 더 허용
+
+더욱 자세한 내용은 [유니티 메뉴얼](https://docs.unity3d.com/Manual/RenderTech-ForwardRendering.html) 에서 확인 할 수 있다.
+
+![](./Images/quality_setting.png)
+
+아래 스크린샷은 `QualitySetting의 Pixel Light Count`의 값에 따른 변화이다. 
+라이트는 총 5개 ( 1 Directional Light, 4 Spot Light)
+
+| PixelCount 0 | PixelCount 1 | PixelCount 2 | PixelCount 3 | PixelCount 4 |
+|:-------:|:--------:|:--------:|:--------:|:--------:|
+| ![](./Images/pixel_count_0.png) | ![](./Images/pixel_count_1.png) | ![](./Images/pixel_count_2.png) | ![](./Images/pixel_count_3.png) | ![](./Images/pixel_count_4.png)  
+
