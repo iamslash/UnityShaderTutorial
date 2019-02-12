@@ -10,6 +10,8 @@
 	}
 		SubShader
 		{
+			Tags { "RenderType" = "Opaque" }
+
 			Pass
 			{
 				Tags { "LightMode" = "ForwardBase" }
@@ -17,10 +19,10 @@
 				CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+				#pragma multi_compile_fwdbase
 
 				#include "UnityCG.cginc"
-				#include "AutoLight.cginc"	//for atten
-				#include "Lighting.cginc"	//for UnityGlobalIllumination
+				#include "Lighting.cginc"	//for UnityGI
 
 				fixed4 _Color;
 				sampler2D _MainTex;
@@ -52,6 +54,10 @@
 					c.rgb = i.Albedo * _LightColor0.rgb * ramp;
 					c.a = i.Alpha;
 
+					#ifdef UNITY_LIGHT_FUNCTION_APPLY_INDIRECT
+					c.rgb += i.Albedo * gi.indirect.diffuse;
+					#endif
+
 					return c;
 				}
 
@@ -75,13 +81,9 @@
 					uv_MainTex = i.uv;
 
 					float3 world_pos = i.worldPos;
-
-					#ifndef USING_DIRECTIONAL_LIGHT
 					fixed3 light_dir = normalize(UnityWorldSpaceLightDir(world_pos));
-					#else
-					fixed3 light_dir = _WorldSpaceLightPos0.xyz;
-					#endif
-
+					float3 world_view_dir = normalize(UnityWorldSpaceViewDir(world_pos));
+					
 					lightInput o;
 
 					o.Normal = i.worldNormal;
@@ -100,12 +102,14 @@
 					gi.light.color = _LightColor0.rgb;
 					gi.light.dir = light_dir;
 
-					// realtime lighting: call lighting function
+					#if UNITY_SHOULD_SAMPLE_SH
+					gi.indirect.diffuse = ShadeSHPerPixel(o.Normal, 0.0, world_pos);
+					#endif
+
 					c += LightingCustom(o, gi);
 					UNITY_OPAQUE_ALPHA(c.a);
 					return c;
 				}
-
 				ENDCG
 			}
 		}

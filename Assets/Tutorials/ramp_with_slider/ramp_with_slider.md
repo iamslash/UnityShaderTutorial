@@ -17,6 +17,8 @@ Shader "Custom/RampWithSlider" {
 	}
 		SubShader
 		{
+			Tags { "RenderType" = "Opaque" }
+
 			Pass
 			{
 				Tags { "LightMode" = "ForwardBase" }
@@ -24,10 +26,10 @@ Shader "Custom/RampWithSlider" {
 				CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
-
+				#pragma multi_compile_fwdbase
+				
 				#include "UnityCG.cginc"
-				#include "AutoLight.cginc"	//for atten
-				#include "Lighting.cginc"	//for UnityGlobalIllumination
+				#include "Lighting.cginc"	//for UnityGI
 
 				fixed4 _Color;
 				sampler2D _MainTex;
@@ -59,6 +61,10 @@ Shader "Custom/RampWithSlider" {
 					c.rgb = i.Albedo * _LightColor0.rgb * ramp;
 					c.a = i.Alpha;
 
+					#ifdef UNITY_LIGHT_FUNCTION_APPLY_INDIRECT
+					c.rgb += i.Albedo * gi.indirect.diffuse;
+					#endif
+
 					return c;
 				}
 
@@ -82,12 +88,8 @@ Shader "Custom/RampWithSlider" {
 					uv_MainTex = i.uv;
 
 					float3 world_pos = i.worldPos;
-
-					#ifndef USING_DIRECTIONAL_LIGHT
 					fixed3 light_dir = normalize(UnityWorldSpaceLightDir(world_pos));
-					#else
-					fixed3 light_dir = _WorldSpaceLightPos0.xyz;
-					#endif
+					float3 world_view_dir = normalize(UnityWorldSpaceViewDir(world_pos));
 
 					lightInput o;
 
@@ -107,25 +109,31 @@ Shader "Custom/RampWithSlider" {
 					gi.light.color = _LightColor0.rgb;
 					gi.light.dir = light_dir;
 
-					// realtime lighting: call lighting function
+					#if UNITY_SHOULD_SAMPLE_SH
+					gi.indirect.diffuse = ShadeSHPerPixel(o.Normal, 0.0, world_pos);
+					#endif
+
 					c += LightingCustom(o, gi);
 					UNITY_OPAQUE_ALPHA(c.a);
 					return c;
 				}
-
 				ENDCG
 			}
 		}
 }
 
+
 ```
 
 # Description
-
-* LightingCustom : 뷰 방향을 사용하지 않는 광원 모델의 포워드 렌더링 경로에 사용
+* multi_compile_fwdbase : ForwardBase 패스 타입에 필요한 모든 배리언트를 컴파일
+```c
+#define UNITY_SHOULD_SAMPLE_SH (defined(LIGHTPROBE_SH) && !defined(UNITY_PASS_FORWARDADD) && !defined(UNITY_PASS_PREPASSBASE) && !defined(UNITY_PASS_SHADOWCASTER) && !defined(UNITY_PASS_META))
+```
+* UNITY_SHOULD_SAMPLE_SH : SH(light probe/ambient) 계산이 필요할 때 사용
 
 * 구조체
-```
+```c
 struct UnityGI{
  UnityLight light;
  UnityIndirect indirect;
@@ -143,4 +151,8 @@ struct UnityIndirect{
 ```
 * smoothstep(min,max,x) : Hermite Interpolation(에르미트 보간법)을 사용
 
+-----
+
+* 왼쪽 : standard shader 적용
+* 오른쪽 : custom shader 적용 (threshold = 0.5, smoothing = 0.5)
 ![](compare.PNG)
