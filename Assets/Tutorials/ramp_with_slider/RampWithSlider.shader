@@ -19,10 +19,9 @@
 				CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
-				#pragma multi_compile_fwdbase
 
 				#include "UnityCG.cginc"
-				#include "Lighting.cginc"	//for UnityGI
+				#include "Lighting.cginc"	//for _LightColor0
 
 				fixed4 _Color;
 				sampler2D _MainTex;
@@ -42,33 +41,13 @@
 					fixed Alpha;
 				};
 
-				inline half4 LightingCustom(inout lightInput i, UnityGI gi) {
-					half3 light_dir = gi.light.dir;
-
-					i.Normal = normalize(i.Normal);
-					fixed ndl = max(0, dot(i.Normal, light_dir));
-
-					fixed3 ramp = smoothstep(_RampThreshold - _RampSmooth * 0.5, _RampThreshold + _RampSmooth * 0.5, ndl);
-
-					fixed4 c;
-					c.rgb = i.Albedo * _LightColor0.rgb * ramp;
-					c.a = i.Alpha;
-
-					#ifdef UNITY_LIGHT_FUNCTION_APPLY_INDIRECT
-					c.rgb += i.Albedo * gi.indirect.diffuse;
-					#endif
-
-					return c;
-				}
-
 				float4 _MainTex_ST;
 
 				v2f vert(appdata_base v) {
 					v2f o;
 
 					o.pos = UnityObjectToClipPos(v.vertex);
-					o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
-
+					o.uv = v.texcoord;
 					o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 					o.worldNormal = UnityObjectToWorldNormal(v.normal);
 
@@ -76,37 +55,23 @@
 				}
 
 				fixed4 frag(v2f i) : SV_Target {
-					half2 uv_MainTex;
-					uv_MainTex.x = 1.0;
-					uv_MainTex = i.uv;
+					fixed3 light_dir = normalize(UnityWorldSpaceLightDir(i.worldPos));
 
-					float3 world_pos = i.worldPos;
-					fixed3 light_dir = normalize(UnityWorldSpaceLightDir(world_pos));
-					float3 world_view_dir = normalize(UnityWorldSpaceViewDir(world_pos));
-					
 					lightInput o;
 
-					o.Normal = i.worldNormal;
-
-					fixed4 mainTex = tex2D(_MainTex, uv_MainTex);
+					fixed4 mainTex = tex2D(_MainTex, i.uv);
 					o.Albedo = mainTex.rgb * _Color.rgb;
 					o.Alpha = mainTex.a * _Color.a;
 
+					o.Normal = normalize(i.worldNormal);
+					fixed ndl = max(0, dot(o.Normal, light_dir));
+
+					fixed3 ramp = smoothstep(_RampThreshold - _RampSmooth * 0.5, _RampThreshold + _RampSmooth * 0.5, ndl);
+
 					fixed4 c = 0;
+					c.rgb = o.Albedo * _LightColor0.rgb * ramp;
+					c.a = o.Alpha;
 
-					// Setup lighting environment
-					UnityGI gi;
-					UNITY_INITIALIZE_OUTPUT(UnityGI, gi);
-					gi.indirect.diffuse = 0;
-					gi.indirect.specular = 0;
-					gi.light.color = _LightColor0.rgb;
-					gi.light.dir = light_dir;
-
-					#if UNITY_SHOULD_SAMPLE_SH
-					gi.indirect.diffuse = ShadeSHPerPixel(o.Normal, 0.0, world_pos);
-					#endif
-
-					c += LightingCustom(o, gi);
 					UNITY_OPAQUE_ALPHA(c.a);
 					return c;
 				}
