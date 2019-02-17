@@ -100,10 +100,12 @@ Shader "Custom/RampWithSlider" {
 	* Intensity Mutiplier : 디퓨즈 환경광 밝기를 설정하는 데 사용
 
 * Intensity Mutiplier = 0일때
+
 ![](compare.PNG)
 * 왼쪽 : tcp generated shader 적용
 * 오른쪽 : RampWithSlider shader 적용 (threshold = 0.5, smoothing = 0.1)
 * Intensity Mutiplier = 1일때
+
 ![](compare_intensity.PNG)
 * 왼쪽 : tcp generated shader 적용
 * 오른쪽 : RampWithSlider shader 적용 (threshold = 0.5, smoothing = 0.1)
