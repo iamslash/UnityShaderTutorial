@@ -31,35 +31,10 @@ CGPROGRAM
 
 			struct v2f {
 				float4 pos : SV_POSITION;
-				float2 uv : TEXCOORD0;			// _MainTex
+				float2 uv : TEXCOORD0;			// _LightColor0
 				float3 worldNormal : TEXCOORD1;
 				float3 worldPos : TEXCOORD2;
 			};
-
-			struct lightInput {
-				fixed3 Albedo;
-				fixed3 Normal;
-				fixed Alpha;
-			};
-
-			inline half4 LightingCustom(inout lightInput i, UnityGI gi) {
-				half3 light_dir = gi.light.dir;
-
-				i.Normal = normalize(i.Normal);
-				fixed ndl = max(0, dot(i.Normal, light_dir));
-
-				fixed3 ramp = smoothstep(_RampThreshold - _RampSmooth * 0.5, _RampThreshold + _RampSmooth * 0.5, ndl);
-
-				fixed4 c;
-				c.rgb = i.Albedo * _LightColor0.rgb * ramp;
-				c.a = i.Alpha;
-
-				#ifdef UNITY_LIGHT_FUNCTION_APPLY_INDIRECT
-				c.rgb += i.Albedo * gi.indirect.diffuse;
-				#endif
-
-				return c;
-			}
 
 			float4 _MainTex_ST;
 
@@ -75,42 +50,6 @@ CGPROGRAM
 				return o;
 			}
 
-			//fixed4 frag(v2f i) : SV_Target {
-			//	half2 uv_MainTex;
-			//	uv_MainTex.x = 1.0;
-			//	uv_MainTex = i.uv;
-
-			//	float3 world_pos = i.worldPos;
-			//	fixed3 light_dir = normalize(UnityWorldSpaceLightDir(world_pos));
-			//	float3 world_view_dir = normalize(UnityWorldSpaceViewDir(world_pos));
-			//		
-			//	lightInput o;
-
-			//	o.Normal = i.worldNormal;
-
-			//	fixed4 mainTex = tex2D(_MainTex, uv_MainTex);
-			//	o.Albedo = mainTex.rgb * _Color.rgb;
-			//	o.Alpha = mainTex.a * _Color.a;
-
-			//	fixed4 c = 0;
-
-			//	// Setup lighting environment
-			//	UnityGI gi;
-			//	UNITY_INITIALIZE_OUTPUT(UnityGI, gi);
-			//	gi.indirect.diffuse = 0;
-			//	gi.indirect.specular = 0;
-			//	gi.light.color = _LightColor0.rgb;
-			//	gi.light.dir = light_dir;
-
-			//	#if UNITY_SHOULD_SAMPLE_SH
-			//	gi.indirect.diffuse = ShadeSHPerPixel(o.Normal, 0.0, world_pos);
-			//	#endif
-
-			//	c += LightingCustom(o, gi);
-			//	UNITY_OPAQUE_ALPHA(c.a);
-			//	return c;
-			//}
-
 			fixed4 frag(v2f i) : SV_Target{
 				fixed3 N = normalize(i.worldNormal);
 				fixed3 L = normalize(UnityWorldSpaceLightDir(i.worldPos));
@@ -120,14 +59,12 @@ CGPROGRAM
 
 				fixed ndl = max(0, dot(N, L));
 				fixed3 ramp = smoothstep(_RampThreshold - _RampSmooth * 0.5, _RampThreshold + _RampSmooth * 0.5, ndl);
-				//fixed3 ramp = 1.0;
 
 				c.rgb = mainTex.rgb * _Color.rgb * _LightColor0.rgb * ramp;
 #if UNITY_SHOULD_SAMPLE_SH
 				c.rgb += mainTex.rgb * ShadeSHPerPixel(N, 0.0, i.worldPos);
 #endif
 				c.a = mainTex.a * _Color.a;
-
 				UNITY_OPAQUE_ALPHA(c.a);
 				return c;
 			}
