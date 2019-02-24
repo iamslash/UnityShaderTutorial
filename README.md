@@ -62,7 +62,7 @@ unity shader 를 단계별로 학습할 수 있도록 한다.
 | [surface_shader_decals](/Assets/Tutorials/surface_shader_decals/surface_shader_decals.md) | |
 | [outline](/Assets/Tutorials/outline/outline.md) | 외곽선을 적용해보자 |
 | [ramp with slider](/Assets/Tutorials/ramp_with_slider/ramp_with_slider.md)| ramp 을 적용해보자 |
-| ramp with texture | ramp 을 적용해보자 |
+| [ramp with texture](/Assets/Tutorials/ramp_with_texture/ramp_with_texture.md) | ramp 을 적용해보자 |
 | blinn-phong specular | |
 | anisotropic specular |  |
 | matcap | 돌, 얼음, 투명, 구리 를 구현해보자 |
