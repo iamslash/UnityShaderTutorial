@@ -8,7 +8,6 @@ ramp 셰이더를 만들어보자
 Shader "Custom/RampWithTexture" {
 	Properties
 	{
-		_Color("Main Color", Color) = (1,1,1,1)
 		_MainTex("Main Texture", 2D) = "white" {}
 
 	[Header(RAMP SETTING)]
@@ -28,9 +27,8 @@ CGPROGRAM
 			#pragma multi_compile_fwdbase
 
 			#include "UnityCG.cginc"
-			#include "Lighting.cginc"	//for UnityGI
+			#include "Lighting.cginc"	//for _LightColor0
 
-			fixed4 _Color;
 			sampler2D _MainTex;
 			sampler2D _Ramp;
 
@@ -64,11 +62,11 @@ CGPROGRAM
 
 				fixed ndl = max(0, dot(N, L));
 				fixed3 ramp = tex2D(_Ramp, fixed2(ndl, ndl)).rgb;
-				c.rgb = mainTex.rgb * _Color.rgb * _LightColor0.rgb * ramp;
+				c.rgb = mainTex.rgb * _LightColor0.rgb * ramp;
 #if UNITY_SHOULD_SAMPLE_SH
 				c.rgb += mainTex.rgb * ShadeSHPerPixel(N, 0.0, i.worldPos);
 #endif
-				c.a = mainTex.a * _Color.a;
+				c.a = mainTex.a;
 				UNITY_OPAQUE_ALPHA(c.a);
 				return c;
 			}
@@ -76,6 +74,7 @@ ENDCG
 		}
 	}
 }
+
 
 ```
 
@@ -90,6 +89,7 @@ ENDCG
 
 -----
 
-* 왼쪽 : standard shader 적용
+* 왼쪽 : TCP shader 적용
 * 오른쪽 : custom shader 적용
+
 ![](compare.PNG)

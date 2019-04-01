@@ -8,7 +8,6 @@ ramp 셰이더를 만들어보자
 Shader "Custom/RampWithSlider" {
 	Properties
 	{
-		_Color("Main Color", Color) = (1,1,1,1)
 		_MainTex("Main Texture", 2D) = "white" {}
 
 	[Header(RAMP SETTING)]
@@ -29,9 +28,8 @@ CGPROGRAM
 			#pragma multi_compile_fwdbase
 
 			#include "UnityCG.cginc"
-			#include "Lighting.cginc"	//for UnityGI
+			#include "Lighting.cginc"	//for _LightColor0
 
-			fixed4 _Color;
 			sampler2D _MainTex;
 			half _RampThreshold;
 			half _RampSmooth;
@@ -67,11 +65,11 @@ CGPROGRAM
 				fixed ndl = max(0, dot(N, L));
 				fixed3 ramp = smoothstep(_RampThreshold - _RampSmooth * 0.5, _RampThreshold + _RampSmooth * 0.5, ndl);
 
-				c.rgb = mainTex.rgb * _Color.rgb * _LightColor0.rgb * ramp;
+				c.rgb = mainTex.rgb * _LightColor0.rgb * ramp;
 #if UNITY_SHOULD_SAMPLE_SH
 				c.rgb += mainTex.rgb * ShadeSHPerPixel(N, 0.0, i.worldPos);
 #endif
-				c.a = mainTex.a * _Color.a;
+				c.a = mainTex.a;
 				UNITY_OPAQUE_ALPHA(c.a);
 				return c;
 			}
@@ -79,6 +77,7 @@ ENDCG
 		}
 	}
 }
+
 
 ```
 
@@ -88,11 +87,13 @@ ENDCG
 #define UNITY_SHOULD_SAMPLE_SH (defined(LIGHTPROBE_SH) && !defined(UNITY_PASS_FORWARDADD) && !defined(UNITY_PASS_PREPASSBASE) && !defined(UNITY_PASS_SHADOWCASTER) && !defined(UNITY_PASS_META))
 ```
 * UNITY_SHOULD_SAMPLE_SH : SH(light probe/ambient) 계산이 필요할 때 사용
+	* static and dynamic lightmap을 사용하지 않으면 SH 계산은 항상 수행됨
 
 * smoothstep(min,max,x) : Hermite Interpolation(에르미트 보간법)을 사용
 
 -----
 
-* 왼쪽 : standard shader 적용
-* 오른쪽 : custom shader 적용 (threshold = 0.5, smoothing = 0.5)
+* 왼쪽 : TCP shader 적용
+* 오른쪽 : custom shader 적용 (threshold = 0.5, smoothing = 0.1)
+
 ![](compare.PNG)
